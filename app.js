@@ -23,6 +23,10 @@ app.use(stylus.middleware({
 	src: __dirname + '/public', compile: compile
 }))
 app.use(express.static(__dirname + '/public'))
+
+var publicDir = require('path').join(__dirname, '/uploaded');
+app.use(express.static(publicDir));
+
 app.use(fileUpload());
 
 
@@ -50,21 +54,37 @@ app.post('/fileupload', function (req, res) {
 
 
     if (!req.files) {
-        return res.status(400).send('No files were uploaded.');
+        res.redirect('back')
+        return
     }
-        
+    
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let thefile = req.files.filetoupload;
     var filename = thefile.name;
 
     // Use the mv() method to place the file somewhere on your server
-    thefile.mv('E:/ScreenDR/Web_Pilot/uploaded/' + filename, function (err) {
+    thefile.mv(uploadDir + filename, function (err) {
         if (err)
             return res.status(500).send(err);
 
-        res.send('File uploaded!');
+        filepath = '/uploaded/' + filename
+        console.log(filepath);
+
+        res.render('test', {
+            imgname: filepath
+        });
     });
 
+})
+
+app.get('/fileupload/', function (req, res) {
+
+    //var imgname = req.params.imgname;
+
+    console.log('Test');
+    res.render('test',
+        { title: 'Test' }
+    )
 })
 
 // Deploy
