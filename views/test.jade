@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 File Upload
+
+        form#fileupload(name="fileupload", method="POST", action="/fileupload", enctype="multipart/form-data")
+          input#userInputFile(type="file", name="filetoupload")
+          button(type="submit") Upload
