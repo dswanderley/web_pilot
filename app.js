@@ -19,14 +19,21 @@ function compile(str, path) {
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 app.use(express.logger('dev'))
+// Public directory
 app.use(stylus.middleware({ 
 	src: __dirname + '/public', compile: compile
 }))
 app.use(express.static(__dirname + '/public'))
 
-var publicDir = require('path').join(__dirname, '/uploaded');
-app.use(express.static(publicDir));
+// Image uploaded directory
+app.use(stylus.middleware({
+    src: __dirname + '/uploaded', compile: compile
+}))
+app.use(express.static(__dirname + '/uploaded'))
+//var publicDir = require('path').join(__dirname, '/uploaded');
+//app.use(express.static(publicDir));
 
+// Upload routine
 app.use(fileUpload());
 
 
@@ -67,10 +74,11 @@ app.post('/fileupload', function (req, res) {
         if (err)
             return res.status(500).send(err);
 
-        filepath = '/uploaded/' + filename
-        console.log(filepath);
+        filepath = '/' + filename
+        console.log(filepath)
 
         res.render('test', {
+            title: 'Upload',
             imgname: filepath
         });
     });
