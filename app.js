@@ -4,62 +4,51 @@
 var express = require('express'),
     stylus = require('stylus'),
     nib = require('nib'),
-    formidable = require('formidable')
     fileUpload = require('express-fileupload');
-    
-var app = express(),
-    fs = require('fs');
-
+// Initialize express instance
+var app = express();
+// Init stylus
 function compile(str, path) {
 	return stylus(str)
     .set('filename', path)
     .use(nib())
 }
-
+// Define Views path and engines
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 app.use(express.logger('dev'))
-// Public directory
+// Define public directory
 app.use(stylus.middleware({ 
 	src: __dirname + '/public', compile: compile
 }))
 app.use(express.static(__dirname + '/public'))
-
 // Image uploaded directory
 app.use(stylus.middleware({
     src: __dirname + '/uploaded', compile: compile
 }))
 app.use(express.static(__dirname + '/uploaded'))
-//var publicDir = require('path').join(__dirname, '/uploaded');
-//app.use(express.static(publicDir));
-
 // Upload routine
 app.use(fileUpload());
-
-
+uploadDir = 'E:/ScreenDR/Web_Pilot/uploaded/';
 
 // Create route
 
-// Index
+// Index - GET
 app.get('/', function (req, res) {
-  res.render('index',
-  { title : 'Home' }
-  )
-})
-
-// Test
-app.get('/test', function (req, res) {
-    res.render('test',
-        { title: 'Test' }
+    res.render('index',
+        { title: 'Home' }
     )
-})
+});
 
-uploadDir = 'E:/ScreenDR/Web_Pilot/uploaded/';
-
-
+// Upload - GET
+app.get('/fileupload', function (req, res) {
+    res.render('fileupload',
+        { title: 'Upload' }
+    )
+});
+// Upload - POST
 app.post('/fileupload', function (req, res) {
-
-
+    // Check if has file
     if (!req.files) {
         res.redirect('back')
         return
@@ -73,26 +62,15 @@ app.post('/fileupload', function (req, res) {
     thefile.mv(uploadDir + filename, function (err) {
         if (err)
             return res.status(500).send(err);
-
+        // Adapt name
         filepath = '/' + filename
         console.log(filepath)
-
-        res.render('test', {
+        // Render upload page
+        res.render('fileupload', {
             title: 'Upload',
             imgname: filepath
         });
     });
-
-})
-
-app.get('/fileupload/', function (req, res) {
-
-    //var imgname = req.params.imgname;
-
-    console.log('Test');
-    res.render('test',
-        { title: 'Test' }
-    )
 })
 
 // Deploy
