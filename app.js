@@ -42,8 +42,10 @@ app.get('/', function (req, res) {
 
 // Upload - GET
 app.get('/fileupload', function (req, res) {
-    res.render('fileupload',
-        { title: 'Upload' }
+    res.render('fileupload', {
+            title: 'Upload',
+            btnshow: "display:none"
+        }
     )
 });
 // Upload - POST
@@ -53,7 +55,7 @@ app.post('/fileupload', function (req, res) {
         res.redirect('back')
         return
     }
-    
+
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let thefile = req.files.filetoupload;
     var filename = thefile.name;
@@ -68,10 +70,25 @@ app.post('/fileupload', function (req, res) {
         // Render upload page
         res.render('fileupload', {
             title: 'Upload',
-            imgname: filepath
+            imgname: filepath,
+            btnshow: "display:block"
         });
     });
-})
+});
+
+// Process - GET
+app.get('/grayscale', function (req, res) {
+    
+    var val1 = 'test communication: ';
+    // Get request data
+    var val2 = req.query.img;
+    console.log(val1 + val2)
+    // Send processed information
+    res.send(val1 + val2)
+    
+});
+
+
 
 // Deploy
 app.listen(3000)

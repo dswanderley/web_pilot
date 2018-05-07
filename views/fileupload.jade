@@ -12,4 +12,16 @@ block content
 
 
   .image-container
-    img.image(src=imgname)
+    img.image(src=imgname, id="img-upload", width="512")
+
+
+  .container
+    button(onClick="grayscale();", style=btnshow) Test
+
+
+  .image-container
+    img.image(src=procname, id="img-proc", width="512")
+
+
+  script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+  script(src="/javascripts/screen.js")
