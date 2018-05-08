@@ -81,23 +81,29 @@ app.post('/fileupload', function (req, res) {
 // Process - GET
 app.get('/grayscale', function (req, res) {
 
-    console.log('Call: ' + req.query.img);
+    filename = req.query.img
     // Parameters passed in spawn -
     // 1. type_of_script
     // 2. list containing Path of the script
     //    and arguments for the script 
-
-    // E.g : http://localhost:3000/name?firstname=Mike&lastname=Will
-    // so, first name = Mike and last name = Will
     var process = spawn('python', ["./python/grayscale.py",
-        req.query.img]);
+        filename]);
 
     // Takes stdout data from script which executed
     // with arguments and send this data to res object
     process.stdout.on('data', function (data) {
-        res.send(data.toString());
 
-        console.log(data.toString());
+        str_data = data.toString();
+
+        if (str_data.includes(filename)) {
+            res.send(str_data);
+            console.log(data.toString());
+        }       
+        else {
+            console.log('Error')
+        }
+
+        
     })
 });
 

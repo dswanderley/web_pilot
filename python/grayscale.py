@@ -8,12 +8,10 @@ dir_proc = './public/images/'
 
 
 def main(fname):
-
-    print(fname)
-
+    
     try:
         filename_in = os.path.join(dir_orig, fname)
-        print(filename_in)
+     #   print(filename_in)
     
         img = io.imread(filename_in)
         img_proc = color.rgb2gray(img_as_uint(img))
@@ -24,7 +22,6 @@ def main(fname):
     
     except:
         print("Unexpected error:", sys.exc_info()[0])
-
     
 #start process
 if __name__ == '__main__':

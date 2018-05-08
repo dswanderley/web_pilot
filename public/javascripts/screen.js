@@ -12,7 +12,7 @@ function grayscale() {
     $.ajax(
         {
             type: 'GET',
-            url: urlBase + '/grayscale/',
+            url: urlBase + '/grayscale',
             data: { img: img },
             dataType: 'html',
             cache: false,
@@ -20,6 +20,9 @@ function grayscale() {
             success: function (data) {
                 //img = new Image();
                 console.log(data);
+
+                path = data.substr(8, data.length - 1);
+                $('#img-proc')[0].src = path;                
             }
         });
 }
