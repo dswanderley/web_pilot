@@ -85,8 +85,38 @@ app.get('/grayscale', function (req, res) {
     console.log(val1 + val2)
     // Send processed information
     res.send(val1 + val2)
-    
 });
+
+
+
+// Function callName() is executed whenever 
+// url is of the form localhost:3000/name
+app.get('/name', callName);
+
+function callName(req, res) {
+    console.log('P1')
+    // Use child_process.spawn method from 
+    // child_process module and assign it
+    // to variable spawn
+    var spawn = require("child_process").spawn;
+
+    // Parameters passed in spawn -
+    // 1. type_of_script
+    // 2. list containing Path of the script
+    //    and arguments for the script 
+
+    // E.g : http://localhost:3000/name?firstname=Mike&lastname=Will
+    // so, first name = Mike and last name = Will
+    var process = spawn('python', ["./python/hello.py",
+        req.query.firstname,
+        req.query.lastname]);
+
+    // Takes stdout data from script which executed
+    // with arguments and send this data to res object
+    process.stdout.on('data', function (data) {
+        res.send(data.toString());
+    })
+}
 
 
 
