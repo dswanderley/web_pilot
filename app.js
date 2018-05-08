@@ -4,7 +4,9 @@
 var express = require('express'),
     stylus = require('stylus'),
     nib = require('nib'),
-    fileUpload = require('express-fileupload');
+    fileUpload = require('express-fileupload'),
+    spawn = require("child_process").spawn;
+
 // Initialize express instance
 var app = express();
 // Init stylus
@@ -78,28 +80,8 @@ app.post('/fileupload', function (req, res) {
 
 // Process - GET
 app.get('/grayscale', function (req, res) {
-    
-    var val1 = 'test communication: ';
-    // Get request data
-    var val2 = req.query.img;
-    console.log(val1 + val2)
-    // Send processed information
-    res.send(val1 + val2)
-});
 
-
-
-// Function callName() is executed whenever 
-// url is of the form localhost:3000/name
-app.get('/name', callName);
-
-function callName(req, res) {
-    console.log('P1')
-    // Use child_process.spawn method from 
-    // child_process module and assign it
-    // to variable spawn
-    var spawn = require("child_process").spawn;
-
+    console.log('Call: ' + req.query.img);
     // Parameters passed in spawn -
     // 1. type_of_script
     // 2. list containing Path of the script
@@ -107,17 +89,17 @@ function callName(req, res) {
 
     // E.g : http://localhost:3000/name?firstname=Mike&lastname=Will
     // so, first name = Mike and last name = Will
-    var process = spawn('python', ["./python/hello.py",
-        req.query.firstname,
-        req.query.lastname]);
+    var process = spawn('python', ["./python/grayscale.py",
+        req.query.img]);
 
     // Takes stdout data from script which executed
     // with arguments and send this data to res object
     process.stdout.on('data', function (data) {
         res.send(data.toString());
-    })
-}
 
+        console.log(data.toString());
+    })
+});
 
 
 // Deploy
