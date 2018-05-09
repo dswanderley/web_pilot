@@ -1,27 +1,25 @@
 extends layout
 
 block content
-  .main.container
-    .row
-      .col-md-6.col-md-offset-3
-        h1.display-4.m-b-2 File Upload
+	.main-container
+		.upload-row
+			.file-col
+				h1.display-4.m-b-2 File Upload
 
-        form#fileupload(name="fileupload", method="POST", action="/fileupload", enctype="multipart/form-data")
-          input#userInputFile(type="file", name="filetoupload")
-          button(type="submit") Upload
+				form#fileupload(name="fileupload", method="POST", action="/fileupload", enctype="multipart/form-data")
+					input#userInputFile(type="file", name="filetoupload")
+					button(type="submit") Upload
 
-
-  .image-container
-    img.image(src=imgname, id="img-upload", width="512")
-
-
-  .container
-    button(onClick="grayscale();", style=btnshow) Test
-
-
-  .image-container
-    img.image(src=procname, id="img-proc", width="512")
+		.btn-container
+			.btn-col
+				button(onClick="grayscale();", style=btnshow) To grayscale
+  
+		.image-container
+			.img-column
+				img.image(src=imgname, id="img-upload", width="100%;")
+			.img-column
+				img.image(src=procname, id="img-proc", width="100%;")
 
 
-  script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
-  script(src="/javascripts/screen.js")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+	script(src="/javascripts/screen.js")
