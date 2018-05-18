@@ -26,12 +26,12 @@ app.use(stylus.middleware({
 app.use(express.static(__dirname + '/public'))
 // Image uploaded directory
 app.use(stylus.middleware({
-    src: __dirname + '/uploaded', compile: compile
+    src: __dirname + '/images', compile: compile
 }))
-app.use(express.static(__dirname + '/uploaded'))
+app.use(express.static(__dirname + '/images'))
 // Upload routine
 app.use(fileUpload());
-uploadDir = 'E:/ScreenDR/Web_Pilot/uploaded/';
+uploadDir = 'E:/ScreenDR/Web_Pilot/images/upload/';
 
 // Create route
 
@@ -67,7 +67,8 @@ app.post('/fileupload', function (req, res) {
         if (err)
             return res.status(500).send(err);
         // Adapt name
-        filepath = '/' + filename
+        filepath = '/upload/' + filename
+        console.log(filepath)
         console.log(filepath)
         // Render upload page
         res.render('fileupload', {
@@ -95,15 +96,15 @@ app.get('/grayscale', function (req, res) {
 
         str_data = data.toString();
 
+        console.log(str_data)
+
         if (str_data.includes(filename)) {
             res.send(str_data);
             console.log(data.toString());
         }       
         else {
             console.log('Error')
-        }
-
-        
+        }        
     })
 });
 

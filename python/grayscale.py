@@ -3,8 +3,8 @@ import sys
 import os
 from skimage import io, color, img_as_uint
 
-dir_orig = './uploaded/'
-dir_proc = './public/images/'
+dir_orig = './images/upload/'
+dir_proc = './images/processed/'
 
 
 def main(fname):

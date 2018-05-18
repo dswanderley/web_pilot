@@ -8,6 +8,7 @@ function grayscale() {
     currentSrc = $('#img-upload')[0].currentSrc;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
+    console.log(str_list)
     // Ajax call
     $.ajax(
         {
