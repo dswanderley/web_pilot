@@ -1,17 +1,18 @@
 
 doctype
 html
-  head
-    title #{title} - Screen DR (Pilot)
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/screen.css')
-  body
-    header
-      h1 Screen DR (Pilot)
-    .container
-      .main-content
-        block content
-      .sidebar
-        block sidebar
-    footer
-      p Running on node with Express, Jade and Stylus
+	head
+		title #{title} - Screen DR
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/stylesheets/screen.css')
+		link(rel='stylesheet', href='/stylesheets/pilot.css')
+	body
+		header
+			h1 Screen DR (Pilot)
+		.container
+			.main-content
+				block content
+			.sidebar
+				block sidebar
+	footer
+		p Running on node with Express, Jade and Stylus

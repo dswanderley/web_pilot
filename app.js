@@ -35,19 +35,23 @@ app.use(express.static(__dirname + '/images'))
 
 // Upload routine
 app.use(fileUpload());
-uploadDir = 'E:/ScreenDR/Web_Pilot/images/upload/';
 
-// Create route
+// Create External Routes
 
-// External route to index
+// Index
 var index = require('./routes/index');
 app.use(index);
-// External route to fileupload
+// File Upload
 var fileupload = require('./routes/fileupload');
 app.use(fileupload);
-// External route to image processing
+// Image Processing
 var imgproc = require('./routes/imgproc');
 app.use(imgproc);
+// Pilot Canvas
+var pilot = require('./routes/pilot');
+app.use(pilot);
+// Gallery
+app.use('/gallery',pilot);
 
 // Deploy
 app.listen(3000)

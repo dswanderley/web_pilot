@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	.main-container
+
+		.menu-container
+			.btn-group
+				button(onClick="grayscale();", style=btnshow) To grayscale
+				button(onClick="grayscale();", style=btnshow) Quality
+  
+		.image-container
+			.img-column
+				img.image(src=imgname, id="img-upload", width="100%;")
+			.img-column
+				img.image(src=procname, id="img-proc", width="100%;")
+
+		.gallery-container
+			.gallery#gallery
+
+
+	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
+	script(src="/javascripts/screen.js")

@@ -6,6 +6,8 @@
 // Module dependencies
 var router = require('express').Router();
 
+var uploadDir = 'E:/ScreenDR/Web_Pilot/images/upload/';
+
 
 // Upload - GET
 router.get('/fileupload', function (req, res) {
