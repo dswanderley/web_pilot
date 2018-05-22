@@ -22,3 +22,44 @@
 .btn-group button:hover {
     background-color: #3e8e41;
 }
+
+/*
+    *
+    *   GALLERY
+    *
+*/
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    display: inline;
+}
+
+.gallery-container {
+    
+    margin: auto;
+    border: 10px;
+    width: auto;
+    height: 86px;
+    max-width: 800px;
+}
+
+.gallery {
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    width: 800px;
+    height: 86px;
+
+    padding: 0px;
+    border: 5px;
+}
+
+.galery-img {
+    padding: 1px;
+    height: 64px;
+    width: auto;
+}

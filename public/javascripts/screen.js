@@ -34,6 +34,10 @@ function loadGallery() {
 
     var gallery = $('#gallery');
 
+    el_ul = jQuery('<ul/>', {
+        class: 'galery-img'
+    });
+
     // Ajax call
     $.ajax(
         {
@@ -50,28 +54,30 @@ function loadGallery() {
                 data.forEach(file => {
 
                     im_id = 'g_img_' + i;
-                    gallery.append(getGalleryEl(im_id, file));
+                    
+                    el_ul.append(getGalleryEl(im_id, file));
                     i += 1;
                 });
-                
+
+                gallery.append(el_ul);
             }
         });
-
 }
 
 function getGalleryEl(id, img) {
-
-    el_div = jQuery('<div/>', {
+    
+    el_l1 = jQuery('<li/>', {
         class: 'galery-img'
     });
 
     el_img = jQuery('<img/>', {
+        class: 'gallery-thumb',
         id: id,
         height: '64px',
         src: 'gallery/' + img
     });
 
-    el_div.append(el_img);
+    el_l1.append(el_img);
 
-    return el_div;
+    return el_l1;
 }
