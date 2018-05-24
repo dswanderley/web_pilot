@@ -38,7 +38,7 @@ function loadGallery() {
     var gallery = $('#gallery');
     // Create gallery ul - unordered list
     var el_ul = jQuery('<ul/>', {
-        class: 'galery-img'
+        class: 'galery-ul'
     });
     // Ajax call
     $.ajax(
@@ -78,7 +78,7 @@ function getGalleryEl(id, img) {
 
     // Create list item
     el_li = jQuery('<li/>', {
-        class: 'galery-img'
+        class: 'gallery-img'
     });
     // Create image element
     el_img = jQuery('<img/>', {

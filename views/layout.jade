@@ -4,15 +4,13 @@ html
 	head
 		title #{title} - Screen DR
 		link(rel='stylesheet', href='/stylesheets/style.css')
-		link(rel='stylesheet', href='/stylesheets/screen.css')
 		link(rel='stylesheet', href='/stylesheets/pilot.css')
+
 	body
 		header
 			h1 Screen DR (Pilot)
+
 		.container
-			.main-content
-				block content
-			.sidebar
-				block sidebar
+			block content
 	footer
 		p Running on node with Express, Jade and Stylus

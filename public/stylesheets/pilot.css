@@ -1,15 +1,26 @@
+/*
+ * MENU
+ */
+
+.menu-container {
+    margin: 10px auto;
+    white-space: nowrap;
+    text-align: center;
+    width: 50%;
+}
+
+/* Group of Buttons properties */
 .btn-group button {
     background-color: #4CAF50; /* Green background */
     border: 1px solid green; /* Green border */
     color: white; /* White text */
     padding: 10px 24px; /* Some padding */
     cursor: pointer; /* Pointer/hand icon */
-    float: left; /* Float the buttons side by side */
+   /* float: left; /* Float the buttons side by side */
 }
-
-    .btn-group button:not(:last-child) {
-        border-right: none; /* Prevent double borders */
-    }
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
 
 /* Clear floats (clearfix hack) */
 .btn-group:after {
@@ -24,42 +35,58 @@
 }
 
 /*
-    *
-    *   GALLERY
-    *
-*/
+ *   GALLERY 
+ */
 
-ul {
+/* List of elements in gallery */
+#gallery ul {
     list-style-type: none;
 }
-
-li {
+#gallery li {
     display: inline;
 }
 
+/* Define gallery container */
 .gallery-container {
-    
-    margin: auto;
-    border: 10px;
+    margin: 5px auto;
     width: auto;
     height: 86px;
     max-width: 800px;
 }
 
+/* Define gallery properties */
 .gallery {
     white-space: nowrap;
     overflow-x: scroll;
     overflow-y: hidden;
-
     width: 800px;
     height: 86px;
-
     padding: 0px;
     border: 5px;
 }
 
-.galery-img {
+/* Define gallery images properties */
+.gallery-img {
     padding: 1px;
     height: 64px;
     width: auto;
+}
+
+/*
+ * Large Images
+ */
+
+.image-container {
+    margin: 5px 0;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.img-column {
+    padding: 10px;
+    display: inline;
+}
+
+.img-disp {
+    max-height: 256px;
 }
