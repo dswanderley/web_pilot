@@ -7,10 +7,11 @@
 var router = require('express').Router(),
     fs = require('fs');
 
-var galleryDir = 'E:/ScreenDR/Web_Pilot/images/gallery/';
+var galleryDir = './images/gallery/';
 
 // Upload - GET
 router.get('/pilot', function (req, res) {
+    // Render page Pilot
     res.render('./pilot', {
         title: 'Web Pilot'
     })
@@ -18,22 +19,20 @@ router.get('/pilot', function (req, res) {
 
 // Gallery - GET
 router.get('/gallery', function (req, res) {
-
-
+    // Initialize list of files
     file_list = [];
-
+    // Read directory
     fs.readdir(galleryDir, (err, files) => {
-
+        // Load files
         files.forEach(file => {
-
+            // Get extensions 
             ext = file.substr(file.length - 4, file.length - 1);
-
+            // Accpet only png
             if (ext == '.png') {
-                file_list.push(file);
+                file_list.push(file); // add to file list
             }
-            
         });
-        console.log(file_list.length);
+        // Send list of files
         res.send(file_list);
     });    
 });

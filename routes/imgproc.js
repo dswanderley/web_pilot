@@ -10,29 +10,43 @@ var router = require('express').Router(),
 
 // Process - GET
 router.get('/grayscale', function (req, res) {
-
-    filename = req.query.img
-    // Parameters passed in spawn -
-    // 1. type_of_script
-    // 2. list containing Path of the script
-    //    and arguments for the script 
-    var process = spawn('python', ["./python/grayscale.py",
-        filename]);
-
+    
+    // List of args
+    args = [];
+    // Python script
+    pyfile = "./python/grayscale.py";
+    args.push(pyfile);
+    // Get filename
+    try {
+        filename = req.query.img
+    }
+    catch (err) {
+        console.log('Error: No file request');
+        return;
+    }
+    args.push(filename);
+    // Get directory
+    try {
+        folder = req.query.dir
+        args.push(folder);
+        var process = spawn('python', [pyfile, filename, folder]);
+    }
+    catch (err) {
+        var process = spawn('python', [pyfile, filename]);
+    }
+    
     // Takes stdout data from script which executed
     // with arguments and send this data to res object
     process.stdout.on('data', function (data) {
-
+        // Get string data (processed image path)
         str_data = data.toString();
-
-        console.log(str_data)
-
+        // Send filename to client side
         if (str_data.includes(filename)) {
             res.send(str_data);
-            console.log(data.toString());
+            console.log('Image grayscale conversion successfully!');
         }
         else {
-            console.log('Error')
+            console.log('Error returned.');
         }
     })
 });

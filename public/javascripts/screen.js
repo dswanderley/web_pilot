@@ -6,16 +6,21 @@ var galleryList = [];
 function grayscale() {
 
     // Read image filename
-    var currentSrc = $('#img-upload')[0].currentSrc;
+    var currentSrc = $('#img-orig')[0].currentSrc;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
-    console.log(str_list)
+    folder = str_list[str_list.length - 2];
+    console.log(img)
+    console.log(folder)
     // Ajax call
     $.ajax(
         {
             type: 'GET',
             url: urlBase + '/grayscale',
-            data: { img: img },
+            data: {
+                dir: folder,
+                img: img
+            },
             dataType: 'html',
             cache: false,
             async: true,

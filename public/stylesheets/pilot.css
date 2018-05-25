@@ -44,6 +44,7 @@
 }
 #gallery li {
     display: inline;
+    cursor: pointer;
 }
 
 /* Define gallery container */
