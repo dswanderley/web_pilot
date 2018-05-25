@@ -10,9 +10,9 @@ block content
   
 		.image-container
 			.img-column
-				img.img-disp(id="img-upload", src="https://images.theconversation.com/files/74687/original/image-20150312-13502-1pwa8bm.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=926&fit=clip")
+				img.img-disp(id="img-orig", src="", onload="")
 			.img-column
-				img.img-disp(id="img-proc", src="https://images.theconversation.com/files/74687/original/image-20150312-13502-1pwa8bm.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=926&fit=clip")
+				img.img-disp(id="img-proc", src="")
 
 		.gallery-container
 			.gallery#gallery
@@ -20,3 +20,8 @@ block content
 	
 	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
 	script(src="/javascripts/screen.js")
+
+	script.
+		$(document).ready(function(){
+			loadGallery()
+		});

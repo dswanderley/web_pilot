@@ -16,7 +16,7 @@ router.get('/pilot', function (req, res) {
     })
 });
 
-
+// Gallery - GET
 router.get('/gallery', function (req, res) {
 
 

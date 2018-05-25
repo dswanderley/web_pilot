@@ -29,7 +29,6 @@ function grayscale() {
         });
 }
 
-
 function loadGallery() {
     /** @description Load Gallery of images
      */
@@ -40,11 +39,14 @@ function loadGallery() {
     var el_ul = jQuery('<ul/>', {
         class: 'galery-ul'
     });
+    // Gallery URL
+    url_g = urlBase + '/gallery';
+
     // Ajax call
     $.ajax(
         {
             type: 'GET',
-            url: urlBase + '/gallery',
+            url: url_g,
             data: { id: '0' },
             dataType: 'json',
             cache: false,
@@ -65,6 +67,8 @@ function loadGallery() {
                 });
                 // Add list to gallery
                 gallery.append(el_ul);
+                // Set orginal image block with the first image on gallery
+                setOrigImage(url_g + '/' + galleryList[0]);
             }
         });
 }
@@ -93,10 +97,16 @@ function getGalleryEl(id, img) {
     return el_li;
 }
 
-function setImage(src) {
-    /** @description Set image src
+function setOrigImage(src) {
+    /** @description Set original image src
+      * @param {string} image src
+     */
+    $('#img-orig')[0].src = src
+}
+
+function setProcImage(src) {
+    /** @description Set processed image src
       * @param {string} image src
      */
     $('#img-proc')[0].src = src
 }
-
