@@ -81,15 +81,16 @@ function getGalleryEl(id, img) {
      */
 
     // Create list item
-    el_li = jQuery('<li/>', {
-        class: 'gallery-img'
+    el_li = jQuery("<li/>", {
+        class: "gallery-img",
+        onclick: "selectGalleryImage("+id+")"
     });
     // Create image element
-    el_img = jQuery('<img/>', {
-        class: 'gallery-thumb',
+    el_img = jQuery("<img/>", {
+        class: "gallery-thumb",
         id: id,
-        height: '64px',
-        src: 'gallery/' + img
+        height: "64px",
+        src: "gallery/" + img
     });
     // Add image to list item
     el_li.append(el_img);
@@ -109,4 +110,11 @@ function setProcImage(src) {
       * @param {string} image src
      */
     $('#img-proc')[0].src = src
+}
+
+function selectGalleryImage(imgid) {
+    /** @description Change large image after click on image gallery
+      * @param {string} image Image Element Id
+     */
+    setOrigImage(imgid.src);
 }

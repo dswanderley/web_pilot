@@ -38,6 +38,5 @@ router.get('/gallery', function (req, res) {
     });    
 });
 
-
 // Return routers
 module.exports = router;
