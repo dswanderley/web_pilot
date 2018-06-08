@@ -3,3 +3,7 @@ uploaded/
 .vs/
 public/images/
 images/
+python/compatibility/
+python/parameters/
+*.pyc
+python/utils/

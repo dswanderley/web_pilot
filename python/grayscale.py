@@ -24,7 +24,6 @@ def main(fname, folder='upload'):
         io.imsave(filename_out, img_proc)
         # Print output path
         print(filename_out)
-
     
     except:
         # Retunr error

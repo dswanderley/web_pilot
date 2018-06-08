@@ -34,6 +34,39 @@ function grayscale() {
         });
 }
 
+
+function quality() {
+
+    // Read image filename
+    var currentSrc = $('#img-orig')[0].currentSrc;
+    var str_list = currentSrc.split('/');
+    img = str_list[str_list.length - 1];
+    folder = str_list[str_list.length - 2];
+    console.log(img)
+    console.log(folder)
+    // Ajax call
+    $.ajax(
+        {
+            type: 'GET',
+            url: urlBase + '/quality',
+            data: {
+                dir: folder,
+                img: img
+            },
+            dataType: 'html',
+            cache: false,
+            async: true,
+            success: function (data) {
+
+                console.log(data);
+                qual_data = JSON.parse(data);
+
+                path = qual_data.path;
+                $('#img-proc')[0].src = path;
+            }
+        });
+}
+
 function loadGallery() {
     /** @description Load Gallery of images
      */
