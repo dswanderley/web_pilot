@@ -27,11 +27,11 @@ class QualityData():
         self.q_pred = '{:.2f}'.format(q_pred)
         
         self.path = os.path.join(folder, fname)
-        
+                
         if (q_pred > 50):
-            self.qual = "Low Quality"
-        else:
             self.qual = "High Quality"
+        else:
+            self.qual = "Low Quality"
         
 
 def lesion_to_map(lesions, i):
@@ -68,20 +68,18 @@ def img_quality():
 
     y_pred = wsqual.model.predict(img_p)
     # Quality evaluation
-    print '{:.2f}'.format(y_pred[0, 0] * 100)
-        
-    # Print output
     lesions = wsqual.fog_detector.predict(img_p)
 
     li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
-                                 architecture=wsqual.architecture, layer=wsqual.layer)
+                                 architecture = wsqual.architecture, 
+                                 layer = wsqual.layer)
 
     f, ax = plt.subplots()
     ax.set_axis_off()
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
     ax.imshow(img)
-    plt.contour(li, levels=np.linspace(0.1, 1, num=4))
+    plt.contour(li, levels = np.linspace(0.1, 1, num=4))
 
     out_path = os.path.join(dir_qual, fname)
     
@@ -90,7 +88,7 @@ def img_quality():
     
     qual_data = QualityData(fname = fname,
                             folder = dir_qual,
-                            q_pred = y_pred[0, 0] * 100)
+                            q_pred = 100 - (y_pred[0, 0] * 100))
     
     return json.dumps(qual_data.__dict__) 
     

@@ -5,15 +5,18 @@ block content
 
 		.menu-container
 			.btn-group
-				button(onClick="grayscale();", style=btnshow) Grayscale
 				button(onClick="quality();", style=btnshow) Quality
-  
+				button(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
+
 		.image-container
 			.img-column
 				img.img-disp(id="img-orig", src="")
 			.img-column
 				img.img-disp(id="img-proc", src="")
 
+		.eval-container
+			input(type="text", style="visibility:hidden;")
+			
 		.gallery-container
 			.gallery#gallery
 

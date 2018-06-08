@@ -25,15 +25,12 @@ function grayscale() {
             cache: false,
             async: true,
             success: function (data) {
-                //img = new Image();
-                console.log(data);
-
+                // Get image path and URL
                 path = data.substr(8, data.length - 1);
                 $('#img-proc')[0].src = path;                
             }
         });
 }
-
 
 function quality() {
 
@@ -57,12 +54,17 @@ function quality() {
             cache: false,
             async: true,
             success: function (data) {
-
-                console.log(data);
+                // Convert data to JSON
                 qual_data = JSON.parse(data);
-
+                // Print results
+                console.log("Quality: " + qual_data.qual);
+                console.log("Prediction Val.: " + qual_data.q_pred);
+                // Get image path and URL
                 path = qual_data.path;
-                $('#img-proc')[0].src = path;
+                if (qual_data.q_pred <= 50) {
+                    setProcImage(path);
+                    $('#img-proc').attr('height', '256px');    
+                }                    
             }
         });
 }
@@ -155,4 +157,5 @@ function selectGalleryImage(imgid) {
       * @param {string} image Image Element Id
      */
     setOrigImage(imgid.src);
+    setProcImage('');
 }
