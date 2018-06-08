@@ -57,6 +57,10 @@ function quality() {
                 // Convert data to JSON
                 qual_data = JSON.parse(data);
                 // Print results
+                $('#qual-column').css('display', 'inline');
+                $('#lbl-qual1').text('Quality Assessment: ' + qual_data.q_pred + '% ');
+                $('#lbl-qual2').text(qual_data.qual);
+
                 console.log("Quality: " + qual_data.qual);
                 console.log("Prediction Val.: " + qual_data.q_pred);
                 // Get image path and URL
@@ -64,7 +68,11 @@ function quality() {
                 if (qual_data.q_pred <= 50) {
                     setProcImage(path);
                     $('#img-proc').attr('height', '256px');    
-                }                    
+                    $('#lbl-qual2').css('color','red');
+                }
+                else {
+                    $('#lbl-qual2').css('color', 'green');
+                }
             }
         });
 }

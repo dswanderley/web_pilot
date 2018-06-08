@@ -8,15 +8,22 @@ block content
 				button(onClick="quality();", style=btnshow) Quality
 				button(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
 
+
 		.image-container
 			.img-column
 				img.img-disp(id="img-orig", src="")
 			.img-column
 				img.img-disp(id="img-proc", src="")
 
+
 		.eval-container
-			input(type="text", style="visibility:hidden;")
-			
+			#qual-column(style="display:none;")
+				label.result-txt#lbl-qual1 Quality Assessment: 
+				label.result-txt (
+				label.result-txt#lbl-qual2 
+				lable.result-txt )
+
+
 		.gallery-container
 			.gallery#gallery
 

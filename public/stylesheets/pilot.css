@@ -91,3 +91,13 @@
 .img-disp {
     max-height: 256px;
 }
+
+
+/*
+ * Results Area
+*/
+
+.eval-container {
+    width: auto;
+    text-align: center;
+}
