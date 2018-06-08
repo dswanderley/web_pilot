@@ -57,7 +57,8 @@ function quality() {
                 // Convert data to JSON
                 qual_data = JSON.parse(data);
                 // Print results
-                $('#qual-column').css('display', 'inline');
+                $('#qual-column').css('visibility', '');
+                //$('#dr-column').css('display', 'inline');
                 $('#lbl-qual1').text('Quality Assessment: ' + qual_data.q_pred + '% ');
                 $('#lbl-qual2').text(qual_data.qual);
 
@@ -166,4 +167,14 @@ function selectGalleryImage(imgid) {
      */
     setOrigImage(imgid.src);
     setProcImage('');
+    resetQualityLbl();
+}
+
+function resetQualityLbl() {
+    /** @description Reset labels 
+     */
+    $('#lbl-qual1').text('Quality Assessment: ');
+    $('#lbl-qual2').text('');
+    $('#qual-column').css('visibility', 'hidden');
+    //$('#dr-column').css('display', 'none');
 }
