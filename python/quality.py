@@ -177,7 +177,7 @@ def dr_detection():
     # Output data
     dr_data = DiabeticRetinopathyData(fname = fname,
                                       folder = dir_qual,
-                                      q_pred = y_pred[0, 0] * 100)
+                                      dr_pred = y_pred[0, 0] * 100)
     
     return json.dumps(dr_data.__dict__) 
 
