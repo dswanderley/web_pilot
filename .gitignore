@@ -7,3 +7,4 @@ python/compatibility/
 python/parameters/
 *.pyc
 python/utils/
+public/bootstrap/
