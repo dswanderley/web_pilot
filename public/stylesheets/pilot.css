@@ -101,3 +101,8 @@
     width: auto;
     text-align: center;
 }
+
+#res-field {
+    display:inline; 
+    visibility: hidden;
+}

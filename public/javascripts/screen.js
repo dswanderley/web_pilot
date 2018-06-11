@@ -33,7 +33,8 @@ function grayscale() {
 }
 
 function quality() {
-
+    /** @description Call image Quality. Evaluate displayed image.
+     */
     // Read image filename
     var currentSrc = $('#img-orig')[0].currentSrc;
     var str_list = currentSrc.split('/');
@@ -55,10 +56,9 @@ function quality() {
                 // Convert data to JSON
                 qual_data = data;
                 // Print results
-                $('#qual-column').css('visibility', '');
-                //$('#dr-column').css('display', 'inline');
-                $('#lbl-qual1').text('Quality Assessment: ' + qual_data.q_pred + '% ');
-                $('#lbl-qual2').text(qual_data.qual);
+                $('#res-field').css('visibility', 'visible');
+                $('#lbl-res1').text('Quality Assessment: ' + qual_data.q_pred + '% ');
+                $('#lbl-res2').text(qual_data.qual);
 
                 console.log("Quality: " + qual_data.qual);
                 console.log("Prediction Val.: " + qual_data.q_pred);
@@ -67,17 +67,18 @@ function quality() {
                 if (qual_data.q_pred <= 50) {
                     setProcImage(path);
                     $('#img-proc').attr('height', '256px');
-                    $('#lbl-qual2').css('color', 'red');
+                    $('#lbl-res2').css('color', 'red');
                 }
                 else {
-                    $('#lbl-qual2').css('color', 'green');
+                    $('#lbl-res2').css('color', 'green');
                 }
             }
         });
 }
 
 function dr_detection() {
-
+    /** @description Call DR detection. Process displayed image.
+     */
     // Read image filename
     var currentSrc = $('#img-orig')[0].currentSrc;
     var str_list = currentSrc.split('/');
@@ -99,29 +100,25 @@ function dr_detection() {
                 // Convert data to JSON
                 dr_data = data;
                 // Print results
-                $('#qual-column').css('visibility', '');
-                //$('#dr-column').css('display', 'inline');
-                $('#lbl-qual1').text('Quality Assessment: ' + dr_data.dr_pred + '% ');
-                $('#lbl-qual2').text(dr_data.dr);
+                $('#res-field').css('visibility', 'visible');
+                $('#lbl-res1').text('Probability of the Disease: ' + dr_data.dr_pred + '% ');
+                $('#lbl-res2').text(dr_data.dr);
 
-                console.log("Quality: " + dr_data.dr);
+                console.log("Disease: " + dr_data.dr);
                 console.log("Prediction Val.: " + dr_data.dr_pred);
                 // Get image path and URL
                 path = dr_data.path;
                 if (dr_data.dr_pred > 50) {
                     setProcImage(path);
                     $('#img-proc').attr('height', '256px');
-                    $('#lbl-qual2').css('color', 'red');
+                    $('#lbl-res2').css('color', 'red');
                 }
                 else {
-                    $('#lbl-qual2').css('color', 'green');
+                    $('#lbl-res2').css('color', 'green');
                 }
             }
         });
 }
-
-
-
 
 function loadGallery() {
     /** @description Load Gallery of images
@@ -218,8 +215,7 @@ function selectGalleryImage(imgid) {
 function resetQualityLbl() {
     /** @description Reset labels 
      */
-    $('#lbl-qual1').text('Quality Assessment: ');
-    $('#lbl-qual2').text('');
-    $('#qual-column').css('visibility', 'hidden');
-    //$('#dr-column').css('display', 'none');
+    $('#lbl-res1').text('Quality Assessment: ');
+    $('#lbl-res2').text('');
+    $('#res-field').css('visibility', 'hidden');
 }

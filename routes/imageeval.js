@@ -56,7 +56,6 @@ router.get('/quality', function (req, res) {
         }
         else {
             console.log(error);
-            console.log(response.status);
         }
     });
 });
@@ -109,11 +108,9 @@ router.get('/dr_detection', function (req, res) {
         }
         else {
             console.log(error);
-            console.log(response.status);
         }
     });
 });
-
 
 
 // Return routers
