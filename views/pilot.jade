@@ -1,30 +1,33 @@
 extends layout
 
 block content
-	.main-container
+	.container
+		
+		.row.justify-content-md-center
+			.menu-container.col
+				.menu-btn-dr#menu-qual
+					button.btn.btn-outline-secondary#btn-qual(onClick="quality();", style=btnshow) Quality Assessment
+		
+					.eval-container
+						.res-field#res-field-qual
+							label.result-txt#lbl-res1 Quality Assessment: 
+							label.result-txt#lbl-res2 
 
-		.menu-container
-			.btn-group
-				button(onClick="quality();", style=btnshow) Quality
-				button(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
+				.menu-btn-dr#menu-dr
+					button.btn.btn-outline-secondary#btn-dr(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
+			
+					.eval-container
+						.res-field#res-field-dr
+							label.result-txt#lbl-res3 Probability of the Disease: 
+							label.result-txt#lbl-res4 
 
+			.image-container.col-auto
+				.img-column
+					img.img-disp#img-disp(src="")
 
-		.image-container
-			.img-column
-				img.img-disp(id="img-orig", src="")
-			.img-column
-				img.img-disp(id="img-proc", src="")
-
-
-		.eval-container
-			#res-field
-				label.result-txt#lbl-res1 Quality Assessment: 
-				label.result-txt (
-				label.result-txt#lbl-res2 
-				lable.result-txt )
-
-		.gallery-container
-			.gallery#gallery
+		.row.justify-content-md-center
+			.gallery-container
+				.gallery#gallery
 
 	script(src="/javascripts/screen.js")
 	script.

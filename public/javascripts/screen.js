@@ -6,7 +6,7 @@ var galleryList = [];
 function grayscale() {
 
     // Read image filename
-    var currentSrc = $('#img-orig')[0].currentSrc;
+    var currentSrc = $('#img-dips')[0].currentSrc;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
     folder = str_list[str_list.length - 2];
@@ -27,7 +27,7 @@ function grayscale() {
             success: function (data) {
                 // Get image path and URL
                 path = data.substr(8, data.length - 1);
-                $('#img-proc')[0].src = path;                
+                $('#img-disp')[0].src = path;                
             }
         });
 }
@@ -36,7 +36,7 @@ function quality() {
     /** @description Call image Quality. Evaluate displayed image.
      */
     // Read image filename
-    var currentSrc = $('#img-orig')[0].currentSrc;
+    var currentSrc = $('#img-disp')[0].currentSrc;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
     folder = str_list[str_list.length - 2];
@@ -56,7 +56,7 @@ function quality() {
                 // Convert data to JSON
                 qual_data = data;
                 // Print results
-                $('#res-field').css('visibility', 'visible');
+                $('#res-field-qual').css('visibility', 'visible');
                 $('#lbl-res1').text('Quality Assessment: ' + qual_data.q_pred + '% ');
                 $('#lbl-res2').text(qual_data.qual);
 
@@ -66,7 +66,7 @@ function quality() {
                 path = qual_data.path;
                 if (qual_data.q_pred <= 50) {
                     setProcImage(path);
-                    $('#img-proc').attr('height', '256px');
+                    $('#img-disp').attr('height', '256px');
                     $('#lbl-res2').css('color', 'red');
                 }
                 else {
@@ -80,7 +80,7 @@ function dr_detection() {
     /** @description Call DR detection. Process displayed image.
      */
     // Read image filename
-    var currentSrc = $('#img-orig')[0].currentSrc;
+    var currentSrc = $('#img-disp')[0].currentSrc;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
     folder = str_list[str_list.length - 2];
@@ -100,9 +100,9 @@ function dr_detection() {
                 // Convert data to JSON
                 dr_data = data;
                 // Print results
-                $('#res-field').css('visibility', 'visible');
-                $('#lbl-res1').text('Probability of the Disease: ' + dr_data.dr_pred + '% ');
-                $('#lbl-res2').text(dr_data.dr);
+                $('#res-field-dr').css('visibility', 'visible');
+                $('#lbl-res3').text('Probability of the Disease: ' + dr_data.dr_pred + '% ');
+                $('#lbl-res4').text(dr_data.dr);
 
                 console.log("Disease: " + dr_data.dr);
                 console.log("Prediction Val.: " + dr_data.dr_pred);
@@ -110,11 +110,11 @@ function dr_detection() {
                 path = dr_data.path;
                 if (dr_data.dr_pred > 50) {
                     setProcImage(path);
-                    $('#img-proc').attr('height', '256px');
-                    $('#lbl-res2').css('color', 'red');
+                    $('#img-disp').attr('height', '256px');
+                    $('#lbl-res4').css('color', 'red');
                 }
                 else {
-                    $('#lbl-res2').css('color', 'green');
+                    $('#lbl-res4').css('color', 'green');
                 }
             }
         });
@@ -193,14 +193,14 @@ function setOrigImage(src) {
     /** @description Set original image src
       * @param {string} image src
      */
-    $('#img-orig')[0].src = src
+    $('#img-disp')[0].src = src
 }
 
 function setProcImage(src) {
     /** @description Set processed image src
       * @param {string} image src
      */
-    $('#img-proc')[0].src = src
+    $('#img-disp')[0].src = src
 }
 
 function selectGalleryImage(imgid) {
@@ -208,14 +208,14 @@ function selectGalleryImage(imgid) {
       * @param {string} image Image Element Id
      */
     setOrigImage(imgid.src);
-    setProcImage('');
-    resetQualityLbl();
+    resetLbl();
 }
 
-function resetQualityLbl() {
+function resetLbl() {
     /** @description Reset labels 
      */
-    $('#lbl-res1').text('Quality Assessment: ');
     $('#lbl-res2').text('');
-    $('#res-field').css('visibility', 'hidden');
+    $('#lbl-res4').text('');
+    $('#res-field-qual').css('visibility', 'hidden');
+    $('#res-field-dr').css('visibility', 'hidden');
 }

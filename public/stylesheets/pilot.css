@@ -3,35 +3,10 @@
  */
 
 .menu-container {
-    margin: 10px auto;
+    margin: 10px 0px auto auto;
     white-space: nowrap;
     text-align: center;
     width: 50%;
-}
-
-/* Group of Buttons properties */
-.btn-group button {
-    background-color: #4CAF50; /* Green background */
-    border: 1px solid green; /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-   /* float: left; /* Float the buttons side by side */
-}
-.btn-group button:not(:last-child) {
-    border-right: none; /* Prevent double borders */
-}
-
-/* Clear floats (clearfix hack) */
-.btn-group:after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-/* Add a background color on hover */
-.btn-group button:hover {
-    background-color: #3e8e41;
 }
 
 /*
@@ -102,7 +77,15 @@
     text-align: center;
 }
 
-#res-field {
-    display:inline; 
+.res-field {
+    display: grid; 
     visibility: hidden;
+}
+
+.menu-btn-dr {
+    padding: 20px 5px 10px 5px;
+}
+
+.result-txt {
+    padding-top: 10px;
 }
