@@ -3,31 +3,37 @@ extends layout
 block content
 	.container
 		
-		.row.justify-content-md-center
-			.menu-container.col
-				.menu-btn-dr#menu-qual
-					button.btn.btn-outline-secondary#btn-qual(onClick="quality();", style=btnshow) Quality Assessment
-		
-					.eval-container
-						.res-field#res-field-qual
-							label.result-txt#lbl-res1 Quality Assessment: 
-							label.result-txt#lbl-res2 
+		.row
+			.col
 
-				.menu-btn-dr#menu-dr
-					button.btn.btn-outline-secondary#btn-dr(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
+			.col
+				.row.justify-content-right
+					.menu-container.col
+						.menu-btn-dr#menu-qual
+							button.btn.btn-outline-secondary#btn-qual(onClick="quality();", style=btnshow) Quality Assessment
 			
-					.eval-container
-						.res-field#res-field-dr
-							label.result-txt#lbl-res3 Probability of the Disease: 
-							label.result-txt#lbl-res4 
+							.eval-container
+								.res-field#res-field-qual
+									label.result-txt#lbl-res1 Quality Assessment: 
+									label.result-txt#lbl-res2 
 
-			.image-container.col-auto
-				.img-column
-					img.img-disp#img-disp(src="")
+						.menu-btn-dr#menu-dr
+							button.btn.btn-outline-secondary#btn-dr(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
+			
+							.eval-container
+								.res-field#res-field-dr
+									label.result-txt#lbl-res3 Probability of the Disease: 100%
+									label.result-txt#lbl-res4 
 
-		.row.justify-content-md-center
-			.gallery-container
-				.gallery#gallery
+					.image-container.col-auto
+						.img-column
+							img.img-disp#img-disp(src="")
+
+				.row.justify-content-md-center
+					.gallery-container
+						.gallery#gallery
+
+			.col
 
 	script(src="/javascripts/screen.js")
 	script.
