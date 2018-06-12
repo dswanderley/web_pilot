@@ -105,22 +105,22 @@ a img {
  */
 body {
   font-family: 'Georgia';
-  background-color: #faf9f0;
+  background-color: #fafafa;
   color: #444;
 }
 header {
   font-family: 'Quicksand';
-  padding: 50px 10px;
+  padding: 10px 10px;
   color: #fff;
   font-size: 25px;
-  text-align: center;
+  text-align: left;
 /*
    * Note the use of the `main-color`
    * variable and the `darken` function
    */
-  background-color: #fa5b4d;
-  border-bottom: 1px solid #df1806;
-  text-shadow: 0px -1px 0px #df1806;
+  background-color: #fff;
+  border-bottom: 3px solid #df1806;
+  border-top: 5px solid #5a5a5a;
 }
 .container {
   width: auto;
@@ -168,9 +168,53 @@ p {
   line-height: 1.8;
 }
 footer {
-  width: 500px;
-  margin: 50px auto;
-  border-top: 1px dotted #ccc;
-  padding-top: 5px;
-  font-size: 13px;
+    width: 800px;
+    margin: 50px auto;
+    border-top: 1px dotted #ccc;
+    padding-top: 5px;
+    font-size: 13px;
+    text-align: center;
 }
+
+
+/*
+ * Menu layout
+*/
+
+.menu-right {
+    width: 100%;
+}
+
+.logo-right {
+    float: right;
+}
+
+.btn-right {
+    float: left;
+}
+
+.sdr-logo {
+    max-width: 200px;
+}
+
+.lab-logo {
+    color: #5a5a5a;
+    font-family: 'Fjalla One';
+    font-size: 18px;
+    font-style: italic;
+}
+
+.inesctec-logo {
+    max-height: 50px;
+}
+
+.navbar-brand {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+#navbarSupportedContent {
+    margin-top: 30px;
+    margin-left: 50px;
+}
+

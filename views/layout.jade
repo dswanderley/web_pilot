@@ -3,14 +3,48 @@ doctype
 html
 	head
 		title #{title} - Screen DR
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/webstyle.css')
 		link(rel='stylesheet', href='/stylesheets/pilot.css')
 
+		block scripts
+			script(src="javascripts/jquery-3.3.1.min.js")
+			script(src="javascripts/popper.min.js")
+			script(src="javascripts/bootstrap.min.js")
+
 	body
 		header
-			h1 Screen DR (Pilot)
+			nav.navbar.navbar-expand-lg.navbar-light.bg-light
+				
+				.menu-left
+					a.navbar-brand(href='/')
+						img.sdr-logo(src='/images/screen-768x374.png')
+				
+				.menu-right
 
+					.logo-right
+						a.navbar-brand#brand-link(href='http://bioimglab.inesctec.pt/')
+							h2.lab-logo BIOMEDICAL IMAGING LAB
+
+					.btn-right
+					
+						button.navbar-toggler(type="button" data-toggle="collapse" 
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+						aria-expanded="false" aria-label="Toggle navigation") 
+							span.navbar-toggler-icon
+
+						.collapse.navbar-collapse#navbarSupportedContent
+							ul.navbar-nav.mr-auto
+								li.nav-item
+									a.nav-link(href='/pilot') Pilot
+								li.nav-item
+									a.nav-link(href='/') Publications
+								li.nav-item
+									a.nav-link(href='/') Demos
+
+									
 		.container
 			block content
 	footer
-		p Running on node with Express, Jade and Stylus
+		img.inesctec-logo(src='/images/inesctec-logo.png')
+		
