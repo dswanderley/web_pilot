@@ -3,34 +3,6 @@
 var urlBase = "";
 var galleryList = [];
 
-function grayscale() {
-
-    // Read image filename
-    var currentSrc = $('#img-dips')[0].currentSrc;
-    var str_list = currentSrc.split('/');
-    img = str_list[str_list.length - 1];
-    folder = str_list[str_list.length - 2];
-    console.log(img)
-    console.log(folder)
-    // Ajax call
-    $.ajax(
-        {
-            type: 'GET',
-            url: urlBase + '/grayscale',
-            data: {
-                dir: folder,
-                img: img
-            },
-            dataType: 'html',
-            cache: false,
-            async: true,
-            success: function (data) {
-                // Get image path and URL
-                path = data.substr(8, data.length - 1);
-                $('#img-disp')[0].src = path;                
-            }
-        });
-}
 
 function quality() {
     /** @description Call image Quality. Evaluate displayed image.
