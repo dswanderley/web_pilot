@@ -168,7 +168,7 @@ p {
   line-height: 1.8;
 }
 footer {
-    width: 800px;
+    width: auto;
     margin: 50px auto;
     border-top: 1px dotted #ccc;
     padding-top: 5px;
@@ -204,8 +204,9 @@ footer {
     font-style: italic;
 }
 
-.inesctec-logo {
-    max-height: 50px;
+.bottom-logo {
+    max-height: 80px;
+    padding: 10px
 }
 
 .navbar-brand {

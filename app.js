@@ -47,7 +47,6 @@ app.use(fileupload);
 // Image Processing
 var imageeval = require('./routes/imageeval');
 app.use(imageeval);
-app.use(imgproc);
 // Pilot Canvas
 var pilot = require('./routes/pilot');
 app.use(pilot);
