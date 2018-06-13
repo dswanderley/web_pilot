@@ -1,10 +1,45 @@
 extends layout
 
 block content
-	.container
+	.container-fluid 
 	
-		.row(style='display:inline-flex')
+		.row.justify-content-between
+			
 			.col
+				.row.justify-content-center				
+					.eg-block
+						img.img-eg#img-eg-qual(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png", width='200px')
+
+						ul.pagination.justify-content-center
+							li.page-item
+								a.page-link(href="#") Good
+							li.page-item
+								a.page-link(href="#") Bad
+				
+				.row.justify-content-center
+					.eg-block
+						img.img-eg#img-eg-dr(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png", width='200px')
+
+						ul.pagination.justify-content-center
+							li.page-item
+								a.page-link(href="#") R0
+							li.page-item
+								a.page-link(href="#") R1
+							li.page-item
+								a.page-link(href="#") R2
+							li.page-item
+								a.page-link(href="#") R3
+			
+
+			.col
+				.row.justify-content-center
+					.image-container.col-auto
+						.img-column
+							img.img-disp#img-disp(src="")
+
+				.row.justify-content-md-center
+					.gallery-container
+						.gallery#gallery
 
 			.col
 				.row.justify-content-right
@@ -25,15 +60,6 @@ block content
 									label.result-txt#lbl-res3 Probability of the Disease: 100%
 									label.result-txt#lbl-res4 
 
-					.image-container.col-auto
-						.img-column
-							img.img-disp#img-disp(src="")
-
-				.row.justify-content-md-center
-					.gallery-container
-						.gallery#gallery
-
-			.col
 
 	script(src="/javascripts/screen.js")
 	script.

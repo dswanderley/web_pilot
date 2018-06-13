@@ -88,3 +88,18 @@
 .result-txt {
     padding-top: 10px;
 }
+
+
+/*
+ *  Examples Col
+*/
+
+.eg-block {
+    text-align: center;
+    margin: 20px auto 0px auto;
+}
+
+.eg-pagination {
+    
+    margin-top: 0px;
+}
