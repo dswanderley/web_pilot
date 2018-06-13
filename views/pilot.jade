@@ -1,20 +1,20 @@
 extends layout
 
 block content
-	.container-fluid 
+	.container-fluid#container-diag 
 	
 		.row.justify-content-between
 			
-			.col
+			.col#col-diag-left
 				.row.justify-content-center				
 					.eg-block
 						img.img-eg#img-eg-qual(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png", width='200px')
 
 						ul.pagination.justify-content-center
 							li.page-item
-								a.page-link(href="#") Good
+								a.page-link(href="#") High Quality
 							li.page-item
-								a.page-link(href="#") Bad
+								a.page-link(href="#") Low  Quality
 				
 				.row.justify-content-center
 					.eg-block
@@ -31,7 +31,7 @@ block content
 								a.page-link(href="#") R3
 			
 
-			.col
+			.col#col-diag-center
 				.row.justify-content-center
 					.image-container.col-auto
 						.img-column
@@ -41,7 +41,7 @@ block content
 					.gallery-container
 						.gallery#gallery
 
-			.col
+			.col#col-diag-right
 				.row.justify-content-right
 					.menu-container.col
 						.menu-btn-dr#menu-qual

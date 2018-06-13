@@ -9,9 +9,17 @@
 }
 
 /*
- *   GALLERY 
+ * App container
  */
 
+#container-diag{
+    background: blacK;
+    padding: 10px 0px 10px 0px;
+}
+
+/*
+ *   GALLERY 
+ */
 /* List of elements in gallery */
 #gallery ul {
     list-style-type: none;

@@ -169,7 +169,7 @@ p {
 }
 footer {
     width: auto;
-    margin: 50px auto;
+    margin: 0px auto;
     border-top: 1px dotted #ccc;
     padding-top: 5px;
     font-size: 13px;
