@@ -7,28 +7,30 @@ block content
 			
 			.col#col-diag-left
 				.row.justify-content-center				
-					.eg-block
-						img.img-eg#img-eg-qual(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png", width='200px')
 
-						ul.pagination.justify-content-center
-							li.page-item
-								a.page-link(href="#") High Quality
-							li.page-item
-								a.page-link(href="#") Low  Quality
+					.eg-block
+						.h6.text-white.eg-lbl Quality
+
+						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='Quality examples')
+							button.btn.btn-outline-light.eg-btn-qual High
+							button.btn.btn-outline-light.eg-btn-qual Low
+
 				
+						img.img-eg#img-eg-qual(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png")
+
+
 				.row.justify-content-center
 					.eg-block
-						img.img-eg#img-eg-dr(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png", width='200px')
+						.h6.text-white.eg-lbl Diabetic Retinopathy
+						
+						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='DR examples')
+							button.btn.btn-outline-light.eg-btn-dr R0
+							button.btn.btn-outline-light.eg-btn-dr R1
+							button.btn.btn-outline-light.eg-btn-dr R2
+							button.btn.btn-outline-light.eg-btn-dr R3
 
-						ul.pagination.justify-content-center
-							li.page-item
-								a.page-link(href="#") R0
-							li.page-item
-								a.page-link(href="#") R1
-							li.page-item
-								a.page-link(href="#") R2
-							li.page-item
-								a.page-link(href="#") R3
+
+						img.img-eg#img-eg-dr(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png")
 			
 
 			.col#col-diag-center

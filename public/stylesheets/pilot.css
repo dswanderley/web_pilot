@@ -108,6 +108,27 @@
 }
 
 .eg-pagination {
-    
     margin-top: 0px;
+}
+
+.img-eg {
+    width: 200px;
+    padding-top: 2px;
+}
+
+.eg-lbl {
+    width: 200px;
+}
+
+.eg-btn-group {
+    display: block;
+    margin-top: 0px;
+}
+
+.eg-btn-qual {
+    min-width: 100px;
+}
+
+.eg-btn-dr {
+    min-width: 50px;
 }
