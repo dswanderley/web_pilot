@@ -7,6 +7,23 @@ var galleryList = [];
  * Load Page functions
  */
 
+function loadScreenDrApp() {
+    /** @description Initialize componentes of the application
+     */
+    loadGallery();
+    initExamples();
+}
+
+function initExamples() {
+    /** @description Set example buttons and images
+     */
+    clearBtnQualEg();
+    clearBtnDrEg();
+
+    $('#btn-qual-high').addClass('focus');
+    $('#btn-dr-r0').addClass('focus');
+}
+
 function loadGallery() {
     /** @description Load Gallery of images
      */
@@ -205,3 +222,33 @@ function resetLbl() {
 /*
  * Set Examples
  */
+
+function setQualEg(btn) {
+    /** @description Manage the Quality example buttons 
+    */
+    clearBtnQualEg();
+    $('#' + btn.id).addClass('focus');
+}
+
+function setDrEg(btn) {
+    /** @description Manage the DR example buttons 
+    */
+    clearBtnDrEg();
+    $('#' + btn.id).addClass('focus');
+}
+
+function clearBtnQualEg() {
+    /** @description Remove classes from Quality Examples Buttons
+    */
+    $('#btn-qual-high').removeClass('focus');
+    $('#btn-qual-low').removeClass('focus');
+}
+
+function clearBtnDrEg() {
+    /** @description Remove classes from DR Examples Buttons
+    */
+    $('#btn-dr-r0').removeClass('focus');
+    $('#btn-dr-r1').removeClass('focus');
+    $('#btn-dr-r2').removeClass('focus');
+    $('#btn-dr-r3').removeClass('focus');
+}

@@ -12,8 +12,8 @@ block content
 						.h6.text-white.eg-lbl Quality
 
 						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='Quality examples')
-							button.btn.btn-outline-light.eg-btn-qual High
-							button.btn.btn-outline-light.eg-btn-qual Low
+							button.btn.btn-outline-light.eg-btn-qual#btn-qual-high(onClick='setQualEg(this)') High
+							button.btn.btn-outline-light.eg-btn-qual#btn-qual-low(onClick='setQualEg(this)') Low
 
 				
 						img.img-eg#img-eg-qual(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png")
@@ -24,10 +24,10 @@ block content
 						.h6.text-white.eg-lbl Diabetic Retinopathy
 						
 						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='DR examples')
-							button.btn.btn-outline-light.eg-btn-dr R0
-							button.btn.btn-outline-light.eg-btn-dr R1
-							button.btn.btn-outline-light.eg-btn-dr R2
-							button.btn.btn-outline-light.eg-btn-dr R3
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r0(onClick='setDrEg(this)') R0
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r1(onClick='setDrEg(this)') R1
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r2(onClick='setDrEg(this)') R2
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r3(onClick='setDrEg(this)') R3
 
 
 						img.img-eg#img-eg-dr(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png")
@@ -66,5 +66,5 @@ block content
 	script(src="/javascripts/screen.js")
 	script.
 		$(document).ready(function(){
-			loadGallery();
+			loadScreenDrApp();
 		});
