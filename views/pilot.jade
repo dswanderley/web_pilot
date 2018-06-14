@@ -3,7 +3,7 @@ extends layout
 block content
 	.container-fluid#container-diag 
 	
-		.row.justify-content-between
+		.row.justify-content-between#app-row
 			
 			.col#col-diag-left
 				.row.justify-content-center				
@@ -44,7 +44,7 @@ block content
 						.gallery#gallery
 
 			.col#col-diag-right
-				.row.justify-content-right
+				.row.justify-content-left
 					.menu-container.col
 						.menu-btn-dr#menu-qual
 							button.btn.btn-outline-secondary#btn-qual(onClick="quality();", style=btnshow) Quality Assessment
