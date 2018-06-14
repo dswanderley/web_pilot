@@ -63,20 +63,20 @@ block content
 				.row.justify-content-left
 					.menu-container.col
 						.menu-btn-dr#menu-qual
-							button.btn.btn-outline-secondary#btn-qual(onClick="quality();") Quality Assessment
+							button.btn.btn-light#btn-qual(onClick="quality();") Quality Assessment
 			
 							.eval-container
 								.res-field#res-field-qual
 									label.result-txt#lbl-res1 Quality Assessment: 
-									label.result-txt#lbl-res2 
+									label.btn#lbl-res2 
 
 						.menu-btn-dr#menu-dr
-							button.btn.btn-outline-secondary#btn-dr(onClick="dr_detection();") Diabetic Retinopathy
+							button.btn.btn-light#btn-dr(onClick="dr_detection();") Diabetic Retinopathy
 			
 							.eval-container
 								.res-field#res-field-dr
-									label.result-txt#lbl-res3 Probability of the Disease: 100%
-									label.result-txt#lbl-res4 
+									label.result-txt#lbl-res3 Probability of the Disease:
+									label.btn#lbl-res4 
 
 
 	script(src="/javascripts/screen.js")

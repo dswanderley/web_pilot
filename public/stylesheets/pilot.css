@@ -97,10 +97,11 @@
 .eval-container {
     width: auto;
     text-align: center;
+    padding: 15px 0px;
 }
 
 .res-field {
-    display: grid; 
+    display: inline; 
     visibility: hidden;
 }
 
@@ -109,14 +110,26 @@
 }
 
 .result-txt {
-    padding-top: 10px;
+    padding: 10px 0px 5px 0;
+    color: whitesmoke;
+}
+
+#lbl-res2,
+#lbl-res4 {
+    cursor: default;
+    margin-left: 15px;
+}
+
+
+#btn-qual,
+#btn-dr {
+    min-width: 174px;
 }
 
 
 /*
  *  Examples Col
 */
-
 .eg-block {
     text-align: center;
     margin: 20px auto 0px auto;
