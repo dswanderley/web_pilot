@@ -6,6 +6,11 @@ block content
 		.row.justify-content-between#app-row
 			
 			.col#col-diag-left
+				
+
+				.breadcrumb.navbar-success.bg-green
+					.h6.breadcrumb-item Examples
+
 				.row.justify-content-center				
 
 					.eg-block
@@ -20,6 +25,7 @@ block content
 
 
 				.row.justify-content-center
+
 					.eg-block
 						.h6.text-white.eg-lbl Diabetic Retinopathy
 						
@@ -32,8 +38,13 @@ block content
 
 						img.img-eg#img-eg-dr(src="http://localhost:3000/gallery/1.2.392.200046.100.3.8.101171.7698.20170206120809.1.1.1.1.png")
 			
-
+			
+			
 			.col#col-diag-center
+				
+				.breadcrumb.navbar-success(style='background:black; color:black')
+					.h6.breadcrumb-item Image
+
 				.row.justify-content-center
 					.image-container.col-auto
 						.img-column
@@ -43,11 +54,17 @@ block content
 					.gallery-container
 						.gallery#gallery
 
+			
+
 			.col#col-diag-right
+
+				.breadcrumb.navbar-success.bg-green
+					.h6.breadcrumb-item Evaluation
+
 				.row.justify-content-left
 					.menu-container.col
 						.menu-btn-dr#menu-qual
-							button.btn.btn-outline-secondary#btn-qual(onClick="quality();", style=btnshow) Quality Assessment
+							button.btn.btn-outline-secondary#btn-qual(onClick="quality();") Quality Assessment
 			
 							.eval-container
 								.res-field#res-field-qual
@@ -55,7 +72,7 @@ block content
 									label.result-txt#lbl-res2 
 
 						.menu-btn-dr#menu-dr
-							button.btn.btn-outline-secondary#btn-dr(onClick="dr_detection();", style=btnshow) Diabetic Retinopathy
+							button.btn.btn-outline-secondary#btn-dr(onClick="dr_detection();") Diabetic Retinopathy
 			
 							.eval-container
 								.res-field#res-field-dr
