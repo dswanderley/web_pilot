@@ -96,6 +96,28 @@ p {
 }
 
 
+/*
+ * Top bar layout
+*/
+
+.menu-right {
+    width: 100%;
+}
+
+
+.sdr-logo {
+    max-height: 60px;
+}
+
+.navbar-brand {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+/*
+ * Bottom bar layout
+ */
+
 footer {
     width: auto;
     margin: 0px auto;
@@ -105,49 +127,9 @@ footer {
     text-align: center;
 }
 
-
-/*
- * Menu layout
-*/
-
-.menu-right {
-    width: 100%;
-}
-
-.logo-right {
-    float: right;
-}
-
-.btn-right {
-    float: left;
-}
-
-.sdr-logo {
-    max-width: 200px;
-}
-
-.lab-logo {
-    color: #5a5a5a;
-    font-family: 'Fjalla One';
-    font-size: 18px;
-    font-style: italic;
-}
-
 .bottom-logo {
     max-height: 80px;
     padding: 10px
 }
 
-.navbar-brand {
-    padding-bottom: 0px;
-    padding-top: 0px;
-}
 
-#navbarSupportedContent {
-    margin-top: 30px;
-    margin-left: 50px;
-}
-
-.page-link {
-    line-height: 0.75;
-}

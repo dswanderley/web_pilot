@@ -14,36 +14,33 @@ html
 
 	body
 		header
-			nav.navbar.navbar-expand-lg.navbar-light.bg-light
+		
+			nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
 				
 				.menu-left
 					a.navbar-brand(href='/')
-						img.sdr-logo(src='/images/screendr-dark_logo.png')
+						img.sdr-logo(src='/images/screenDR-light_mini_logo.png')
 				
 				.menu-right
+											
+					button.navbar-toggler(type="button" data-toggle="collapse" 
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+					aria-expanded="false" aria-label="Toggle navigation") 
+						span.navbar-toggler-icon
 
-					.logo-right
-						a.navbar-brand#brand-link(href='http://bioimglab.inesctec.pt/' target='_blank')
-							h2.lab-logo BIOMEDICAL IMAGING LAB
 
-					.btn-right
-					
-						button.navbar-toggler(type="button" data-toggle="collapse" 
-						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-						aria-expanded="false" aria-label="Toggle navigation") 
-							span.navbar-toggler-icon
-
-						.collapse.navbar-collapse#navbarSupportedContent
-							ul.navbar-nav.mr-auto
-								li.nav-item
-									a.nav-link(href='/pilot') Pilot
-								li.nav-item
-									a.nav-link(href='/') Publications
-								li.nav-item
-									a.nav-link(href='/') Demos
-								li.nav-item
-									a.nav-link(href='http://demo.dicoogle.com/screen-dr' target='_blank') Dicoogle								
-
+					.collapse.navbar-collapse#navbarSupportedContent
+						ul.navbar-nav.mr-auto
+							li.nav-item
+								a.nav-link(href='/pilot') Pilot
+							li.nav-item
+								a.nav-link(href='/') Publications
+							li.nav-item
+								a.nav-link(href='/') Demos
+							li.nav-item
+								a.nav-link(href='http://demo.dicoogle.com/screen-dr' target='_blank') Dicoogle								
+							li.nav-item
+								a.nav-link(href='http://bioimglab.inesctec.pt/' target='_blank') BIOMEDICAL IMAGING LAB
 									
 		.text-center
 			block content
