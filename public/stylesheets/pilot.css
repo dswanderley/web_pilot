@@ -44,7 +44,7 @@
 
 /* Define gallery container */
 .gallery-container {
-    margin: 5px auto;
+    margin: 10px auto 5px auto;
     width: auto;
     height: 86px;
     max-width: 800px;
@@ -76,6 +76,8 @@
     margin: 5px 0;
     white-space: nowrap;
     text-align: center;
+
+    
 }
 
 .img-column {

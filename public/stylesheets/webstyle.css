@@ -120,8 +120,9 @@ p {
 }
 
 /*
- * Bottom bar layout
+ * Footer and bottom bar layout
  */
+
 footer {
     width: auto;
     margin: 0px auto;
@@ -136,4 +137,9 @@ footer {
     padding: 10px
 }
 
-
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+}
