@@ -2,6 +2,7 @@
 
 var urlBase = "";
 var galleryList = [];
+var hasQuality = false;
 
 /*
  * Load Page functions
@@ -12,6 +13,7 @@ function loadScreenDrApp() {
      */
     loadGallery();
     initExamples();
+    setEvalBtn();
 }
 
 function initExamples() {
@@ -131,13 +133,17 @@ function quality() {
                 // Get image path and URL
                 path = qual_data.path;
                 if (qual_data.q_pred <= 50) {
+                    hasQuality = false;
                     setMainImage(path);
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res2').addClass("btn-outline-danger");
                 }
                 else {
+                    hasQuality = true;
                     $('#lbl-res2').addClass("btn-outline-success");
                 }
+                // Block or allow Btn
+                setEvalBtn();
             }
         });
 }
@@ -197,6 +203,8 @@ function selectGalleryImage(imgid) {
      */
     setMainImage(imgid.src);
     resetLbl();
+    hasQuality = false;
+    setEvalBtn();
 }
 
 function setMainImage(src) {
@@ -209,6 +217,18 @@ function setMainImage(src) {
 /*
  * Set Results
  */
+
+function setEvalBtn() {
+     /** @description Enable or disable evaluation buttons according quality
+      */
+    if (hasQuality) {
+        $('#btn-dr').removeAttr("disabled").button('refresh');
+    }
+    else {
+        $('#btn-dr').attr("disabled", "disabled").button('refresh');
+    }
+
+}
 
 function resetLbl() {
     /** @description Reset labels 
