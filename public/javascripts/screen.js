@@ -72,6 +72,26 @@ function loadGallery() {
         });
 }
 
+function refreshScreenSize() {
+    /** @description Refresh main Image Height
+     *  Size of all other elements are predefined.
+     */
+    height_header = 76;
+    height_footer = 120;
+    height_window = $(window).height();
+
+    console.log(height_window);
+
+    height_body = height_window - height_header - height_footer;
+
+    height_gallery = 86 + 15 + 20;
+    height_breadcrumb = 19 + 12 + 12 +16;
+    padding_image = 5 + 5;
+
+    height_image = height_body - height_gallery - height_breadcrumb - padding_image;
+    
+    $('#img-disp').height(height_image)
+}
 
 /*
  * Ajax calls
@@ -285,7 +305,6 @@ function setImgDrEg(click_id) {
 
     $('#img-eg-dr')[0].src = src;
 }
-
 
 function setQualEg(btn) {
     /** @description Manage the Quality example buttons 
