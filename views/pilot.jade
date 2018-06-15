@@ -80,9 +80,10 @@ block content
 
 
 	script(src="/javascripts/screen.js")
-	script.
-		$(window).on('resizer', refreshScreenSize());
+	script.		
 		$(document).ready(function(){
 			loadScreenDrApp();
 		});
-		
+		window.onresize = function (event) {
+			refreshScreenSize();
+		}

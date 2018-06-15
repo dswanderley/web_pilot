@@ -16,6 +16,7 @@ function loadScreenDrApp() {
     setEvalBtn();
     setImgQualEg();
     setImgDrEg();
+    refreshScreenSize();
 }
 
 function initExamples() {
