@@ -14,6 +14,8 @@ function loadScreenDrApp() {
     loadGallery();
     initExamples();
     setEvalBtn();
+    setImgQualEg();
+    setImgDrEg();
 }
 
 function initExamples() {
@@ -247,9 +249,48 @@ function resetLbl() {
  * Set Examples
  */
 
+function setImgQualEg(click_id) {
+    /** @description Set image of quality image example
+     * @param {string} image src
+     */
+
+    if (click_id == 'btn-qual-low') {
+        src = '/images/quality_low.png';
+    }
+    else {
+        src = '/images/quality_high.png';
+    }
+
+    $('#img-eg-qual')[0].src = src;
+}
+
+function setImgDrEg(click_id) {
+    /** @description Set image of DR image example
+     * @param {string} image src
+     */
+
+    switch (click_id) {
+        case 'btn-dr-r1':
+            src = '/images/r1.png';
+            break;
+        case 'btn-dr-r2':
+            src = '/images/r2.png';
+            break;
+        case 'btn-dr-r3':
+            src = '/images/r3.png';
+            break;
+        default:
+            src = '/images/r0.png';
+    }
+
+    $('#img-eg-dr')[0].src = src;
+}
+
+
 function setQualEg(btn) {
     /** @description Manage the Quality example buttons 
     */
+    setImgQualEg(btn.id);
     clearBtnQualEg();
     $('#' + btn.id).addClass('focus');
 }
@@ -257,8 +298,10 @@ function setQualEg(btn) {
 function setDrEg(btn) {
     /** @description Manage the DR example buttons 
     */
+    setImgDrEg(btn.id);
     clearBtnDrEg();
     $('#' + btn.id).addClass('focus');
+    
 }
 
 function clearBtnQualEg() {
