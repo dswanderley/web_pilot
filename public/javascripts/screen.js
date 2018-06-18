@@ -58,7 +58,7 @@ function refreshScreenSize() {
 function loadGallery() {
     /** @description Load Gallery of images
      */
-
+    $('.loader').show()
     // Load Gallery Div
     var gallery = $('#gallery');
     // Create gallery ul - unordered list
@@ -95,6 +95,7 @@ function loadGallery() {
                 gallery.append(el_ul);
                 // Set orginal image block with the first image on gallery
                 setMainImage(url_g + '/' + galleryList[0]);
+                $('.loader').hide();
             }
         });
 }
@@ -103,6 +104,7 @@ function quality() {
     /** @description Call image Quality. Evaluate displayed image.
      */
     // Read image filename
+    $('.loader').show()
     var currentSrc = img_orig;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
@@ -148,6 +150,7 @@ function quality() {
                 }
                 // Block or allow Btn
                 setEvalBtn();
+                $('.loader').hide()
             }
         });
 }
@@ -155,6 +158,7 @@ function quality() {
 function dr_detection() {
     /** @description Call DR detection. Process displayed image.
      */
+    $('.loader').show()
     // Read image filename
     var currentSrc = img_orig;
     var str_list = currentSrc.split('/');
@@ -193,6 +197,7 @@ function dr_detection() {
                 else {
                     $('#lbl-res4').addClass("btn-outline-success");
                 }
+                $('.loader').hide();
             }
         });
 }
