@@ -6,6 +6,10 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 
+from PIL import Image
+from scipy.misc import imsave
+from scipy.signal import medfilt
+from skimage.exposure import adjust_log
 from flask import Flask, request
 from utils import models_qual
 from utils import models_dr
@@ -62,6 +66,84 @@ def lesion_to_map(lesions, i):
 
 ###############################################################################
 
+def rgb2gray(rgb):
+    """Convert RGB to grayscale"""
+    if (rgb.shape[0] == 3):
+        return 0.299*rgb[0,...] + 0.587*rgb[1,...] + 0.114*rgb[2,...]
+    else:
+        return 0.299*rgb[...,0] + 0.587*rgb[...,1] + 0.114*rgb[...,2]
+
+
+def getmask(rgb, fmedian=True):
+    """Get eye mask"""
+    if (len(rgb.shape) > 3):
+        rgb = rgb[0,...]
+    # Convert to Grayscale
+    gray = rgb2gray(rgb)
+    
+    # Adjust Contrast
+    gray = gray - np.min(gray)
+    gray = gray/np.max(gray)
+    # Contrast Enhancement
+    gray = adjust_log(gray, 5)
+    # Apply median filter to remove outliers
+    if fmedian:
+        gray = medfilt(gray,5);
+    
+    # Threshold
+    mask = np.zeros(gray.shape)
+    mask[np.where(gray > np.min(gray))] = 1
+    mask = np.asarray(mask)
+
+    return mask
+
+
+def saveImage(inpath, outpath):
+    """Save final image"""
+    # Load orignal image
+    img = Image.open(inpath)
+    # Load Contours and reshape
+    contours = Image.open(outpath)
+    contours = contours.resize(img.size)
+    # Convert to array
+    img_arr = np.asarray(img)    
+    contours_arr = np.asarray(contours)
+        
+    # Get Mask    
+    mask_eye = getmask(img_arr)
+    # Process 
+    img_cont = np.ones(img_arr.shape)
+    img_cont[...,0] = contours_arr[...,0]*mask_eye
+    img_cont[...,1] = contours_arr[...,1]*mask_eye
+    img_cont[...,2] = contours_arr[...,2]*mask_eye 
+    # Get Mask of lines
+    mask_lines = getmask(img_cont, fmedian=False)
+        
+    # Initialize output
+    img_out = np.copy(img_arr)
+    Ro = np.copy(img_arr[...,0])    
+    Go = np.copy(img_arr[...,1])
+    Bo = np.copy(img_arr[...,2])
+    # Aux variables
+    Rc = contours_arr[...,0]
+    Gc = contours_arr[...,1]
+    Bc = contours_arr[...,2]
+    # Set contours in output
+    Ro[np.where(mask_lines > 0)] = Rc[np.where(mask_lines > 0)]
+    Go[np.where(mask_lines > 0)] = Gc[np.where(mask_lines > 0)]
+    Bo[np.where(mask_lines > 0)] = Bc[np.where(mask_lines > 0)]
+    # Set Output
+    img_out[...,0] = Ro
+    img_out[...,1] = Go
+    img_out[...,2] = Bo
+    
+    # Save image
+    imsave(outpath, img_out)
+    
+    return img_out
+
+###############################################################################
+
 @app.route("/qual")
 def img_quality():
     """
@@ -102,23 +184,35 @@ def img_quality():
     li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
                                  architecture = wsqual.architecture, 
                                  layer = wsqual.layer)
+    plt.figure(figsize=(5.12, 5.12), dpi=100)
     f, ax = plt.subplots()
     ax.set_axis_off()
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-    ax.imshow(img)
+    # Create a empty image to plot contours    
+    img_empty = Image.new("RGB", img.size, color=0)
+    ax.imshow(img_empty)
     plt.contour(li, levels = np.linspace(0.1, 1, num=4))
 
     # Output file
     out_path = os.path.join(dir_qual, fname)
     # Save figure
-    f.savefig(out_path, bbox_inches='tight', pad_inches=0)
+    f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=170)
     plt.close('all')
+    
+   # Output file
+    out_path = os.path.join(dir_qual, fname)
+    # Save figure
+    f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=170*2)
+    plt.close('all')
+    # Save final image
+    saveImage(path_to_img, out_path)
+        
     # Output data
     qual_data = QualityData(fname = fname,
                             folder = dir_qual,
                             q_pred = 100 - (y_pred[0, 0] * 100))
-    
+           
     return json.dumps(qual_data.__dict__) 
     
 
@@ -174,6 +268,10 @@ def dr_detection():
     # Save figure
     f.savefig(out_path, bbox_inches='tight', pad_inches=0)
     plt.close('all')
+        
+    mask = getmask(img_p)
+    saveImage(out_path, mask)
+    
     # Output data
     dr_data = DiabeticRetinopathyData(fname = fname,
                                       folder = dir_detectdr,
