@@ -193,17 +193,11 @@ def img_quality():
     img_empty = Image.new("RGB", img.size, color=0)
     ax.imshow(img_empty)
     plt.contour(li, levels = np.linspace(0.1, 1, num=4))
-
-    # Output file
-    out_path = os.path.join(dir_qual, fname)
-    # Save figure
-    f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=170)
-    plt.close('all')
     
    # Output file
     out_path = os.path.join(dir_qual, fname)
     # Save figure
-    f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=170*2)
+    f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=512)
     plt.close('all')
     # Save final image
     saveImage(path_to_img, out_path)
@@ -250,28 +244,30 @@ def dr_detection():
 
     # Prediction
     y_pred = wsdcnn.model.predict(img_p)
-    print(y_pred)
     lesions = wsdcnn.lesion_detectors[0].predict(img_p)
 
     # Plot lesions map
     li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
-                                 architecture=wsdcnn.architecture, layer=wsdcnn.layer)
+                                 architecture=wsdcnn.architecture, 
+                                 layer=wsdcnn.layer)
+    plt.figure(figsize=(5.12, 5.12), dpi=100)
     f, ax = plt.subplots()
     ax.set_axis_off()
     ax.axes.get_xaxis().set_visible(False)
     ax.axes.get_yaxis().set_visible(False)
-    ax.imshow(img)
+    # Create a empty image to plot contours    
+    img_empty = Image.new("RGB", img.size, color=0)
+    ax.imshow(img_empty)
     plt.contour(li, levels=np.linspace(0.5, 1, num=4))
 
     # Output file
     out_path = os.path.join(dir_detectdr, fname)
     # Save figure
-    f.savefig(out_path, bbox_inches='tight', pad_inches=0)
+    f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=512)
     plt.close('all')
+    # Save final image
+    saveImage(path_to_img, out_path)
         
-    mask = getmask(img_p)
-    saveImage(out_path, mask)
-    
     # Output data
     dr_data = DiabeticRetinopathyData(fname = fname,
                                       folder = dir_detectdr,
