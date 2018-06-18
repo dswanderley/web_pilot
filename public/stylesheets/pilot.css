@@ -105,8 +105,9 @@
     visibility: hidden;
 }
 
-.menu-btn-dr {
+.menu-eval {
     padding: 20px 5px 10px 5px;
+    min-height: 140px;
 }
 
 .result-txt {
@@ -119,7 +120,6 @@
     cursor: default;
     margin-left: 15px;
 }
-
 
 #btn-qual,
 #btn-dr {
