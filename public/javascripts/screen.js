@@ -3,6 +3,9 @@
 var urlBase = "";
 var galleryList = [];
 var hasQuality = false;
+var img_orig = "";
+var img_qual = "";
+var img_dr = "";
 
 /*
  * Load Page functions
@@ -28,6 +31,29 @@ function initExamples() {
     $('#btn-qual-high').addClass('focus');
     $('#btn-dr-r0').addClass('focus');
 }
+
+function refreshScreenSize() {
+    /** @description Refresh main Image Height
+     *  Size of all other elements are predefined.
+     */
+    height_header = 76;
+    height_footer = 115;
+    height_window = $(window).height();
+    
+    height_body = height_window - height_header - height_footer;
+
+    height_gallery = 86 + 15 + 20;
+    height_breadcrumb = 19 + 12 + 12 +16;
+    padding_image = 5 + 5;
+
+    height_image = height_body - height_gallery - height_breadcrumb - padding_image;
+    
+    $('#img-disp').height(height_image)
+}
+
+/*
+ * Ajax calls
+ */
 
 function loadGallery() {
     /** @description Load Gallery of images
@@ -73,61 +99,11 @@ function loadGallery() {
         });
 }
 
-function refreshScreenSize() {
-    /** @description Refresh main Image Height
-     *  Size of all other elements are predefined.
-     */
-    height_header = 76;
-    height_footer = 115;
-    height_window = $(window).height();
-
-    console.log(height_window);
-
-    height_body = height_window - height_header - height_footer;
-
-    height_gallery = 86 + 15 + 20;
-    height_breadcrumb = 19 + 12 + 12 +16;
-    padding_image = 5 + 5;
-
-    height_image = height_body - height_gallery - height_breadcrumb - padding_image;
-    
-    $('#img-disp').height(height_image)
-}
-
-/*
- * Ajax calls
- */
-
-function getGalleryEl(id, img) {
-    /** @description Get image element for the gallery
-      * @param {string} g_img id
-      * @param {string} image name
-      * @return {jQuery} list item
-     */
-
-    // Create list item
-    el_li = jQuery("<li/>", {
-        class: "gallery-img",
-        onclick: "selectGalleryImage(" + id + ")"
-    });
-    // Create image element
-    el_img = jQuery("<img/>", {
-        class: "gallery-thumb",
-        id: id,
-        height: "64px",
-        src: "gallery/" + img
-    });
-    // Add image to list item
-    el_li.append(el_img);
-
-    return el_li;
-}
-
 function quality() {
     /** @description Call image Quality. Evaluate displayed image.
      */
     // Read image filename
-    var currentSrc = $('#img-disp')[0].currentSrc;
+    var currentSrc = img_orig;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
     folder = str_list[str_list.length - 2];
@@ -157,9 +133,14 @@ function quality() {
                 path = qual_data.path;
                 if (qual_data.q_pred <= 50) {
                     hasQuality = false;
+                    img_qual = path;
                     setMainImage(path);
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res2').addClass("btn-outline-danger");
+                    // Partial cases
+                    if (qual_data.q_pred > 25) {
+                        hasQuality = true;    
+                    }
                 }
                 else {
                     hasQuality = true;
@@ -175,7 +156,7 @@ function dr_detection() {
     /** @description Call DR detection. Process displayed image.
      */
     // Read image filename
-    var currentSrc = $('#img-disp')[0].currentSrc;
+    var currentSrc = img_orig;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
     folder = str_list[str_list.length - 2];
@@ -204,6 +185,7 @@ function dr_detection() {
                 // Get image path and URL
                 path = dr_data.path;
                 if (dr_data.dr_pred > 50) {
+                    img_dr = path;
                     setMainImage(path);
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res4').addClass("btn-outline-danger");
@@ -220,11 +202,38 @@ function dr_detection() {
  * Set Image
  */
 
+function getGalleryEl(id, img) {
+    /** @description Get image element for the gallery
+      * @param {string} g_img id
+      * @param {string} image name
+      * @return {jQuery} list item
+     */
+
+    // Create list item
+    el_li = jQuery("<li/>", {
+        class: "gallery-img",
+        onclick: "selectGalleryImage(" + id + ")"
+    });
+    // Create image element
+    el_img = jQuery("<img/>", {
+        class: "gallery-thumb",
+        id: id,
+        height: "64px",
+        src: "gallery/" + img
+    });
+    // Add image to list item
+    el_li.append(el_img);
+
+    return el_li;
+}
+
 function selectGalleryImage(imgid) {
     /** @description Change large image after click on image gallery
       * @param {string} image Image Element Id
      */
-    setMainImage(imgid.src);
+    img_orig = imgid.src;
+    resetimages();
+    setMainImage(img_orig);
     resetLbl();
     hasQuality = false;
     setEvalBtn();
@@ -240,6 +249,13 @@ function setMainImage(src) {
 /*
  * Set Results
  */
+
+function resetimages() {
+    /** @description Reset image reference src
+     */
+    img_qual = "";
+    img_dr = "";
+}
 
 function setEvalBtn() {
      /** @description Enable or disable evaluation buttons according quality
