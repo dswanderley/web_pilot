@@ -78,7 +78,7 @@ function refreshScreenSize() {
      *  Size of all other elements are predefined.
      */
     height_header = 76;
-    height_footer = 120;
+    height_footer = 115;
     height_window = $(window).height();
 
     console.log(height_window);

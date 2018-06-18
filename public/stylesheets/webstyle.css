@@ -104,7 +104,6 @@ p {
     width: 100%;
 }
 
-
 .sdr-logo {
     max-height: 60px;
 }
@@ -132,9 +131,19 @@ footer {
     text-align: center;
 }
 
-.bottom-logo {
+.logos-container {
+
+    horizontal-align: central;
+    padding-bottom: 10px;
+}
+
+.partner-logo {
     max-height: 60px;
     padding: 10px
+}
+
+.funders-logo {
+    height: 30px;
 }
 
 .footer {
