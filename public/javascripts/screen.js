@@ -94,7 +94,9 @@ function loadGallery() {
                 // Add list to gallery
                 gallery.append(el_ul);
                 // Set orginal image block with the first image on gallery
-                setMainImage(url_g + '/' + galleryList[0]);
+                img_orig = url_g + '/' + galleryList[0];
+                setMainImage(img_orig);
+                // Hide loader
                 $('.loader').hide();
             }
         });
