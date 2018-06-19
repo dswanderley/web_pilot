@@ -78,21 +78,10 @@ body {
   background: #fff;
 }
 
-.sidebar .widget h1 {
-  font-family: 'Quicksand';
-  margin: 13px 10px 4px;
-  padding-bottom: 10px;
-  border-bottom: 1px dotted #ddd;
-  border-radius: 2px 2px 0px 0px;
-  margin-bottom: 10px;
-}
-.sidebar .widget p {
-  font-size: 13px;
-  padding: 0px 10px;
-  margin-bottom: 10px;
-}
 p {
-  line-height: 1.8;
+  line-height: 1.5;
+  text-align: left;
+  padding: 5px 100px;
 }
 
 
@@ -123,17 +112,17 @@ p {
  */
 
 footer {
-    width: auto;
+    background: #fff;
+    bottom: 0;
     margin: 0px auto;
     border-top: 1px dotted #ccc;
     padding-top: 5px;
-    font-size: 13px;
     text-align: center;
+    /*position: absolute;*/
+    width: 100%;
 }
 
 .logos-container {
-
-    horizontal-align: central;
     padding-bottom: 10px;
 }
 
@@ -146,9 +135,10 @@ footer {
     height: 30px;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: #fff;
+/*
+ * HOME
+ */
+
+.main-content{
+    padding-top: 20px;
 }

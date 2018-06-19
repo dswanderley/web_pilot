@@ -46,7 +46,7 @@ function refreshScreenSize() {
     height_breadcrumb = 19 + 12 + 12 +16;
     padding_image = 5 + 5;
 
-    height_image = height_body - height_gallery - height_breadcrumb - padding_image;
+    height_image = height_body - height_gallery - height_breadcrumb - padding_image - 3;
     
     $('#img-disp').height(height_image)
 }
