@@ -3,13 +3,20 @@ extend layout
 block content
 
 	.main-content
+
+		h4 Image Analysis and Machine Learning Platform for Innovation in Diabetic Retinopathy Screening
+
+		img(src="/images/screendr-dark_logo.png", style='width:350px; padding:20px 0px;') 
+
+
 		p
 			| ARSN is implementing a mass screening for 
 			| diabetic retinopathy (DR), with the goal of 
 			| making eye exam of about 75% of identified 
 			| diabetics. 
 
-		p	| The vision of the consortium SCREEN-DR is to 
+		p	 
+			| The vision of the consortium SCREEN-DR is to 
 			| create a distributed and automatic screening 
 			| platform for DR, based on advanced PACS* 
 			| management, Machine Learning and Image Analysis, 
@@ -22,13 +29,32 @@ block content
 			| non-proliferative, moderate/severe non-proliferative 
 			| and proliferative grades.
 
+		img(src="/images/workflow.png", style='padding:20px 0px;') 
 
-	.sidebar
-		.widget
-			h1 Widget
-			p
-				| Sed auctor neque eu tellus rhoncus ut
-				| eleifend nibh porttitor. Ut in nulla enim.
-			p
-				| Vivamus hendrerit arcu sed erat molestie
-				| vehicula.
+		h5(style='padding:10px 150px; text-align:left;')  Main Task Goals:
+
+		h6(style='padding:5px 0px 0px 180px; text-align:left;')  Image Quality Assessment
+		p(style='padding:0px 100px 0px 180px;') 
+			| To automatically reject low quality images that are not suitable 
+			| further analysis.
+						
+		h6(style='padding:10px 0px 0px 180px; text-align:left;')  Detection of Normal Images
+		p(style='padding:0px 100px 0px 180px;') 
+			| To automatically discriminate DR fundus images (regardless of DR type and 
+			| stage) from 'Normal' ones.
+
+
+
+		h6(style='padding:20px 0px 0px 180px; text-align:left;')  DR Grading
+		p(style='padding:0px 100px 0px 180px;') 
+			| To grade fundus images into three levels of severity: mild, moderate/severe 
+			| and proliferative. These levels are characterized by the presence of several 
+			|lesions, as microaneurisms, exudates, neovascularization, vessel tortuosity, 
+			| hemorrhages, and venous beading.
+
+		h6(style='padding:10px 0px 0px 180px; text-align:left;')  Image Web Service
+		p(style='padding:0px 100px 0px 180px;') 
+			| To provide a remote access to all the image analysis functionalities, 
+			| namely for image quality evaluation, detection of image normality and 
+			| DR grading.
+			

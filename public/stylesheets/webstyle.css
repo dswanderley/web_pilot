@@ -140,5 +140,7 @@ footer {
  */
 
 .main-content{
-    padding-top: 20px;
+    margin: auto;
+    padding: 20px 0px 30px 0px;
+    max-width: 1200px;
 }
