@@ -193,10 +193,10 @@
 }
 
 .onoffswitch2-label {
-    display: block;
+    /*display: block;*/
     overflow: hidden;
     cursor: pointer;
-    border: 2px solid #999999;
+    /*border: 2px solid #999999;*/
     border-radius: 5px;
 }
 
@@ -227,14 +227,14 @@
     }
 
     .onoffswitch2-inner:before {
-        content: "YES";
+        content: "Result";
         padding-left: 10px;
-        background-color: #2FCCFF;
+        background-color: #417d44;
         color: #FFFFFF;
     }
 
     .onoffswitch2-inner:after {
-        content: "NO";
+        content: "Input";
         padding-right: 10px;
         background-color: #EEEEEE;
         color: #999999;
