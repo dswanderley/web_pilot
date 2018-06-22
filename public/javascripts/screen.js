@@ -14,6 +14,7 @@ var img_dr = "";
 function loadScreenDrApp() {
     /** @description Initialize componentes of the application
      */
+    $('#btn-toogle').hide();
     loadGallery();
     initExamples();
     setEvalBtn();
@@ -58,7 +59,7 @@ function refreshScreenSize() {
 function loadGallery() {
     /** @description Load Gallery of images
      */
-    $('.loader').show()
+    $('.loader').show();
     // Load Gallery Div
     var gallery = $('#gallery');
     // Create gallery ul - unordered list
@@ -145,14 +146,17 @@ function quality() {
                     if (qual_data.q_pred > 25) {
                         hasQuality = true;    
                     }
+                    $('#btn-toogle').show();
+                    $('.onoffswitch2-checkbox').prop('checked', true); 
                 }
                 else {
                     hasQuality = true;
                     $('#lbl-res2').addClass("btn-outline-success");
+                    $('#btn-toogle').hide();
                 }
                 // Block or allow Btn
                 setEvalBtn();
-                $('.loader').hide()
+                $('.loader').hide();
             }
         });
 }
@@ -195,11 +199,15 @@ function dr_detection() {
                     setMainImage(path);
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res4').addClass("btn-outline-danger");
+                    $('#btn-toogle').show();
+                    $('.onoffswitch2-checkbox').prop('checked', true); 
                 }
                 else {
                     $('#lbl-res4').addClass("btn-outline-success");
+                    $('#btn-toogle').hide();
                 }
                 $('.loader').hide();
+                
             }
         });
 }
@@ -262,6 +270,7 @@ function resetimages() {
      */
     img_qual = "";
     img_dr = "";
+    $('#btn-toogle').hide();
 }
 
 function setEvalBtn() {
@@ -289,6 +298,25 @@ function resetLbl() {
     $('#lbl-res4').removeClass("btn-outline-success");
 }
 
+function toogleBtnClick() {
+    /** @description Set main image according button status
+     */
+    if ($('.onoffswitch2-checkbox').is(":checked")) {
+
+        if (img_dr == "") {
+            if (img_qual != "") {
+                setMainImage(img_qual);
+            }
+        }
+        else {
+            setMainImage(img_dr);
+        }
+    }
+    else {
+        setMainImage(img_orig);
+    }
+}
+
 /*
  * Set Examples
  */
@@ -297,7 +325,6 @@ function setImgQualEg(click_id) {
     /** @description Set image of quality image example
      * @param {string} image src
      */
-
     if (click_id == 'btn-qual-low') {
         src = '/images/quality_low.png';
     }

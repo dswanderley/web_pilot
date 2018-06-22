@@ -230,14 +230,14 @@
         content: "Result";
         padding-left: 10px;
         background-color: #417d44;
-        color: #FFFFFF;
+        color: #EEEEEE;
     }
 
     .onoffswitch2-inner:after {
         content: "Input";
         padding-right: 10px;
         background-color: #EEEEEE;
-        color: #999999;
+        color: #417d44;
         text-align: right;
     }
 
