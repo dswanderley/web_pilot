@@ -332,7 +332,7 @@ function setImgQualEg(click_id) {
         src = '/images/quality_high.png';
     }
 
-    $('#img-eg-qual')[0].src = src;
+    $('#img-eg-dr')[0].src = src;
 }
 
 function setImgDrEg(click_id) {

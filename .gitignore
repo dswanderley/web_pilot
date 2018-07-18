@@ -8,3 +8,4 @@ python/parameters/
 *.pyc
 python/utils/
 public/bootstrap/
+python/test_dr.py
