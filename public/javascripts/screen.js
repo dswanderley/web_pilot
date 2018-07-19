@@ -2,6 +2,7 @@
 
 var urlBase = "";
 var galleryList = [];
+var galleryData = [];
 var hasQuality = false;
 var img_orig = "";
 var img_qual = "";
@@ -81,6 +82,7 @@ function loadGallery() {
             success: function (data) {
                 // reset List of images in gallery
                 galleryList = [];
+                galleryData = data.gallery_list;
                 i = 0;
                 // Read images in gallery folder
                 data.file_list.forEach(file => {
@@ -252,6 +254,41 @@ function selectGalleryImage(imgid) {
     resetLbl();
     hasQuality = false;
     setEvalBtn();
+
+    id_str = imgid.id;
+    idref = "g_img_";
+    id = id_str.substr(idref.length, id_str.length - 1);
+    id = parseInt(id);
+
+    imgInfo = galleryData[id];
+    $('#img-eg-dr')[0].src = imgid.src;
+    // Grading
+    switch (imgInfo.grading) {
+        case 'R1':
+            btn_rd_id = '#btn-dr-r1';
+            break;
+        case 'R2':
+            btn_rd_id = '#btn-dr-r2';
+            break;
+        case 'R3':
+            btn_rd_id = '#btn-dr-r3';;
+            break;
+        default:
+            btn_rd_id = '#btn-dr-r0';
+    }
+    clearBtnDrEg();
+    $(btn_rd_id).addClass('focus');
+    // Quality
+    switch (imgInfo.quality) {
+        case 'High':
+            btn_q_id = '#btn-qual-high';
+            break;
+        default:
+            btn_q_id = '#btn-qual-low';
+    }
+    clearBtnQualEg();
+    $(btn_q_id).addClass('focus');
+
 }
 
 function setMainImage(src) {
