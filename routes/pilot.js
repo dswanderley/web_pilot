@@ -21,19 +21,24 @@ router.get('/pilot', function (req, res) {
 router.get('/gallery', function (req, res) {
     // Initialize list of files
     file_list = [];
+    gallery_list = [];
+    // Read json file
+    var obj = JSON.parse(fs.readFileSync(galleryDir + 'gallery.json', 'utf8'));
     // Read directory
     fs.readdir(galleryDir, (err, files) => {
         // Load files
         files.forEach(file => {
-            // Get extensions 
-            ext = file.substr(file.length - 4, file.length - 1);
-            // Accpet only png
-            if (ext == '.png') {
-                file_list.push(file); // add to file list
-            }
+
+            obj.galleryitem.forEach(function (el) {
+
+                if (el.filename === file) {
+                    file_list.push(file); // add to file list
+                    gallery_list.push(el);
+                }
+            });            
         });
         // Send list of files
-        res.send(file_list);
+        res.send({file_list, gallery_list});
     });    
 });
 

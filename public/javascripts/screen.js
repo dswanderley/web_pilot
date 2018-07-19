@@ -83,7 +83,7 @@ function loadGallery() {
                 galleryList = [];
                 i = 0;
                 // Read images in gallery folder
-                data.forEach(file => {
+                data.file_list.forEach(file => {
                     // Define image ID
                     im_id = 'g_img_' + i;
                     // Create each image element - list item
