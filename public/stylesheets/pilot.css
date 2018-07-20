@@ -144,21 +144,22 @@
 }
 
 .img-eg {
-    width: 200px;
+    width: 250px;
     padding-top: 2px;
 }
 
 .eg-lbl {
-    width: 200px;
+    width: 250px;
 }
 
 .eg-btn-group {
     display: block;
-    margin-top: 0px;
+    margin-top: 5px;
+    margin-bottom: 2px;
 }
 
 .eg-btn-qual {
-    min-width: 100px;
+    min-width: 125px;
 }
 
 .eg-btn-dr {
