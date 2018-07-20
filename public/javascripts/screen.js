@@ -7,6 +7,7 @@ var hasQuality = false;
 var img_orig = "";
 var img_qual = "";
 var img_dr = "";
+var img_idref = 'g_img_';
 
 /*
  * Load Page functions
@@ -87,7 +88,7 @@ function loadGallery() {
                 // Read images in gallery folder
                 data.file_list.forEach(file => {
                     // Define image ID
-                    im_id = 'g_img_' + i;
+                    im_id = img_idref + i;
                     // Create each image element - list item
                     el_ul.append(getGalleryEl(im_id, file));
                     // Add filename to gallery list
@@ -256,39 +257,16 @@ function selectGalleryImage(imgid) {
     setEvalBtn();
 
     id_str = imgid.id;
-    idref = "g_img_";
-    id = id_str.substr(idref.length, id_str.length - 1);
+    id = id_str.substr(img_idref.length, id_str.length - 1);
     id = parseInt(id);
 
+    // Set example
     imgInfo = galleryData[id];
-    $('#img-eg-dr')[0].src = imgid.src;
+    setEgImg(imgid.src);
     // Grading
-    switch (imgInfo.grading) {
-        case 'R1':
-            btn_rd_id = '#btn-dr-r1';
-            break;
-        case 'R2':
-            btn_rd_id = '#btn-dr-r2';
-            break;
-        case 'R3':
-            btn_rd_id = '#btn-dr-r3';;
-            break;
-        default:
-            btn_rd_id = '#btn-dr-r0';
-    }
-    clearBtnDrEg();
-    $(btn_rd_id).addClass('focus');
+    changeDrEg(imgInfo.grading);
     // Quality
-    switch (imgInfo.quality) {
-        case 'High':
-            btn_q_id = '#btn-qual-high';
-            break;
-        default:
-            btn_q_id = '#btn-qual-low';
-    }
-    clearBtnQualEg();
-    $(btn_q_id).addClass('focus');
-
+    changeQualEg(imgInfo.quality);
 }
 
 function setMainImage(src) {
@@ -319,7 +297,6 @@ function setEvalBtn() {
     else {
         $('#btn-dr').attr("disabled", "disabled").button('refresh');
     }
-
 }
 
 function resetLbl() {
@@ -369,7 +346,7 @@ function setImgQualEg(click_id) {
         src = '/images/quality_high.png';
     }
 
-    $('#img-eg-dr')[0].src = src;
+    setEgImg(src);
 }
 
 function setImgDrEg(click_id) {
@@ -391,12 +368,20 @@ function setImgDrEg(click_id) {
             src = '/images/r0.png';
     }
 
+    setEgImg(src);
+}
+
+function setEgImg(src) {
+     /** @description Set image of image example
+     * @param {string} image src
+     */
     $('#img-eg-dr')[0].src = src;
 }
 
 function setQualEg(btn) {
     /** @description Manage the Quality example buttons 
-    */
+    * @param {obj} Button
+     */
     setImgQualEg(btn.id);
     clearBtnQualEg();
     $('#' + btn.id).addClass('focus');
@@ -404,11 +389,47 @@ function setQualEg(btn) {
 
 function setDrEg(btn) {
     /** @description Manage the DR example buttons 
+    * @param {obj} Button
     */
     setImgDrEg(btn.id);
     clearBtnDrEg();
-    $('#' + btn.id).addClass('focus');
-    
+    $('#' + btn.id).addClass('focus');  
+}
+
+function changeQualEg(qual) {
+    /** @description Change quality example button 
+    * @param {string} quality
+     */
+    switch (qual) {
+        case 'High':
+            btn_q_id = '#btn-qual-high';
+            break;
+        default:
+            btn_q_id = '#btn-qual-low';
+    }
+    clearBtnQualEg();
+    $(btn_q_id).addClass('focus');
+}
+
+function changeDrEg(grad) {
+    /** @description Change quality example button 
+    * @param {string} gradding
+     */
+    switch (grad) {
+        case 'R1':
+            btn_rd_id = '#btn-dr-r1';
+            break;
+        case 'R2':
+            btn_rd_id = '#btn-dr-r2';
+            break;
+        case 'R3':
+            btn_rd_id = '#btn-dr-r3';;
+            break;
+        default:
+            btn_rd_id = '#btn-dr-r0';
+    }
+    clearBtnDrEg();
+    $(btn_rd_id).addClass('focus');
 }
 
 function clearBtnQualEg() {
