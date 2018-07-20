@@ -132,7 +132,7 @@ function quality() {
                 qual_data = data;
                 // Print results
                 $('#res-field-qual').css('visibility', 'visible');
-                $('#lbl-res1').text('Percentage: ' + Math.round(qual_data.q_pred) + '% ');
+                //$('#lbl-res1').text('Percentage: ' + Math.round(qual_data.q_pred) + '% ');
                 $('#lbl-res2').text(qual_data.qual);
 
                 console.log("Quality: " + qual_data.qual);
@@ -190,7 +190,7 @@ function dr_detection() {
                 dr_data = data;
                 // Print results
                 $('#res-field-dr').css('visibility', 'visible');
-                $('#lbl-res3').text('Percentage: ' + Math.round(dr_data.dr_pred) + '% ');
+                //$('#lbl-res3').text('Percentage: ' + Math.round(dr_data.dr_pred) + '% ');
                 $('#lbl-res4').text(dr_data.dr);
 
                 console.log("Disease: " + dr_data.dr);
