@@ -21,8 +21,6 @@ function loadScreenDrApp() {
     loadGallery();
     initExamples();
     setEvalBtn();
-    setImgQualEg();
-    setImgDrEg();
     refreshScreenSize();
 }
 
@@ -31,7 +29,7 @@ function initExamples() {
      */
     clearBtnQualEg();
     clearBtnDrEg();
-
+    setEgImg('/images/quality_high.png');
     $('#btn-qual-high').addClass('focus');
     $('#btn-dr-r0').addClass('focus');
 }
@@ -101,6 +99,7 @@ function loadGallery() {
                 // Set orginal image block with the first image on gallery
                 img_orig = url_g + '/' + galleryList[0];
                 setMainImage(img_orig);
+                initImgEg();
                 // Hide loader
                 $('.loader').hide();
             }
@@ -337,22 +336,36 @@ function toogleBtnClick() {
  */
 
 function initImgEg() {
-
+    /** @description Initiate example image with a R0 image
+     */
     setImgDrEg('btn-dr-r0');
-
 }
 
 function setImgQualEg(click_id) {
     /** @description Set image of quality image example
      * @param {string} image src
      */
-    if (click_id == 'btn-qual-low') {
-        src = '/images/quality_low.png';
+    if (click_id == 'btn-qual-high') {
+        qual = 'High';
     }
     else {
-        src = '/images/quality_high.png';
+        qual = 'Low';
     }
-
+    // Pick an index
+    idx = Math.floor(Math.random() * galleryData.length);
+    // Create an auxiliary list starting by the sorted index
+    auxlist1 = galleryData.slice(idx, galleryData.length);
+    auxlist2 = galleryData.slice(0, idx);
+    auxlist = auxlist1.concat(auxlist2);
+    // Find the next image in the list
+    for (i = 0; i < auxlist.length; i++) {
+        el = auxlist[i];
+        if (el.quality === qual) {
+            src = galleryURL + el.filename;
+            break;
+        }
+    }
+    // Set example image
     setEgImg(src);
 }
 
@@ -378,8 +391,7 @@ function setImgDrEg(click_id) {
         default:
             grad = 'RX';
     }
-
-    // Sorte an image index
+    // Pick an index
     idx = Math.floor(Math.random() * galleryData.length);
     // Create an auxiliary list starting by the sorted index
     auxlist1 = galleryData.slice(idx, galleryData.length);
@@ -393,6 +405,7 @@ function setImgDrEg(click_id) {
             break;
         }
     }
+    // Set example image
     setEgImg(src);
 }
 
@@ -441,6 +454,8 @@ function changeDrEg(grad) {
     * @param {string} grading
      */
     switch (grad) {
+        case 'R0':
+            btn_rd_id = '#btn-dr-r0';
         case 'R1':
             btn_rd_id = '#btn-dr-r1';
             break;
@@ -451,7 +466,7 @@ function changeDrEg(grad) {
             btn_rd_id = '#btn-dr-r3';;
             break;
         default:
-            btn_rd_id = '#btn-dr-r0';
+            btn_rd_id = '#btn-dr-rx';
     }
     clearBtnDrEg();
     $(btn_rd_id).addClass('focus');
@@ -471,4 +486,5 @@ function clearBtnDrEg() {
     $('#btn-dr-r1').removeClass('focus');
     $('#btn-dr-r2').removeClass('focus');
     $('#btn-dr-r3').removeClass('focus');
+    $('#btn-dr-rx').removeClass('focus');
 }
