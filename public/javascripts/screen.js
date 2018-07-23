@@ -8,6 +8,7 @@ var img_orig = "";
 var img_qual = "";
 var img_dr = "";
 var img_idref = 'g_img_';
+var galleryURL = 'gallery/';
 
 /*
  * Load Page functions
@@ -237,7 +238,7 @@ function getGalleryEl(id, img) {
         class: "gallery-thumb",
         id: id,
         height: "64px",
-        src: "gallery/" + img
+        src: galleryURL + img
     });
     // Add image to list item
     el_li.append(el_img);
@@ -335,6 +336,12 @@ function toogleBtnClick() {
  * Set Examples
  */
 
+function initImgEg() {
+
+    setImgDrEg('btn-dr-r0');
+
+}
+
 function setImgQualEg(click_id) {
     /** @description Set image of quality image example
      * @param {string} image src
@@ -354,20 +361,38 @@ function setImgDrEg(click_id) {
      * @param {string} image src
      */
 
+    // Verify the selected gradding
     switch (click_id) {
+        case 'btn-dr-r0':
+            grad = 'R0';
+            break;
         case 'btn-dr-r1':
-            src = '/images/r1.png';
+            grad = 'R1';
             break;
         case 'btn-dr-r2':
-            src = '/images/r2.png';
+            grad = 'R2';
             break;
         case 'btn-dr-r3':
-            src = '/images/r3.png';
+            grad = 'R3';
             break;
         default:
-            src = '/images/r0.png';
+            grad = 'RX';
     }
 
+    // Sorte an image index
+    idx = Math.floor(Math.random() * galleryData.length);
+    // Create an auxiliary list starting by the sorted index
+    auxlist1 = galleryData.slice(idx, galleryData.length);
+    auxlist2 = galleryData.slice(0, idx);
+    auxlist = auxlist1.concat(auxlist2);
+    // Find the next image in the list
+    for (i = 0; i < auxlist.length; i++) {
+        el = auxlist[i];
+        if (el.grading === grad) {
+            src = galleryURL + el.filename;
+            break;
+        }
+    }
     setEgImg(src);
 }
 
@@ -413,7 +438,7 @@ function changeQualEg(qual) {
 
 function changeDrEg(grad) {
     /** @description Change quality example button 
-    * @param {string} gradding
+    * @param {string} grading
      */
     switch (grad) {
         case 'R1':
