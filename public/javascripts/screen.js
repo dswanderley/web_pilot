@@ -97,9 +97,10 @@ function loadGallery() {
                 // Add list to gallery
                 gallery.append(el_ul);
                 // Set orginal image block with the first image on gallery
-                img_orig = url_g + '/' + galleryList[0];
+                idx = Math.floor(Math.random() * galleryData.length);
+                img_orig = url_g + '/' + galleryList[idx];
                 setMainImage(img_orig);
-                initImgEg();
+                setImgEg(idx);
                 // Hide loader
                 $('.loader').hide();
             }
@@ -259,14 +260,8 @@ function selectGalleryImage(imgid) {
     id_str = imgid.id;
     id = id_str.substr(img_idref.length, id_str.length - 1);
     id = parseInt(id);
-
     // Set example
-    imgInfo = galleryData[id];
-    setEgImg(imgid.src);
-    // Grading
-    changeDrEg(imgInfo.grading);
-    // Quality
-    changeQualEg(imgInfo.quality);
+    setImgEg(id);
 }
 
 function setMainImage(src) {
@@ -335,10 +330,18 @@ function toogleBtnClick() {
  * Set Examples
  */
 
-function initImgEg() {
+function setImgEg(id) {
     /** @description Initiate example image with a R0 image
-     */
-    setImgDrEg('btn-dr-r0');
+     * @param {int} id Image gallery id
+     */    
+    // Set example
+    imgInfo = galleryData[id];
+    // URL
+    setEgImg(galleryURL + imgInfo.filename);
+    // Grading
+    changeDrEg(imgInfo.grading);
+    // Quality
+    changeQualEg(imgInfo.quality);    
 }
 
 function setImgQualEg(click_id) {
