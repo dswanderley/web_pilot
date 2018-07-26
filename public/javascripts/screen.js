@@ -256,7 +256,7 @@ function selectGalleryImage(imgid) {
     resetLbl();
     hasQuality = false;
     setEvalBtn();
-
+    // Get image index in JS
     id_str = imgid.id;
     id = id_str.substr(img_idref.length, id_str.length - 1);
     id = parseInt(id);
@@ -365,11 +365,12 @@ function setImgQualEg(click_id) {
         el = auxlist[i];
         if (el.quality === qual) {
             src = galleryURL + el.filename;
+            // Set example image
+            setEgImg(src);
+            changeDrEg(el.grading);
             break;
         }
-    }
-    // Set example image
-    setEgImg(src);
+    }    
 }
 
 function setImgDrEg(click_id) {
@@ -405,11 +406,13 @@ function setImgDrEg(click_id) {
         el = auxlist[i];
         if (el.grading === grad) {
             src = galleryURL + el.filename;
+            // Set example image
+            setEgImg(src);
+            changeQualEg(el.quality);    
             break;
         }
     }
-    // Set example image
-    setEgImg(src);
+    
 }
 
 function setEgImg(src) {
