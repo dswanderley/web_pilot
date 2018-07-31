@@ -18,26 +18,18 @@ block content
 							button.btn.btn-outline-light.eg-btn-qual#btn-qual-high(onClick='setQualEg(this)') High
 							button.btn.btn-outline-light.eg-btn-qual#btn-qual-low(onClick='setQualEg(this)') Low
 
-				
-						img.img-eg#img-eg-qual(src="")
-
-
-				.row.justify-content-center
-
-					.eg-block
-						.h6.text-white.eg-lbl Diabetic Retinopathy
-						
+						img.img-eg#img-eg-dr(src="")
+											
 						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='DR examples')
 							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r0(onClick='setDrEg(this)') R0
 							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r1(onClick='setDrEg(this)') R1
 							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r2(onClick='setDrEg(this)') R2
 							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r3(onClick='setDrEg(this)') R3
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-rx(onClick='setDrEg(this)') RX
 
+						.h6.text-white.eg-lbl Diabetic Retinopathy
+						
 
-						img.img-eg#img-eg-dr(src="")
-			
-			
-			
 			.col#col-diag-center
 				
 				.loader
@@ -75,7 +67,7 @@ block content
 			
 							.eval-container
 								.res-field#res-field-dr
-									label.result-txt#lbl-res3 Probability of the Disease:
+									label.result-txt#lbl-res3 Assessment:
 									label.btn#lbl-res4(disabled)
 
 

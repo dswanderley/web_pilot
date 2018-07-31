@@ -2,10 +2,13 @@
 
 var urlBase = "";
 var galleryList = [];
+var galleryData = [];
 var hasQuality = false;
 var img_orig = "";
 var img_qual = "";
 var img_dr = "";
+var img_idref = 'g_img_';
+var galleryURL = 'gallery/';
 
 /*
  * Load Page functions
@@ -18,8 +21,6 @@ function loadScreenDrApp() {
     loadGallery();
     initExamples();
     setEvalBtn();
-    setImgQualEg();
-    setImgDrEg();
     refreshScreenSize();
 }
 
@@ -28,7 +29,7 @@ function initExamples() {
      */
     clearBtnQualEg();
     clearBtnDrEg();
-
+    setEgImg('/images/quality_high.png');
     $('#btn-qual-high').addClass('focus');
     $('#btn-dr-r0').addClass('focus');
 }
@@ -81,11 +82,12 @@ function loadGallery() {
             success: function (data) {
                 // reset List of images in gallery
                 galleryList = [];
+                galleryData = data.gallery_list;
                 i = 0;
                 // Read images in gallery folder
-                data.forEach(file => {
+                data.file_list.forEach(file => {
                     // Define image ID
-                    im_id = 'g_img_' + i;
+                    im_id = img_idref + i;
                     // Create each image element - list item
                     el_ul.append(getGalleryEl(im_id, file));
                     // Add filename to gallery list
@@ -95,8 +97,10 @@ function loadGallery() {
                 // Add list to gallery
                 gallery.append(el_ul);
                 // Set orginal image block with the first image on gallery
-                img_orig = url_g + '/' + galleryList[0];
+                idx = Math.floor(Math.random() * galleryData.length);
+                img_orig = url_g + '/' + galleryList[idx];
                 setMainImage(img_orig);
+                setImgEg(idx);
                 // Hide loader
                 $('.loader').hide();
             }
@@ -129,7 +133,7 @@ function quality() {
                 qual_data = data;
                 // Print results
                 $('#res-field-qual').css('visibility', 'visible');
-                $('#lbl-res1').text('Percentage: ' + Math.round(qual_data.q_pred) + '% ');
+                //$('#lbl-res1').text('Percentage: ' + Math.round(qual_data.q_pred) + '% ');
                 $('#lbl-res2').text(qual_data.qual);
 
                 console.log("Quality: " + qual_data.qual);
@@ -187,7 +191,7 @@ function dr_detection() {
                 dr_data = data;
                 // Print results
                 $('#res-field-dr').css('visibility', 'visible');
-                $('#lbl-res3').text('Percentage: ' + Math.round(dr_data.dr_pred) + '% ');
+                //$('#lbl-res3').text('Percentage: ' + Math.round(dr_data.dr_pred) + '% ');
                 $('#lbl-res4').text(dr_data.dr);
 
                 console.log("Disease: " + dr_data.dr);
@@ -234,7 +238,7 @@ function getGalleryEl(id, img) {
         class: "gallery-thumb",
         id: id,
         height: "64px",
-        src: "gallery/" + img
+        src: galleryURL + img
     });
     // Add image to list item
     el_li.append(el_img);
@@ -252,6 +256,12 @@ function selectGalleryImage(imgid) {
     resetLbl();
     hasQuality = false;
     setEvalBtn();
+    // Get image index in JS
+    id_str = imgid.id;
+    id = id_str.substr(img_idref.length, id_str.length - 1);
+    id = parseInt(id);
+    // Set example
+    setImgEg(id);
 }
 
 function setMainImage(src) {
@@ -282,7 +292,6 @@ function setEvalBtn() {
     else {
         $('#btn-dr').attr("disabled", "disabled").button('refresh');
     }
-
 }
 
 function resetLbl() {
@@ -321,18 +330,47 @@ function toogleBtnClick() {
  * Set Examples
  */
 
+function setImgEg(id) {
+    /** @description Initiate example image with a R0 image
+     * @param {int} id Image gallery id
+     */    
+    // Set example
+    imgInfo = galleryData[id];
+    // URL
+    setEgImg(galleryURL + imgInfo.filename);
+    // Grading
+    changeDrEg(imgInfo.grading);
+    // Quality
+    changeQualEg(imgInfo.quality);    
+}
+
 function setImgQualEg(click_id) {
     /** @description Set image of quality image example
      * @param {string} image src
      */
-    if (click_id == 'btn-qual-low') {
-        src = '/images/quality_low.png';
+    if (click_id == 'btn-qual-high') {
+        qual = 'High';
     }
     else {
-        src = '/images/quality_high.png';
+        qual = 'Low';
     }
-
-    $('#img-eg-qual')[0].src = src;
+    // Pick an index
+    idx = Math.floor(Math.random() * galleryData.length);
+    // Create an auxiliary list starting by the sorted index
+    auxlist1 = galleryData.slice(idx, galleryData.length);
+    auxlist2 = galleryData.slice(0, idx);
+    auxlist = auxlist1.concat(auxlist2);
+    // Find the next image in the list
+    for (i = 0; i < auxlist.length; i++) {
+        el = auxlist[i];
+        if (el.quality === qual) {
+            src = galleryURL + el.filename;
+            // Set example image
+            setEgImg(src);
+            changeDrEg(el.grading);
+            break;
+        }
+    }    
 }
 
 function setImgDrEg(click_id) {
@@ -340,26 +378,54 @@ function setImgDrEg(click_id) {
      * @param {string} image src
      */
 
+    // Verify the selected gradding
     switch (click_id) {
+        case 'btn-dr-r0':
+            grad = 'R0';
+            break;
         case 'btn-dr-r1':
-            src = '/images/r1.png';
+            grad = 'R1';
             break;
         case 'btn-dr-r2':
-            src = '/images/r2.png';
+            grad = 'R2';
             break;
         case 'btn-dr-r3':
-            src = '/images/r3.png';
+            grad = 'R3';
             break;
         default:
-            src = '/images/r0.png';
+            grad = 'RX';
     }
+    // Pick an index
+    idx = Math.floor(Math.random() * galleryData.length);
+    // Create an auxiliary list starting by the sorted index
+    auxlist1 = galleryData.slice(idx, galleryData.length);
+    auxlist2 = galleryData.slice(0, idx);
+    auxlist = auxlist1.concat(auxlist2);
+    // Find the next image in the list
+    for (i = 0; i < auxlist.length; i++) {
+        el = auxlist[i];
+        if (el.grading === grad) {
+            src = galleryURL + el.filename;
+            // Set example image
+            setEgImg(src);
+            changeQualEg(el.quality);    
+            break;
+        }
+    }
+    
+}
 
+function setEgImg(src) {
+     /** @description Set image of image example
+     * @param {string} image src
+     */
     $('#img-eg-dr')[0].src = src;
 }
 
 function setQualEg(btn) {
     /** @description Manage the Quality example buttons 
-    */
+    * @param {obj} Button
+     */
     setImgQualEg(btn.id);
     clearBtnQualEg();
     $('#' + btn.id).addClass('focus');
@@ -367,11 +433,49 @@ function setQualEg(btn) {
 
 function setDrEg(btn) {
     /** @description Manage the DR example buttons 
+    * @param {obj} Button
     */
     setImgDrEg(btn.id);
     clearBtnDrEg();
-    $('#' + btn.id).addClass('focus');
-    
+    $('#' + btn.id).addClass('focus');  
+}
+
+function changeQualEg(qual) {
+    /** @description Change quality example button 
+    * @param {string} quality
+     */
+    switch (qual) {
+        case 'High':
+            btn_q_id = '#btn-qual-high';
+            break;
+        default:
+            btn_q_id = '#btn-qual-low';
+    }
+    clearBtnQualEg();
+    $(btn_q_id).addClass('focus');
+}
+
+function changeDrEg(grad) {
+    /** @description Change quality example button 
+    * @param {string} grading
+     */
+    switch (grad) {
+        case 'R0':
+            btn_rd_id = '#btn-dr-r0';
+        case 'R1':
+            btn_rd_id = '#btn-dr-r1';
+            break;
+        case 'R2':
+            btn_rd_id = '#btn-dr-r2';
+            break;
+        case 'R3':
+            btn_rd_id = '#btn-dr-r3';;
+            break;
+        default:
+            btn_rd_id = '#btn-dr-rx';
+    }
+    clearBtnDrEg();
+    $(btn_rd_id).addClass('focus');
 }
 
 function clearBtnQualEg() {
@@ -388,4 +492,5 @@ function clearBtnDrEg() {
     $('#btn-dr-r1').removeClass('focus');
     $('#btn-dr-r2').removeClass('focus');
     $('#btn-dr-r3').removeClass('focus');
+    $('#btn-dr-rx').removeClass('focus');
 }
