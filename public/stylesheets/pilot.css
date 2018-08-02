@@ -33,6 +33,7 @@
 /*
  *   GALLERY 
  */
+
 /* List of elements in gallery */
 #gallery ul {
     list-style-type: none;
@@ -76,8 +77,6 @@
     margin: 5px 0;
     white-space: nowrap;
     text-align: center;
-
-    
 }
 
 .img-column {

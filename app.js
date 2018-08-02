@@ -47,11 +47,14 @@ app.use(fileupload);
 // Image Processing
 var imageeval = require('./routes/imageeval');
 app.use(imageeval);
-// Pilot Canvas
+// Pilot 
 var pilot = require('./routes/pilot');
 app.use(pilot);
+// Pilot Canvas
+var canvas = require('./routes/canvas');
+app.use(canvas);
 // Gallery
-app.use('/gallery',pilot);
+app.use('/gallery', pilot);
 
 // Deploy
 app.listen(3000)

@@ -1,0 +1,90 @@
+extends layout
+
+block content
+	.container-fluid#container-diag
+		.row.justify-content-between#app-row
+			
+			.col#col-diag-left				
+
+				.breadcrumb.navbar-success.bg-green
+					.h6.breadcrumb-item Examples
+
+				.row.justify-content-center				
+
+					.eg-block
+						.h6.text-white.eg-lbl Quality
+
+						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='Quality examples')
+							button.btn.btn-outline-light.eg-btn-qual#btn-qual-high(onClick='setQualEg(this)') High
+							button.btn.btn-outline-light.eg-btn-qual#btn-qual-low(onClick='setQualEg(this)') Low
+
+						img.img-eg#img-eg-dr(src="")
+											
+						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='DR examples')
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r0(onClick='setDrEg(this)') R0
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r1(onClick='setDrEg(this)') R1
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r2(onClick='setDrEg(this)') R2
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r3(onClick='setDrEg(this)') R3
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-rx(onClick='setDrEg(this)') RX
+
+						.h6.text-white.eg-lbl Diabetic Retinopathy
+						
+
+			.col#col-diag-center
+				
+				.loader
+				
+				.breadcrumb.navbar-success(style='background:black; color:black')
+					.h6.breadcrumb-item Image
+
+				.row.justify-content-center
+					.image-container.col-auto
+						canvas.img-disp#img-disp(src="")
+
+				.row.justify-content-md-center
+					.gallery-container
+						.gallery#gallery
+
+			
+
+			.col#col-diag-right
+
+				.breadcrumb.navbar-success.bg-green
+					.h6.breadcrumb-item Evaluation
+
+				.row.justify-content-left
+					.menu-container.col
+						.menu-eval#menu-qual
+							button.btn.btn-light#btn-qual(onClick="quality();") Quality Assessment
+			
+							.eval-container
+								.res-field#res-field-qual
+									label.result-txt#lbl-res1 Quality Assessment: 
+									label.btn#lbl-res2(disabled)
+
+						.menu-eval#menu-dr
+							button.btn.btn-light#btn-dr(onClick="dr_detection();") Diabetic Retinopathy
+			
+							.eval-container
+								.res-field#res-field-dr
+									label.result-txt#lbl-res3 Assessment:
+									label.btn#lbl-res4(disabled)
+
+
+						.menu-eval#menu-toogle
+							.onoffswitch2#btn-toogle
+								input.onoffswitch2-checkbox(type="checkbox" onClick="toogleBtnClick();" name="onoffswitch" id="myonoffswitch" checked) 
+								label.onoffswitch2-label(for="myonoffswitch")
+									span.onoffswitch2-inner
+									span.onoffswitch2-switch
+
+
+
+	script(src="/javascripts/canvas.js")
+	script.		
+		$(document).ready(function(){
+			loadScreenDrApp();
+		});
+		window.onresize = function (event) {
+			refreshScreenSize();
+		}
