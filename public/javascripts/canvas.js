@@ -4,11 +4,16 @@ var urlBase = "";
 var galleryList = [];
 var galleryData = [];
 var hasQuality = false;
+// Images src
 var img_orig = "";
 var img_qual = "";
 var img_dr = "";
 var img_idref = 'g_img_';
 var galleryURL = 'gallery/';
+// Canvas
+var main_img = new Image();
+var ctx;
+var canvas;
 
 /*
  * Load Page functions
@@ -268,7 +273,27 @@ function setMainImage(src) {
     /** @description Set original image src
       * @param {string} image src
      */
-    $('#img-disp')[0].src = src
+
+    // Create main canvas 
+    canvas = document.getElementById("main-canvas");
+    // Image size
+    iw = 512;
+    ih = 512;
+    canvas.width = iw;
+    canvas.height = ih;
+    // CSS content 
+    canvas.style.width = iw.toString() + "px";
+    canvas.style.height = ih.toString() + "px";
+    // Canvas context
+    ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    img = new Image();
+    img.src = src;
+
+    this.img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+    }
 }
 
 /*
