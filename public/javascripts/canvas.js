@@ -288,11 +288,11 @@ function setMainImage(src) {
     ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-    img = new Image();
-    img.src = src;
+    main_img = new Image();
+    main_img.src = src;
 
-    this.img.onload = function () {
-        ctx.drawImage(img, 0, 0);
+    this.main_img.onload = function () {
+        ctx.drawImage(main_img, 0, 0, 512, 512 );
     }
 }
 
