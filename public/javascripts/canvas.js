@@ -14,6 +14,7 @@ var galleryURL = 'gallery/';
 var main_img = new Image();
 var ctx;
 var canvas;
+var max_img_height = 256;
 
 /*
  * Load Page functions
@@ -53,9 +54,11 @@ function refreshScreenSize() {
     height_breadcrumb = 19 + 12 + 12 + 16;
     padding_image = 5 + 5;
 
-    height_image = height_body - height_gallery - height_breadcrumb - padding_image - 3;
-
-    $('#img-disp').height(height_image)
+    max_img_height = height_body - height_gallery - height_breadcrumb - padding_image - 3;
+    if (max_img_height < 256)
+        max_img_height = 256;
+    // Set canvas
+    setMainImage(main_img.src);
 }
 
 /*
@@ -273,12 +276,35 @@ function setMainImage(src) {
     /** @description Set original image src
       * @param {string} image src
      */
+    // Start main image
+    this.main_img = new Image();
+    this.main_img.src = src;
+//    refreshCanvasImg();
+    setCanvasSize();
+    // Load Image    
+    this.main_img.onload = function () {
+        ctx.drawImage(main_img, 0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
+}
 
+/*
+ * Canvas
+ */
+
+
+function setCanvasSize() {
+    /** @description Set canvas size 
+     */
+    // Set max size
+    ih = this.max_img_height
+    if (this.main_img.width) {
+        iw = ih / this.main_img.height  * this.main_img.width;
+    }
+    else {
+        iw = ih;
+    }
     // Create main canvas 
     canvas = document.getElementById("main-canvas");
-    // Image size
-    iw = 512;
-    ih = 512;
     canvas.width = iw;
     canvas.height = ih;
     // CSS content 
@@ -287,14 +313,8 @@ function setMainImage(src) {
     // Canvas context
     ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    main_img = new Image();
-    main_img.src = src;
-
-    this.main_img.onload = function () {
-        ctx.drawImage(main_img, 0, 0, 512, 512 );
-    }
 }
+
 
 /*
  * Set Results
