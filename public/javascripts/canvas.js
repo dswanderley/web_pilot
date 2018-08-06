@@ -15,6 +15,10 @@ var main_img = new Image();
 var ctx;
 var canvas;
 var max_img_height = 256;
+var canvasScale = 1.0;
+var SCALE_FACTOR = 0.1;
+var img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas_cx, canvas_cy;
+var mouse_x, mouse_y;
 
 /*
  * Load Page functions
@@ -28,6 +32,7 @@ function loadScreenDrApp() {
     initExamples();
     setEvalBtn();
     refreshScreenSize();
+    addEvents();
 }
 
 function initExamples() {
@@ -60,6 +65,14 @@ function refreshScreenSize() {
     // Set canvas
     setMainImage(main_img.src);
 }
+
+function addEvents() {
+    /** @description Add Events listener
+     */
+    canvas.addEventListener('mousedown', canvasMouseDown);
+    canvas.addEventListener('mousewheel', canvasScrollWheel, false);
+}
+
 
 /*
  * Ajax calls
@@ -276,21 +289,27 @@ function setMainImage(src) {
     /** @description Set original image src
       * @param {string} image src
      */
+
     // Start main image
     this.main_img = new Image();
     this.main_img.src = src;
-//    refreshCanvasImg();
+    // coordinate in the destination canvas at which to place the top-left corner of the source image
+    canvas_dx = 0;
+    canvas_dy = 0;
+    //coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context
+    canvas_cx = 0;
+    canvas_cy = 0;
+    // Define the size of the canvas according screen size
     setCanvasSize();
-    // Load Image    
-    this.main_img.onload = function () {
-        ctx.drawImage(main_img, 0, 0, ctx.canvas.width, ctx.canvas.height);
-    }
+    // Calculate scale with canvas size
+    canvasScale = canvas.height / main_img.height;
+    // Update image
+    refreshCanvasImg();
 }
 
 /*
  * Canvas
  */
-
 
 function setCanvasSize() {
     /** @description Set canvas size 
@@ -313,6 +332,93 @@ function setCanvasSize() {
     // Canvas context
     ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}
+
+function refreshCanvasImg() {
+    /** @description Refresh canvas image
+     */
+
+    // Display image size
+    img_dwidth = canvasScale * main_img.width;
+    img_dheight = canvasScale * main_img.height;
+
+    // Reload image ? 
+    src = this.main_img.src,
+    this.main_img = new Image();
+    this.main_img.src = src;
+    // Clear context
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height, 0, 0, ctx.canvas.width, ctx.canvas.height);
+
+    // Load Image    
+    this.main_img.onload = function () {
+        // Draw image
+        ctx.drawImage(main_img, canvas_cx, canvas_cy, main_img.width, main_img.height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
+    }
+}
+
+function canvasZoom(sign, mouse_x, mouse_y) {
+    /** @description Set canvas zoom factor
+      * @param {int} sign signal of zoom (positive or negative)
+      * @param {int} mouse_x mouse x coord over canvas
+      * @param {int} mouse_y mouse y coord over canvas
+     */
+
+    // Global coord in image original size
+    var px = (mouse_x + canvas_cx) / canvasScale;
+    var py = (mouse_y + canvas_cy) / canvasScale;
+    // Minimal scale accepts
+    var minscale = ctx.canvas.height / main_img.height;
+
+    // Prevent a large zoom or image smaller than canvas
+    if (canvasScale >= 2 && sign > 0) { }
+    else if (canvasScale <= minscale && sign < 1) { }
+    else {
+            // Recalculate canvas scale
+            canvasScale += sign * SCALE_FACTOR;
+            // Limit max zoom
+            if (canvasScale > 2) {
+                canvasScale = 2;
+            }
+            else if (canvasScale < minscale) { // limite min zoom
+                canvasScale = minscale;
+            }
+            // Center image x coord
+            cx = Math.round(canvasScale * px - canvas.width / 2);
+            if (cx > 0) {
+                canvas_cx = cx;
+            }
+            else {
+                canvas_cx = 0;
+            }
+            // Center image y coord
+            cy = Math.round(canvasScale * py - canvas.height / 2);
+            if (cy > 0) {
+                canvas_cy = cy;
+            }
+            else {
+                canvas_cy = 0;
+            }
+            //  Refresh canvas
+            refreshCanvasImg();
+    }
+}
+
+
+function canvasMouseDown(ev) {
+    /** @description Canvas Mouse Down event
+      * @param {event} ev Button down event
+     */
+    console.log(ev.offsetX + ', ' + ev.offsetY);
+}
+
+function canvasScrollWheel(ev) {
+    /** @description Canvas Mouse Scroll Wheel event
+      * @param {event} ev Scroll Wheel event
+     */
+
+    canvasZoom(Math.sign(ev.wheelDelta), ev.offsetX, ev.offsetY);
+
+    return ev.preventDefault() && false;    
 }
 
 
