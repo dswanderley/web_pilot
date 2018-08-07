@@ -16,7 +16,6 @@ var ctx;
 var canvas;
 var max_img_height = 256;
 var canvasScale = 1.0;
-var SCALE_FACTOR = 0.1;
 var img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas_cx, canvas_cy;
 var mouse_x, mouse_y;
 
@@ -332,6 +331,7 @@ function setCanvasSize() {
     // Canvas context
     ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    trackTransforms(ctx);
 }
 
 function refreshCanvasImg() {
@@ -356,54 +356,6 @@ function refreshCanvasImg() {
     }
 }
 
-function canvasZoom(sign, mouse_x, mouse_y) {
-    /** @description Set canvas zoom factor
-      * @param {int} sign signal of zoom (positive or negative)
-      * @param {int} mouse_x mouse x coord over canvas
-      * @param {int} mouse_y mouse y coord over canvas
-     */
-
-    // Global coord in image original size
-    var px = (mouse_x + canvas_cx) / canvasScale;
-    var py = (mouse_y + canvas_cy) / canvasScale;
-    // Minimal scale accepts
-    var minscale = ctx.canvas.height / main_img.height;
-
-    // Prevent a large zoom or image smaller than canvas
-    if (canvasScale >= 2 && sign > 0) { }
-    else if (canvasScale <= minscale && sign < 1) { }
-    else {
-            // Recalculate canvas scale
-            canvasScale += sign * SCALE_FACTOR;
-            // Limit max zoom
-            if (canvasScale > 2) {
-                canvasScale = 2;
-            }
-            else if (canvasScale < minscale) { // limite min zoom
-                canvasScale = minscale;
-            }
-            // Center image x coord
-            cx = Math.round(canvasScale * px - canvas.width / 2);
-            if (cx > 0) {
-                canvas_cx = cx;
-            }
-            else {
-                canvas_cx = 0;
-            }
-            // Center image y coord
-            cy = Math.round(canvasScale * py - canvas.height / 2);
-            if (cy > 0) {
-                canvas_cy = cy;
-            }
-            else {
-                canvas_cy = 0;
-            }
-            //  Refresh canvas
-            refreshCanvasImg();
-    }
-}
-
-
 function canvasMouseDown(ev) {
     /** @description Canvas Mouse Down event
       * @param {event} ev Button down event
@@ -411,14 +363,68 @@ function canvasMouseDown(ev) {
     console.log(ev.offsetX + ', ' + ev.offsetY);
 }
 
-function canvasScrollWheel(ev) {
+function canvasScrollWheel(evt) {
     /** @description Canvas Mouse Scroll Wheel event
       * @param {event} ev Scroll Wheel event
      */
+    lastX = evt.offsetX;
+    lastY = evt.offsetY;
+    var delta = evt.wheelDelta ? evt.wheelDelta / 40 : evt.detail ? -evt.detail : 0;
+    if (delta) canvasZoom(delta, lastX, lastY);
+    return evt.preventDefault() && false;
+}
 
-    canvasZoom(Math.sign(ev.wheelDelta), ev.offsetX, ev.offsetY);
+function canvasZoom(clicks, lastX, lastY) {
+    /** @description Set canvas zoom factor
+      * @param {float} clicks increase of zoom (positive or negative)
+      * @param {int} mouse_x mouse x coord over canvas
+      * @param {int} mouse_y mouse y coord over canvas
+     */
+    // Factor for zoom
+    var scaleFactor = 1.1;
+    // Current transformations applied to context
+    var c_status = ctx.getTransform();
+    // Zoom factor
+    var factor = Math.pow(scaleFactor, clicks);
+    // New zoom transformation factor
+    var tfactor = c_status.a * factor;
+    // Apply conditions
+    if (tfactor < 1) {
+        redraw(true);
+    }
+    else if (tfactor < 10 * 1 / canvasScale) {
+        // Current location
+        var pt = ctx.transformedPoint(lastX, lastY);    
+        // Translate
+        ctx.translate(pt.x, pt.y);
+        // Scale
+        ctx.scale(factor, factor);
+        // Translate back with new coord
+        ctx.translate(-pt.x, -pt.y);
+        // Redraw image
+        redraw(false);    
+    }
+}
 
-    return ev.preventDefault() && false;    
+function redraw(reset) {
+    /** @description Redraw canvas
+      * @param {bool} reset if true, reset canvas to original size
+     */
+    if (reset) {
+        // Clear transformations
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    else {
+        // Get new coord
+        var p1 = ctx.transformedPoint(0, 0);
+        var p2 = ctx.transformedPoint(canvas.width, canvas.height);
+        // Crop canvas
+        ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+    }
+    // Draw Image
+    ctx.drawImage(main_img, canvas_cx, canvas_cy, main_img.width, main_img.height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
 }
 
 
@@ -644,4 +650,67 @@ function clearBtnDrEg() {
     $('#btn-dr-r2').removeClass('focus');
     $('#btn-dr-r3').removeClass('focus');
     $('#btn-dr-rx').removeClass('focus');
+}
+
+
+/*
+ * * SVG
+ */
+function trackTransforms(ctx) {
+    /** @description Canvas transformation control
+      * @param {obj} ctx canvas context
+     */
+    var svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+    var xform = svg.createSVGMatrix();
+    ctx.getTransform = function () { return xform; };
+
+    var savedTransforms = [];
+    var save = ctx.save;
+    ctx.save = function () {
+        savedTransforms.push(xform.translate(0, 0));
+        return save.call(ctx);
+    };
+    var restore = ctx.restore;
+    ctx.restore = function () {
+        xform = savedTransforms.pop();
+        return restore.call(ctx);
+    };
+
+    var scale = ctx.scale;
+    ctx.scale = function (sx, sy) {
+        xform = xform.scaleNonUniform(sx, sy);
+        return scale.call(ctx, sx, sy);
+    };
+    var rotate = ctx.rotate;
+    ctx.rotate = function (radians) {
+        xform = xform.rotate(radians * 180 / Math.PI);
+        return rotate.call(ctx, radians);
+    };
+    var translate = ctx.translate;
+    ctx.translate = function (dx, dy) {
+        xform = xform.translate(dx, dy);
+        return translate.call(ctx, dx, dy);
+    };
+    var transform = ctx.transform;
+    ctx.transform = function (a, b, c, d, e, f) {
+        var m2 = svg.createSVGMatrix();
+        m2.a = a; m2.b = b; m2.c = c; m2.d = d; m2.e = e; m2.f = f;
+        xform = xform.multiply(m2);
+        return transform.call(ctx, a, b, c, d, e, f);
+    };
+    var setTransform = ctx.setTransform;
+    ctx.setTransform = function (a, b, c, d, e, f) {
+        xform.a = a;
+        xform.b = b;
+        xform.c = c;
+        xform.d = d;
+        xform.e = e;
+        xform.f = f;
+        return setTransform.call(ctx, a, b, c, d, e, f);
+    };
+    var pt = svg.createSVGPoint();
+    ctx.transformedPoint = function (x, y) {
+        pt.x = x; pt.y = y;
+        return pt.matrixTransform(xform.inverse());
+    }
 }
