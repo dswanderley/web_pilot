@@ -317,7 +317,7 @@ function setCanvasSize() {
     // Set max size
     ih = this.max_img_height
     if (this.main_img.width) {
-        iw = ih / this.main_img.height  * this.main_img.width;
+        iw = Math.round(ih / this.main_img.height  * this.main_img.width);
     }
     else {
         iw = ih;
