@@ -17,7 +17,6 @@ var canvas;
 var max_img_height = 256;
 var canvasScale = 1.0;
 var img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas_cx, canvas_cy;
-var mouse_x, mouse_y;
 
 /*
  * Load Page functions
@@ -68,7 +67,9 @@ function refreshScreenSize() {
 function addEvents() {
     /** @description Add Events listener
      */
-    canvas.addEventListener('mousedown', canvasMouseDown);
+    canvas.addEventListener('mousedown', canvasMouseDown, false);
+    canvas.addEventListener('mousemove', canvasMouseMove, false);
+    canvas.addEventListener('mouseup', canvasMouseUp, false);
     canvas.addEventListener('mousewheel', canvasScrollWheel, false);
 }
 
@@ -356,11 +357,60 @@ function refreshCanvasImg() {
     }
 }
 
-function canvasMouseDown(ev) {
+// Canvas controls
+var lastX, lastY;
+var dragStart = null;
+var dragging = false;
+
+function canvasMouseDown(evt) {
     /** @description Canvas Mouse Down event
-      * @param {event} ev Button down event
+      * @param {event} evt Button down event
      */
-    console.log(ev.offsetX + ', ' + ev.offsetY);
+
+    // Current transformations applied to context
+    var c_status = ctx.getTransform();
+
+    if (c_status.a > 1) {
+        document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
+
+        lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
+        lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+        dragStart = ctx.transformedPoint(lastX, lastY);
+        dragging = true;
+    }
+}
+
+function canvasMouseMove(evt) {
+    /** @description Canvas Mouse Move event
+      * @param {event} evt event
+     */
+    if (dragging) {
+        // Store mouse position
+        lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
+        lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+        
+        if (dragStart) {
+            var pt = ctx.transformedPoint(lastX, lastY);
+            ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
+            redraw(false);
+        }
+    }
+}
+
+function canvasMouseUp(evt) {
+    /** @description Canvas Mouse Up event
+      * @param {event} evt event
+     */
+
+    // Current transformations applied to context
+
+    if (dragging) {
+        var c_status = ctx.getTransform();
+        if (c_status.a > 1) {
+            dragStart = null;
+            dragging = false;
+        }
+    }
 }
 
 function canvasScrollWheel(evt) {
@@ -374,11 +424,11 @@ function canvasScrollWheel(evt) {
     return evt.preventDefault() && false;
 }
 
-function canvasZoom(clicks, lastX, lastY) {
+function canvasZoom(clicks, mouseX, mouseY) {
     /** @description Set canvas zoom factor
       * @param {float} clicks increase of zoom (positive or negative)
-      * @param {int} mouse_x mouse x coord over canvas
-      * @param {int} mouse_y mouse y coord over canvas
+      * @param {int} mouseX mouse x coord over canvas
+      * @param {int} mouseY mouse y coord over canvas
      */
     // Factor for zoom
     var scaleFactor = 1.1;
