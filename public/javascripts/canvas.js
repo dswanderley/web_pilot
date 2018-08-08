@@ -71,6 +71,18 @@ function addEvents() {
     canvas.addEventListener('mousemove', canvasMouseMove, false);
     canvas.addEventListener('mouseup', canvasMouseUp, false);
     canvas.addEventListener('mousewheel', canvasScrollWheel, false);
+
+    document.addEventListener('mouseup', pageMouseUp, false);
+}
+
+function pageMouseUp(evt) {
+    /** @description page Mouse Up event
+      * @param {event} evt event
+     */
+    // Disable canvas image dragging if mouse is off canvas 
+    if (dragging) {
+        canvasMouseUp(evt);
+    }
 }
 
 
@@ -403,7 +415,6 @@ function canvasMouseUp(evt) {
      */
 
     // Current transformations applied to context
-
     if (dragging) {
         var c_status = ctx.getTransform();
         if (c_status.a > 1) {
