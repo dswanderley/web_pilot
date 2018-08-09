@@ -5,7 +5,8 @@
 
 // Module dependencies
 var router = require('express').Router(),
-    fs = require('fs');
+    fs = require('fs'),
+    sizeOf = require('image-size');
 
 var galleryDir = './images/gallery/';
 
@@ -28,11 +29,16 @@ router.get('/gallery', function (req, res) {
     fs.readdir(galleryDir, (err, files) => {
         // Load files
         files.forEach(file => {
-
+            
             obj.galleryitem.forEach(function (el) {
 
                 if (el.filename === file) {
                     file_list.push(file); // add to file list
+                    // Get Dimensions
+                    var dimensions = sizeOf(galleryDir + file);
+                    el.width = dimensions.width;
+                    el.height = dimensions.height;
+                    // add file informations 
                     gallery_list.push(el);
                 }
             });            
