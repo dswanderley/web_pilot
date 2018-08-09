@@ -22,6 +22,7 @@ The following packages are required by the Node.js application:
 - nib 
 - request 
 - fs
+- image-size
 
 The Python application requires `Keras v1.1.2` with backend `Theano v0.9`, and `Flask 1.0.2`.
 
