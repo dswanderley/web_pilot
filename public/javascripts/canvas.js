@@ -10,13 +10,17 @@ var img_qual = "";
 var img_dr = "";
 var img_idref = 'g_img_';
 var galleryURL = 'gallery/';
+var currentSrc = "";
+var current_idx = "";
 // Canvas
 var main_img = new Image();
 var ctx;
 var canvas;
+var canvas_height, canvas_width;
 var max_img_height = 256;
+var max_img_width = 256;
 var canvasScale = 1.0;
-var img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas_cx, canvas_cy;
+var img_width, img_height, img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas_cx, canvas_cy;
 
 /*
  * Load Page functions
@@ -26,11 +30,11 @@ function loadScreenDrApp() {
     /** @description Initialize componentes of the application
      */
     $('#btn-toogle').hide();
+    setEvalBtn();
+    setScreenSize();
+    addEvents();
     loadGallery();
     initExamples();
-    setEvalBtn();
-    refreshScreenSize();
-    addEvents();
 }
 
 function initExamples() {
@@ -43,8 +47,8 @@ function initExamples() {
     $('#btn-dr-r0').addClass('focus');
 }
 
-function refreshScreenSize() {
-    /** @description Refresh main Image Height
+function setScreenSize() {
+    /** @description Defines max image heigh according other page elements
      *  Size of all other elements are predefined.
      */
     height_header = 76;
@@ -60,8 +64,18 @@ function refreshScreenSize() {
     max_img_height = height_body - height_gallery - height_breadcrumb - padding_image - 3;
     if (max_img_height < 256)
         max_img_height = 256;
+
+    max_img_width = $('#gallery').width();
+
+    setCanvasSize();
+}
+
+function refreshScreenSize() {
+    /** @description Refresh main Image Height
+     */
+    setScreenSize();
     // Set canvas
-    setMainImage(main_img.src);
+    setMainImage();
 }
 
 function addEvents() {
@@ -131,11 +145,22 @@ function loadGallery() {
                 gallery.append(el_ul);
                 // Set orginal image block with the first image on gallery
                 idx = Math.floor(Math.random() * galleryData.length);
-                img_orig = url_g + '/' + galleryList[idx];
-                setMainImage(img_orig);
+                currentSrc = url_g + '/' + galleryList[idx];
+                img_orig = currentSrc;
+                current_idx = idx;
+                // Load Example
                 setImgEg(idx);
-                // Hide loader
-                $('.loader').hide();
+                
+                // Set full image size
+                setCanvasParameters(galleryData[idx].width, galleryData[idx].height);
+                
+                // Pre Load an image
+                var img = new Image();
+                img.onload = function () {
+                    setMainImage();
+                    $('.loader').hide();
+                }
+                img.src = currentSrc;
             }
         });
 }
@@ -176,7 +201,17 @@ function quality() {
                 if (qual_data.q_pred <= 50) {
                     hasQuality = false;
                     img_qual = path;
-                    setMainImage(path);
+                    currentSrc = img_qual;
+
+                    // Pre Load an image
+                    var img = new Image();
+                    img.onload = function () {
+                        setMainImage();
+                        $('.loader').hide();
+                    }
+                    img.src = currentSrc;
+
+                    
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res2').addClass("btn-outline-danger");
                     // Partial cases
@@ -233,7 +268,15 @@ function dr_detection() {
                 path = dr_data.path;
                 if (dr_data.dr_pred > 50) {
                     img_dr = path;
-                    setMainImage(path);
+                    currentSrc = img_dr;
+
+                    // Pre Load an image
+                    var img = new Image();
+                    img.onload = function () {
+                        setMainImage();
+                        $('.loader').hide();
+                    }
+
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res4').addClass("btn-outline-danger");
                     $('#btn-toogle').show();
@@ -283,9 +326,7 @@ function selectGalleryImage(imgid) {
     /** @description Change large image after click on image gallery
       * @param {string} image Image Element Id
      */
-    img_orig = imgid.src;
     resetimages();
-    setMainImage(img_orig);
     resetLbl();
     hasQuality = false;
     setEvalBtn();
@@ -293,29 +334,25 @@ function selectGalleryImage(imgid) {
     id_str = imgid.id;
     id = id_str.substr(img_idref.length, id_str.length - 1);
     id = parseInt(id);
+    current_idx = id;
+    // Set main image
+    img_orig = imgid.src;
+    currentSrc = img_orig;
+    setMainImage();
     // Set example
     setImgEg(id);
 }
 
-function setMainImage(src) {
+function setMainImage() {
     /** @description Set original image src
-      * @param {string} image src
      */
-
-    // Start main image
-    this.main_img = new Image();
-    this.main_img.src = src;
-    // coordinate in the destination canvas at which to place the top-left corner of the source image
-    canvas_dx = 0;
-    canvas_dy = 0;
-    //coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context
-    canvas_cx = 0;
-    canvas_cy = 0;
-    // Define the size of the canvas according screen size
-    setCanvasSize();
-    // Calculate scale with canvas size
-    canvasScale = canvas.height / main_img.height;
+    redraw(true);
+    w = galleryData[current_idx].width;
+    h = galleryData[current_idx].height;
+    // Set Canvas parameters
+    setCanvasParameters(w, h);
     // Update image
+    refreshCanvasImg();
     refreshCanvasImg();
 }
 
@@ -326,25 +363,41 @@ function setMainImage(src) {
 function setCanvasSize() {
     /** @description Set canvas size 
      */
-    // Set max size
-    ih = this.max_img_height
-    if (this.main_img.width) {
-        iw = Math.round(ih / this.main_img.height  * this.main_img.width);
-    }
-    else {
-        iw = ih;
-    }
     // Create main canvas 
+    canvas_width = max_img_width;
+    canvas_height = max_img_height;
     canvas = document.getElementById("main-canvas");
-    canvas.width = iw;
-    canvas.height = ih;
+    canvas.width = canvas_width;
+    canvas.height = canvas_height;
     // CSS content 
-    canvas.style.width = iw.toString() + "px";
-    canvas.style.height = ih.toString() + "px";
+    canvas.style.width = canvas_width.toString() + "px";
+    canvas.style.height = canvas_height.toString() + "px";
     // Canvas context
     ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     trackTransforms(ctx);
+}
+
+function setCanvasParameters(w, h) {
+    /** @description set canvas dimensions parameters
+      * @param {int} w width
+      * @param {int} h height
+     */
+
+    // Original image size
+    img_width = w;
+    img_height = h;
+    // Display image size
+    img_dwidth = canvasScale * img_width;
+    img_dheight = canvasScale * img_height;
+    // Calculate scale with canvas size
+    canvasScale = Math.min(canvas.height / img_height, canvas.width / img_width);
+    // coordinate in the destination canvas at which to place the top-left corner of the source image
+    canvas_dx = (canvas.width - img_width * canvasScale) / 2;
+    canvas_dy = (canvas.height - img_height * canvasScale) / 2;
+    //coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context
+    canvas_cx = 0;
+    canvas_cy = 0;
 }
 
 function refreshCanvasImg() {
@@ -354,19 +407,16 @@ function refreshCanvasImg() {
     // Display image size
     img_dwidth = canvasScale * main_img.width;
     img_dheight = canvasScale * main_img.height;
-
     // Reload image ? 
-    src = this.main_img.src,
-    this.main_img = new Image();
-    this.main_img.src = src;
+    main_img = new Image();
     // Clear context
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height, 0, 0, ctx.canvas.width, ctx.canvas.height);
-
     // Load Image    
-    this.main_img.onload = function () {
+    main_img.onload = function () {
         // Draw image
-        ctx.drawImage(main_img, canvas_cx, canvas_cy, main_img.width, main_img.height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
+        ctx.drawImage(main_img, canvas_cx, canvas_cy, img_width, img_height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
     }
+    main_img.src = currentSrc;
 }
 
 // Canvas controls
@@ -547,15 +597,18 @@ function toogleBtnClick() {
 
         if (img_dr == "") {
             if (img_qual != "") {
-                setMainImage(img_qual);
+                currentSrc = img_qual;
+                setMainImage();
             }
         }
         else {
-            setMainImage(img_dr);
+            currentSrc = img_dr;
+            setMainImage();
         }
     }
     else {
-        setMainImage(img_orig);
+        currentSrc = img_orig;
+        setMainImage();
     }
 }
 
@@ -732,6 +785,7 @@ function clearBtnDrEg() {
 /*
  * * SVG
  */
+
 function trackTransforms(ctx) {
     /** @description Canvas transformation control
       * @param {obj} ctx canvas context

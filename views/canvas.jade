@@ -4,12 +4,12 @@ block content
 	.container-fluid#container-diag
 		.row.justify-content-between#app-row
 			
-			.col#col-diag-left				
+			.col#col-diag-left
 
 				.breadcrumb.navbar-success.bg-green
 					.h6.breadcrumb-item Examples
 
-				.row.justify-content-center				
+				.row.justify-content-center
 
 					.eg-block
 						.h6.text-white.eg-lbl Quality
@@ -82,7 +82,7 @@ block content
 
 	script(src="/javascripts/canvas.js")
 	script.		
-		$(document).ready(function(){
+		$(window).on("load", function(){
 			loadScreenDrApp();
 		});
 		window.onresize = function (event) {
