@@ -381,8 +381,8 @@ function canvasMouseDown(evt) {
 
     // Current transformations applied to context
     var c_status = ctx.getTransform();
-
-    if (c_status.a > 1) {
+    // Check if has zoom 
+    if (c_status.a > 1){
         document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
 
         lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
@@ -390,6 +390,7 @@ function canvasMouseDown(evt) {
         dragStart = ctx.transformedPoint(lastX, lastY);
         dragging = true;
     }
+
 }
 
 function canvasMouseMove(evt) {
@@ -400,12 +401,26 @@ function canvasMouseMove(evt) {
         // Store mouse position
         lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
         lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
-        
+        var pt = ctx.transformedPoint(lastX, lastY);    
         if (dragStart) {
-            var pt = ctx.transformedPoint(lastX, lastY);
-            ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
+            // Load  context current transformations
+            var c_status = ctx.getTransform();
+            // Define direction restrictions
+            var moveLeft = false, moveRight = false, moveTop = false, moveBottom = false;
+            if ((c_status.e > - canvas.width * c_status.a / 2) && (lastX < canvas.width)) { moveLeft  = true; }
+            if ((c_status.e < canvas.width / c_status.a / 2) && (lastX > 0)) { moveRight = true; }
+            if ((c_status.f > - canvas.height * c_status.a / 2) && (lastY < canvas.height)) { moveTop = true; }
+            if ((c_status.f < canvas.height / c_status.a / 2) && (lastY > 0)) { moveBottom = true; }
+            // Moviment direction
+            var dx = pt.x - dragStart.x;
+            var dy = pt.y - dragStart.y;
+            // Check conditions
+            if (((!moveLeft) && (dx < 0)) || ((!moveRight) && (dx > 0))) { dx = 0; }
+            if (((!moveTop) && (dy < 0)) || ((!moveBottom) && (dy > 0))) { dy = 0; }
+            // Move image
+            ctx.translate(dx, dy);
             redraw(false);
-        }
+        }        
     }
 }
 
@@ -418,7 +433,7 @@ function canvasMouseUp(evt) {
     if (dragging) {
         var c_status = ctx.getTransform();
         if (c_status.a > 1) {
-            dragStart = null;
+          //  dragStart = null;
             dragging = false;
         }
     }
