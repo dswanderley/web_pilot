@@ -406,17 +406,17 @@ function canvasMouseMove(evt) {
             // Load  context current transformations
             var c_status = ctx.getTransform();
             // Define direction restrictions
-            var moveLeft = false, moveRight = false, moveTop = false, moveBottom = false;
-            if ((c_status.e > - canvas.width * c_status.a / 2) && (lastX < canvas.width)) { moveLeft  = true; }
+            var moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
+            if ((c_status.e > (- canvas.width * c_status.a) + canvas.width / 1.2) && (lastX < canvas.width)) { moveLeft  = true; }
             if ((c_status.e < canvas.width / c_status.a / 2) && (lastX > 0)) { moveRight = true; }
-            if ((c_status.f > - canvas.height * c_status.a / 2) && (lastY < canvas.height)) { moveTop = true; }
-            if ((c_status.f < canvas.height / c_status.a / 2) && (lastY > 0)) { moveBottom = true; }
+            if ((c_status.f > - (canvas.height * c_status.a) + canvas.height / 1.2) && (lastY < canvas.height)) { moveUp = true; }
+            if ((c_status.f < canvas.height / c_status.a / 2) && (lastY > 0)) { moveDown = true; }
             // Moviment direction
             var dx = pt.x - dragStart.x;
             var dy = pt.y - dragStart.y;
             // Check conditions
             if (((!moveLeft) && (dx < 0)) || ((!moveRight) && (dx > 0))) { dx = 0; }
-            if (((!moveTop) && (dy < 0)) || ((!moveBottom) && (dy > 0))) { dy = 0; }
+            if (((!moveUp) && (dy < 0)) || ((!moveDown) && (dy > 0))) { dy = 0; }
             // Move image
             ctx.translate(dx, dy);
             redraw(false);
