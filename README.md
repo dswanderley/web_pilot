@@ -45,7 +45,7 @@ Install or update npm
 Install node packages
 ```
 >> cd 'project directory'
->> npm install express express-fileupload stylus morgan nib request fs
+>> npm install express express-fileupload stylus morgan nib request fs image-size
 >> npm install jade
 ```
 
