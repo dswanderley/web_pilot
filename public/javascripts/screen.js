@@ -84,7 +84,10 @@ function addEvents() {
     canvas.addEventListener('mousedown', canvasMouseDown, false);
     canvas.addEventListener('mousemove', canvasMouseMove, false);
     canvas.addEventListener('mouseup', canvasMouseUp, false);
-    canvas.addEventListener('mousewheel', canvasScrollWheel, false);
+    // IE9, Chrome, Safari, Opera
+    canvas.addEventListener("mousewheel", canvasScrollWheel, false);
+    // Firefox
+    canvas.addEventListener("DOMMouseScroll", canvasScrollWheel, false);
 
     document.addEventListener('mouseup', pageMouseUp, false);
 }
