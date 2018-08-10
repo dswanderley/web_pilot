@@ -4,12 +4,12 @@ block content
 	.container-fluid#container-diag
 		.row.justify-content-between#app-row
 			
-			.col#col-diag-left				
+			.col#col-diag-left
 
 				.breadcrumb.navbar-success.bg-green
-					.h6.breadcrumb-item Examples
+					.h6.breadcrumb-item Expert Assessment
 
-				.row.justify-content-center				
+				.row.justify-content-center
 
 					.eg-block
 						.h6.text-white.eg-lbl Quality
@@ -39,7 +39,7 @@ block content
 
 				.row.justify-content-center
 					.image-container.col-auto
-						img.img-disp#img-disp(src="")
+						canvas.img-disp#main-canvas
 
 				.row.justify-content-md-center
 					.gallery-container
@@ -50,16 +50,16 @@ block content
 			.col#col-diag-right
 
 				.breadcrumb.navbar-success.bg-green
-					.h6.breadcrumb-item Evaluation
+					.h6.breadcrumb-item Computed Assessment
 
 				.row.justify-content-left
 					.menu-container.col
 						.menu-eval#menu-qual
-							button.btn.btn-light#btn-qual(onClick="quality();") Quality Assessment
+							button.btn.btn-light#btn-qual(onClick="quality();") Quality
 			
 							.eval-container
 								.res-field#res-field-qual
-									label.result-txt#lbl-res1 Quality Assessment: 
+									label.result-txt#lbl-res1 Assessment: 
 									label.btn#lbl-res2(disabled)
 
 						.menu-eval#menu-dr
@@ -72,18 +72,19 @@ block content
 
 
 						.menu-eval#menu-toogle
-							.onoffswitch2#btn-toogle
-								input.onoffswitch2-checkbox(type="checkbox" onClick="toogleBtnClick();" name="onoffswitch" id="myonoffswitch" checked) 
-								label.onoffswitch2-label(for="myonoffswitch")
-									span.onoffswitch2-inner
-									span.onoffswitch2-switch
-
-
+							.eval-container
+								.res-field#res-field-map
+									.onoffswitch2#btn-toogle
+										input.onoffswitch2-checkbox(type="checkbox" onClick="toogleBtnClick();" name="onoffswitch" id="myonoffswitch" checked) 
+										label.onoffswitch2-label(for="myonoffswitch")
+											span.onoffswitch2-inner#onoffswitch2-inner
+											span.onoffswitch2-switch
+									label.result-txt#lbl-res5 Quality Map
 
 
 	script(src="/javascripts/screen.js")
 	script.		
-		$(document).ready(function(){
+		$(window).on("load", function(){
 			loadScreenDrApp();
 		});
 		window.onresize = function (event) {

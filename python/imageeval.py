@@ -37,9 +37,9 @@ class QualityData():
         self.path = os.path.join(folder, fname)
                 
         if (q_pred > 50):
-            self.qual = "High Quality"
+            self.qual = "High"
         else:
-            self.qual = "Low Quality"
+            self.qual = "Low"
 
 
 class DiabeticRetinopathyData():
@@ -52,9 +52,9 @@ class DiabeticRetinopathyData():
         self.path = os.path.join(folder, fname)
                 
         if (dr_pred > 50):
-            self.dr = "Diabetic Retinopathy"
+            self.dr = "Detected"
         else:
-            self.dr = "Healthy"
+            self.dr = "Absent"
 
 ###############################################################################
 

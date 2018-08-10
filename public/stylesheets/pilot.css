@@ -115,19 +115,30 @@
 }
 
 #lbl-res2,
-#lbl-res4 {
+#lbl-res4,
+#lbl-res5 {
     cursor: default;
     margin-left: 15px;
 }
-
 #btn-qual,
 #btn-dr {
     min-width: 174px;
 }
 
+#res-field-map {
+    display: inline-flex;
+}
 #btn-toogle {
     margin: auto;
+    display: inline-block;
 }
+#onoffswitch2-inner:after  {
+    padding-left: 0px;
+}
+#lbl-res5 {
+    margin-bottom: 5px;
+}
+
 
 
 /*

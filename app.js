@@ -50,9 +50,6 @@ app.use(imageeval);
 // Pilot 
 var pilot = require('./routes/pilot');
 app.use(pilot);
-// Pilot Canvas
-var canvas = require('./routes/canvas');
-app.use(canvas);
 // Gallery
 app.use('/gallery', pilot);
 

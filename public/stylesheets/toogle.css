@@ -227,14 +227,14 @@
     }
 
     .onoffswitch2-inner:before {
-        content: "Result";
+        content: "Hide";
         padding-left: 10px;
         background-color: #417d44;
         color: #EEEEEE;
     }
 
     .onoffswitch2-inner:after {
-        content: "Input";
+        content: "Show";
         padding-right: 10px;
         background-color: #EEEEEE;
         color: #417d44;
