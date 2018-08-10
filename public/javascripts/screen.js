@@ -199,25 +199,26 @@ function quality() {
                 // Get image path and URL
                 path = qual_data.path;
                 if (qual_data.q_pred <= 50) {
+                    // Quality flag
                     hasQuality = false;
-                    img_qual = path;
-                    currentSrc = img_qual;
-
-                    // Pre Load an image
-                    var img = new Image();
-                    img.onload = function () {
-                        setMainImage();
-                        $('.loader').hide();
-                    }
-                    img.src = currentSrc;
-
-
-                    $('#img-disp').attr('height', '256px');
-                    $('#lbl-res2').addClass("btn-outline-danger");
                     // Partial cases
                     if (qual_data.q_pred > 25) {
                         hasQuality = true;
                     }
+                    //  Image src
+                    img_qual = path;
+                    currentSrc = img_qual;
+                    // Pre Load image
+                    var img = new Image();
+                    img.onload = function () {
+                        setMainImage();
+                        $('.loader').hide();
+                        toogleBtnClick();
+                    }
+                    img.src = currentSrc;
+                    // Set css attributes
+                    $('#img-disp').attr('height', '256px');
+                    $('#lbl-res2').addClass("btn-outline-danger");
                     $('#btn-toogle').show();
                     $('.onoffswitch2-checkbox').prop('checked', true);
                 }
@@ -267,16 +268,18 @@ function dr_detection() {
                 // Get image path and URL
                 path = dr_data.path;
                 if (dr_data.dr_pred > 50) {
+                    // Image src
                     img_dr = path;
                     currentSrc = img_dr;
-
-                    // Pre Load an image
+                    // Pre Load image
                     var img = new Image();
                     img.onload = function () {
                         setMainImage();
                         $('.loader').hide();
+                        toogleBtnClick();
                     }
-
+                    img.src = currentSrc;
+                    // Set css attributes
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res4').addClass("btn-outline-danger");
                     $('#btn-toogle').show();
