@@ -29,7 +29,7 @@ var img_width, img_height, img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas
 function loadScreenDrApp() {
     /** @description Initialize componentes of the application
      */
-    $('#btn-toogle').hide();
+    $('#res-field-map').css('visibility', 'hidden');
     setEvalBtn();
     setScreenSize();
     addEvents();
@@ -219,13 +219,15 @@ function quality() {
                     // Set css attributes
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res2').addClass("btn-outline-danger");
-                    $('#btn-toogle').show();
+                    $('#res-field-map').css('visibility', 'visible');
                     $('.onoffswitch2-checkbox').prop('checked', true);
+                    $('#res-field-map').css('visibility', 'visible');
+                    $('#lbl-res5').text('Quality Map');
                 }
                 else {
                     hasQuality = true;
                     $('#lbl-res2').addClass("btn-outline-success");
-                    $('#btn-toogle').hide();
+                    $('#res-field-map').css('visibility', 'hidden');
                 }
                 // Block or allow Btn
                 setEvalBtn();
@@ -282,12 +284,13 @@ function dr_detection() {
                     // Set css attributes
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res4').addClass("btn-outline-danger");
-                    $('#btn-toogle').show();
+                    $('#res-field-map').css('visibility', 'visible');
                     $('.onoffswitch2-checkbox').prop('checked', true);
+                    $('#lbl-res5').text('Detection Map');
                 }
                 else {
                     $('#lbl-res4').addClass("btn-outline-success");
-                    $('#btn-toogle').hide();
+                    $('#res-field-map').css('visibility', 'hidden');
                 }
                 $('.loader').hide();
 
@@ -566,7 +569,7 @@ function resetimages() {
      */
     img_qual = "";
     img_dr = "";
-    $('#btn-toogle').hide();
+    $('#res-field-map').css('visibility', 'hidden');
 }
 
 function setEvalBtn() {
@@ -587,6 +590,7 @@ function resetLbl() {
     $('#lbl-res4').text('');
     $('#res-field-qual').css('visibility', 'hidden');
     $('#res-field-dr').css('visibility', 'hidden');
+    $('#res-field-map').css('visibility', 'hidden');
     $('#lbl-res2').removeClass("btn-outline-danger");
     $('#lbl-res2').removeClass("btn-outline-success");
     $('#lbl-res4').removeClass("btn-outline-danger");
