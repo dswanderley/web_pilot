@@ -162,7 +162,7 @@ function loadGallery() {
                 img.onload = function () {
                     setMainImage();
                     $('.loader').hide();
-                }
+                };
                 img.src = currentSrc;
             }
         });
@@ -172,7 +172,7 @@ function quality() {
     /** @description Call image Quality. Evaluate displayed image.
      */
     // Read image filename
-    $('.loader').show()
+    $('.loader').show();
     var currentSrc = img_orig;
     var str_list = currentSrc.split('/');
     img = str_list[str_list.length - 1];
@@ -217,7 +217,7 @@ function quality() {
                         setMainImage();
                         $('.loader').hide();
                         toogleBtnClick();
-                    }
+                    };
                     img.src = currentSrc;
                     // Set css attributes
                     $('#img-disp').attr('height', '256px');
@@ -242,7 +242,7 @@ function quality() {
 function dr_detection() {
     /** @description Call DR detection. Process displayed image.
      */
-    $('.loader').show()
+    $('.loader').show();
     // Read image filename
     var currentSrc = img_orig;
     var str_list = currentSrc.split('/');
@@ -282,7 +282,7 @@ function dr_detection() {
                         setMainImage();
                         $('.loader').hide();
                         toogleBtnClick();
-                    }
+                    };
                     img.src = currentSrc;
                     // Set css attributes
                     $('#img-disp').attr('height', '256px');
@@ -424,7 +424,7 @@ function refreshCanvasImg() {
     main_img.onload = function () {
         // Draw image
         ctx.drawImage(main_img, canvas_cx, canvas_cy, img_width, img_height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
-    }
+    };
     main_img.src = currentSrc;
 }
 
@@ -444,8 +444,8 @@ function canvasMouseDown(evt) {
     if (c_status.a > 1) {
         document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
 
-        lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
-        lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+        lastX = evt.offsetX || evt.pageX - canvas.offsetLeft;
+        lastY = evt.offsetY || evt.pageY - canvas.offsetTop;
         dragStart = ctx.transformedPoint(lastX, lastY);
         dragging = true;
     }
@@ -458,24 +458,24 @@ function canvasMouseMove(evt) {
      */
     if (dragging) {
         // Store mouse position
-        lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
-        lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+        lastX = evt.offsetX || evt.pageX - canvas.offsetLeft;
+        lastY = evt.offsetY || evt.pageY - canvas.offsetTop;
         var pt = ctx.transformedPoint(lastX, lastY);
         if (dragStart) {
             // Load  context current transformations
             var c_status = ctx.getTransform();
             // Define direction restrictions
             var moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
-            if ((c_status.e > (- canvas.width * c_status.a) + canvas.width / 1.2) && (lastX < canvas.width)) { moveLeft = true; }
-            if ((c_status.e < canvas.width / c_status.a / 2) && (lastX > 0)) { moveRight = true; }
-            if ((c_status.f > - (canvas.height * c_status.a) + canvas.height / 1.2) && (lastY < canvas.height)) { moveUp = true; }
-            if ((c_status.f < canvas.height / c_status.a / 2) && (lastY > 0)) { moveDown = true; }
+            if (c_status.e > - canvas.width * c_status.a + canvas.width / 1.2 && lastX < canvas.width) { moveLeft = true; }
+            if (c_status.e < canvas.width / c_status.a / 2 && lastX > 0) { moveRight = true; }
+            if (c_status.f > - canvas.height * c_status.a + canvas.height / 1.2 && lastY < canvas.height) { moveUp = true; }
+            if (c_status.f < canvas.height / c_status.a / 2 && lastY > 0) { moveDown = true; }
             // Moviment direction
             var dx = pt.x - dragStart.x;
             var dy = pt.y - dragStart.y;
             // Check conditions
-            if (((!moveLeft) && (dx < 0)) || ((!moveRight) && (dx > 0))) { dx = 0; }
-            if (((!moveUp) && (dy < 0)) || ((!moveDown) && (dy > 0))) { dy = 0; }
+            if (!moveLeft && dx < 0 || !moveRight && dx > 0) { dx = 0; }
+            if (!moveUp && dy < 0 || !moveDown && dy > 0) { dy = 0; }
             // Move image
             ctx.translate(dx, dy);
             redraw(false);
@@ -605,8 +605,8 @@ function toogleBtnClick() {
      */
     if ($('.onoffswitch2-checkbox').is(":checked")) {
 
-        if (img_dr == "") {
-            if (img_qual != "") {
+        if (img_dr === "") {
+            if (img_qual !== "") {
                 currentSrc = img_qual;
                 setMainImage();
             }
@@ -644,7 +644,7 @@ function setImgQualEg(click_id) {
     /** @description Set image of quality image example
      * @param {string} image src
      */
-    if (click_id == 'btn-qual-high') {
+    if (click_id === 'btn-qual-high') {
         qual = 'High';
     }
     else {
@@ -758,6 +758,7 @@ function changeDrEg(grad) {
     switch (grad) {
         case 'R0':
             btn_rd_id = '#btn-dr-r0';
+            break;
         case 'R1':
             btn_rd_id = '#btn-dr-r1';
             break;
@@ -765,7 +766,7 @@ function changeDrEg(grad) {
             btn_rd_id = '#btn-dr-r2';
             break;
         case 'R3':
-            btn_rd_id = '#btn-dr-r3';;
+            btn_rd_id = '#btn-dr-r3';
             break;
         default:
             btn_rd_id = '#btn-dr-rx';
@@ -852,5 +853,5 @@ function trackTransforms(ctx) {
     ctx.transformedPoint = function (x, y) {
         pt.x = x; pt.y = y;
         return pt.matrixTransform(xform.inverse());
-    }
+    };
 }

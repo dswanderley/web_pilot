@@ -7,7 +7,7 @@
 var router = require('express').Router(),
     request = require("request");
 
-var R_PATH = 'http://localhost:' + '5000'
+var R_PATH = 'http://localhost:' + '5000';
 
 // Quality - GET
 router.get('/quality', function (req, res) {
@@ -17,7 +17,7 @@ router.get('/quality', function (req, res) {
 
     // Get filename
     try {
-        filename = req.query.img
+        filename = req.query.img;
     }
     catch (err) {
         console.log('Error: No file request');
@@ -27,12 +27,12 @@ router.get('/quality', function (req, res) {
 
     // Get directory
     try {
-        folder = req.query.dir
+        folder = req.query.dir;
         request_path += '&folder=' + folder;
 
     }
     catch (err) {
-        console.log(err)
+        console.log(err);
     }
     // Print request
     console.log(request_path);
@@ -48,7 +48,7 @@ router.get('/quality', function (req, res) {
             path = path.substr(9, path.length - 1);
             qual_data.path = path;
             // Prepare folder string 
-            folder = qual_data.folder
+            folder = qual_data.folder;
             folder = folder.substr(2, folder.length - 1);
             qual_data.folder = folder;
             // Send data
@@ -69,7 +69,7 @@ router.get('/dr_detection', function (req, res) {
 
     // Get filename
     try {
-        filename = req.query.img
+        filename = req.query.img;
     }
     catch (err) {
         console.log('Error: No file request');
@@ -79,12 +79,12 @@ router.get('/dr_detection', function (req, res) {
 
     // Get directory
     try {
-        folder = req.query.dir
+        folder = req.query.dir;
         request_path += '&folder=' + folder;
 
     }
     catch (err) {
-        console.log(err)
+        console.log(err);
     }
     // Print request
     console.log(request_path);
@@ -100,7 +100,7 @@ router.get('/dr_detection', function (req, res) {
             path = path.substr(9, path.length - 1);
             dr_data.path = path;
             // Prepare folder string 
-            folder = dr_data.folder
+            folder = dr_data.folder;
             folder = folder.substr(2, folder.length - 1);
             dr_data.folder = folder;
             // Send data

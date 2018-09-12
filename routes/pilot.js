@@ -15,7 +15,7 @@ router.get('/pilot', function (req, res) {
     // Render page Pilot
     res.render('./pilot', {
         title: 'Web Pilot'
-    })
+    });
 });
 
 // Gallery - GET

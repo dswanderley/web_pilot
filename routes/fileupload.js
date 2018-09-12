@@ -14,8 +14,7 @@ router.get('/fileupload', function (req, res) {
     res.render('./fileupload', {
         title: 'Upload',
         btnshow: "display:none"
-    }
-    )
+    });
 });
 
 
@@ -23,8 +22,8 @@ router.get('/fileupload', function (req, res) {
 router.post('/fileupload', function (req, res) {
     // Check if has file
     if (!req.files) {
-        res.redirect('back')
-        return
+        res.redirect('back');
+        return;
     }
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
@@ -36,9 +35,7 @@ router.post('/fileupload', function (req, res) {
         if (err)
             return res.status(500).send(err);
         // Adapt name
-        filepath = '/upload/' + filename
-        console.log(filepath)
-        console.log(filepath)
+        filepath = '/upload/' + filename;
         // Render upload page
         res.render('./fileupload', {
             title: 'Upload',

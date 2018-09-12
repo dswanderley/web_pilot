@@ -11,27 +11,27 @@ var express = require('express'),
 var app = express();
 // Init stylus
 function compile(str, path) {
-	return stylus(str)
-    .set('filename', path)
-    .use(nib())
+    return stylus(str)
+        .set('filename', path)
+        .use(nib());
 }
 // Define Views path and engines
-app.set('views', __dirname + '/views')
-app.set('view engine', 'jade')
-app.use(logger('dev'))
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(logger('dev'));
 
 // Define public directory
-app.use(stylus.middleware({ 
+app.use(stylus.middleware({
     src: __dirname + '/public',
     compile: compile
-}))
-app.use(express.static(__dirname + '/public'))
+}));
+app.use(express.static(__dirname + '/public'));
 // Image uploaded directory
 app.use(stylus.middleware({
     src: __dirname + '/images',
     compile: compile
-}))
-app.use(express.static(__dirname + '/images'))
+}));
+app.use(express.static(__dirname + '/images'));
 
 // Upload routine
 app.use(fileUpload());
@@ -54,4 +54,4 @@ app.use(pilot);
 app.use('/gallery', pilot);
 
 // Deploy
-app.listen(3000)
+app.listen(3000);

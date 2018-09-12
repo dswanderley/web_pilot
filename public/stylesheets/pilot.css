@@ -3,7 +3,7 @@
  */
 
 .menu-container {
-    margin: 10px 0px auto auto;
+    margin: 10px 0 auto auto;
     white-space: nowrap;
     text-align: center;
 }
@@ -14,15 +14,15 @@
 
 #container-diag{
     background: blacK;
-    padding: 5px 0px 10px 0px;
+    padding: 5px 0 10px 0;
 }
 
 #app-row {
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .breadcrumb-item {
-    margin: 0px auto;
+    margin: 0 auto;
 }
 
 .bg-green {
@@ -58,7 +58,7 @@
     overflow-y: hidden;
     width: 800px;
     height: 86px;
-    padding: 0px;
+    padding: 0;
     border: 5px;
 }
 
@@ -96,7 +96,7 @@
 .eval-container {
     width: auto;
     text-align: center;
-    padding: 15px 0px;
+    padding: 15px 0;
 }
 
 .res-field {
@@ -110,7 +110,7 @@
 }
 
 .result-txt {
-    padding: 10px 0px 5px 0;
+    padding: 10px 0 5px 0;
     color: whitesmoke;
 }
 
@@ -133,7 +133,7 @@
     display: inline-block;
 }
 #onoffswitch2-inner:after  {
-    padding-left: 0px;
+    padding-left: 0;
 }
 #lbl-res5 {
     margin-bottom: 5px;
@@ -146,11 +146,11 @@
 */
 .eg-block {
     text-align: center;
-    margin: 20px auto 0px auto;
+    margin: 20px auto 0 auto;
 }
 
 .eg-pagination {
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .img-eg {
@@ -186,23 +186,11 @@
     border-top: 16px solid #417d44;
     width: 120px;
     height: 120px;
-    -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;
     top: 40%;
     left: 42%;
     position: absolute;
     z-index: 1;
-}
-
-/* Safari */
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-    }
-
-    100% {
-        -webkit-transform: rotate(360deg);
-    }
 }
 
 @keyframes spin {
