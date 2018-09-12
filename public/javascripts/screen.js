@@ -16,11 +16,10 @@ var current_idx = "";
 var main_img = new Image();
 var ctx;
 var canvas;
-var canvas_height, canvas_width;
 var max_img_height = 256;
 var max_img_width = 256;
 var canvasScale = 1.0;
-var img_width, img_height, img_dwidth, img_dheight, canvas_dx, canvas_dy, canvas_cx, canvas_cy;
+
 
 /*
  * Load Page functions
@@ -66,8 +65,8 @@ function setScreenSize() {
         max_img_height = 256;
 
     max_img_width = $('#gallery').width();
-
-    setCanvasSize();
+    // Initializes canvas
+    initCanvas();
 }
 
 function refreshScreenSize() {
@@ -88,7 +87,6 @@ function addEvents() {
     canvas.addEventListener("mousewheel", canvasScrollWheel, false);
     // Firefox
     canvas.addEventListener("DOMMouseScroll", canvasScrollWheel, false);
-
     document.addEventListener('mouseup', pageMouseUp, false);
 }
 
@@ -153,17 +151,8 @@ function loadGallery() {
                 current_idx = idx;
                 // Load Example
                 setImgEg(idx);
-
-                // Set full image size
-                setCanvasParameters(galleryData[idx].width, galleryData[idx].height);
-
-                // Pre Load an image
-                var img = new Image();
-                img.onload = function () {
-                    setMainImage();
-                    $('.loader').hide();
-                };
-                img.src = currentSrc;
+                // Set full image 
+                setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
             }
         });
 }
@@ -211,14 +200,8 @@ function quality() {
                     //  Image src
                     img_qual = path;
                     currentSrc = img_qual;
-                    // Pre Load image
-                    var img = new Image();
-                    img.onload = function () {
-                        setMainImage();
-                        $('.loader').hide();
-                        toogleBtnClick();
-                    };
-                    img.src = currentSrc;
+                    // Set full image 
+                    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
                     // Set css attributes
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res2').addClass("btn-outline-danger");
@@ -234,7 +217,6 @@ function quality() {
                 }
                 // Block or allow Btn
                 setEvalBtn();
-                $('.loader').hide();
             }
         });
 }
@@ -276,14 +258,8 @@ function dr_detection() {
                     // Image src
                     img_dr = path;
                     currentSrc = img_dr;
-                    // Pre Load image
-                    var img = new Image();
-                    img.onload = function () {
-                        setMainImage();
-                        $('.loader').hide();
-                        toogleBtnClick();
-                    };
-                    img.src = currentSrc;
+                    // Set full image 
+                    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
                     // Set css attributes
                     $('#img-disp').attr('height', '256px');
                     $('#lbl-res4').addClass("btn-outline-danger");
@@ -295,8 +271,6 @@ function dr_detection() {
                     $('#lbl-res4').addClass("btn-outline-success");
                     $('#res-field-map').css('visibility', 'hidden');
                 }
-                $('.loader').hide();
-
             }
         });
 }
@@ -352,80 +326,172 @@ function selectGalleryImage(imgid) {
     setImgEg(id);
 }
 
-function setMainImage() {
+function selectGalleryImage(imgid) {
+    /** @description Change large image after click on image gallery
+      * @param {string} image Image Element Id
+     */
+    resetimages();
+    resetLbl();
+    hasQuality = false;
+    setEvalBtn();
+    // Get image index in JS
+    id_str = imgid.id;
+    id = id_str.substr(img_idref.length, id_str.length - 1);
+    id = parseInt(id);
+    current_idx = id;
+    // Set main image
+    img_orig = imgid.src;
+    currentSrc = img_orig;
+    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+    // Set example
+    setImgEg(id);
+}
+
+function setMainImage(src, w, h) {
     /** @description Set original image src
      */
-    redraw(true);
-    w = galleryData[current_idx].width;
-    h = galleryData[current_idx].height;
-    // Set Canvas parameters
-    setCanvasParameters(w, h);
-    // Update image
-    refreshCanvasImg();
-    refreshCanvasImg();
+
+    if (src === null || src === undefined) {
+        src = currentSrc;
+        w = galleryData[current_idx].width;
+        h = galleryData[current_idx].height;
+    }
+
+    // Load image on canvas
+    main_img = new Image();
+    var img_width = w;
+    var img_height = h;
+
+    // load canvas
+    canvas = document.getElementById("main-canvas");
+    // set canvas dimensions
+    canvas.width = Math.floor(max_img_width);
+    canvas.height = Math.floor(max_img_height);
+    // Calculate scale with canvas size
+    canvasScale = Math.min(canvas.height / img_height, canvas.width / img_width);
+    // Load context
+    ctx = canvas.getContext("2d");
+    trackTransforms(ctx);
+    
+    // Calculate scale with canvas size
+    canvasScale = Math.min(canvas.height / img_height, canvas.width / img_width);
+    // coordinate in the destination canvas at which to place the top-left corner of the source image
+    var canvas_dx = (canvas.width - img_width * canvasScale) / 2;
+    var canvas_dy = (canvas.height - img_height * canvasScale) / 2;
+    //coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context
+    var canvas_cx = 0;
+    var canvas_cy = 0;
+    // Display image size
+    var img_dwidth = canvasScale * img_width;
+    var img_dheight = canvasScale * img_height;
+
+    // Clear context
+    csizes = new CanvasSizes(canvas_dx, canvas_dy, img_dwidth, img_dheight, canvas_cx, canvas_cy, img_width, img_height);
+    //ctx.drawImage(main_img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
+    // Load Image
+    main_img.onload = function () {
+        ctx.drawImage(main_img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
+        $('.loader').hide();
+    };
+    main_img.src = src;
 }
 
 /*
  * Canvas
  */
 
-function setCanvasSize() {
-    /** @description Set canvas size 
+
+function initCanvas() {
+    /** @description Initialize canvas
+      * @param {sting} src 
      */
-    // Create main canvas 
-    canvas_width = max_img_width;
-    canvas_height = max_img_height;
+
+    // load canvas
     canvas = document.getElementById("main-canvas");
-    canvas.width = canvas_width;
-    canvas.height = canvas_height;
-    // CSS content 
-    canvas.style.width = canvas_width.toString() + "px";
-    canvas.style.height = canvas_height.toString() + "px";
-    // Canvas context
-    ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    trackTransforms(ctx);
+    // set canvas dimensions
+    canvas.width = Math.floor(max_img_width);
+    canvas.height = Math.floor(max_img_height);
 }
 
-function setCanvasParameters(w, h) {
-    /** @description set canvas dimensions parameters
-      * @param {int} w width
-      * @param {int} h height
-     */
-
-    // Original image size
-    img_width = w;
-    img_height = h;
-    // Display image size
-    img_dwidth = canvasScale * img_width;
-    img_dheight = canvasScale * img_height;
-    // Calculate scale with canvas size
-    canvasScale = Math.min(canvas.height / img_height, canvas.width / img_width);
-    // coordinate in the destination canvas at which to place the top-left corner of the source image
-    canvas_dx = (canvas.width - img_width * canvasScale) / 2;
-    canvas_dy = (canvas.height - img_height * canvasScale) / 2;
-    //coordinate of the top left corner of the sub-rectangle of the source image to draw into the destination context
-    canvas_cx = 0;
-    canvas_cy = 0;
+function refreshCanvas() {
+    /** @description Refresh canvas routine
+    */
+    // Get new coord
+    var p1 = ctx.transformedPoint(0, 0);
+    var p2 = ctx.transformedPoint(canvas.width, canvas.height);
+    // Crop canvas
+    this.ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+    // Draw image
+    this.ctx.drawImage(img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
+    // Draw objects
+    redraw();
 }
 
-function refreshCanvasImg() {
-    /** @description Refresh canvas image
+function resetCanvas() {
+    /** @description Reset canvas image to original size
+    */
+    // Clear transformations
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Draw image
+    this.ctx.drawImage(img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
+    // Draw objects
+    redraw();
+}
+
+function CanvasSizes(x, y, w, h, cX, cY, cW, cH) {
+    /** @description Classe with canvas dimensions
+      * @param {int} x The x coordinate where to place the image on the canvas
+      * @param {int} y The y coordinate where to place the image on the canvas
+      * @param {int} w The width of the image to use (stretch or reduce the image)
+      * @param {int} h The height of the image to use (stretch or reduce the image)
+      * @param {int} cX The x coordinate where to start clipping
+      * @param {int} cY The y coordinate where to start clipping
+      * @param {int} cW The width of the clipped image
+      * @param {int} cH The height of the clipped image
      */
 
-    // Display image size
-    img_dwidth = canvasScale * main_img.width;
-    img_dheight = canvasScale * main_img.height;
-    // Reload image ? 
-    main_img = new Image();
-    // Clear context
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height, 0, 0, ctx.canvas.width, ctx.canvas.height);
-    // Load Image    
-    main_img.onload = function () {
-        // Draw image
-        ctx.drawImage(main_img, canvas_cx, canvas_cy, img_width, img_height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
-    };
-    main_img.src = currentSrc;
+    // x initial position
+    if (x !== null && x !== undefined)
+        this.canvasX = x;
+    else
+        this.canvasX = 0;
+    // y initial position
+    if (y !== null && y !== undefined)
+        this.canvasY = y;
+    else
+        this.canvasY = 0;
+    // canvas height - h
+    if (h !== null && h !== undefined)
+        this.canvasH = h;
+    else
+        this.canvasH = 100;
+    // canvas width - w
+    if (w !== null && w !== undefined)
+        this.canvasW = w;
+    else
+        this.canvasW = 100;
+    // intial crop postion - x
+    if (cX !== null && cX !== undefined)
+        this.cropX = cX;
+    else
+        this.cropX = 0;
+    // initial crop postion - y
+    if (cY !== null && cY !== undefined)
+        this.cropY = cY;
+    else
+        this.cropY = 0;
+    // crop height
+    if (cH !== null && cH !== undefined)
+        this.cropH = cH;
+    else
+        this.cropH = 100;
+    // crop width
+    if (cW !== null && cW !== undefined)
+        this.cropW = cW;
+    else
+        this.cropW = 100;
 }
 
 // Canvas controls
@@ -559,8 +625,9 @@ function redraw(reset) {
         ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
     }
     // Draw Image
-    ctx.drawImage(main_img, canvas_cx, canvas_cy, main_img.width, main_img.height, canvas_dx, canvas_dy, img_dwidth, img_dheight);
+    ctx.drawImage(main_img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
 }
+
 
 
 /*
