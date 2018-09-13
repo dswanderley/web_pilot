@@ -214,6 +214,7 @@ function quality() {
                     hasQuality = true;
                     $('#lbl-res2').addClass("btn-outline-success");
                     $('#res-field-map').css('visibility', 'hidden');
+                    $('.loader').hide();
                 }
                 // Block or allow Btn
                 setEvalBtn();
@@ -270,6 +271,7 @@ function dr_detection() {
                 else {
                     $('#lbl-res4').addClass("btn-outline-success");
                     $('#res-field-map').css('visibility', 'hidden');
+                    $('.loader').hide();
                 }
             }
         });
@@ -387,7 +389,6 @@ function setMainImage(src, w, h) {
 
     // Clear context
     csizes = new CanvasSizes(canvas_dx, canvas_dy, img_dwidth, img_dheight, canvas_cx, canvas_cy, img_width, img_height);
-    //ctx.drawImage(main_img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
     // Load Image
     main_img.onload = function () {
         ctx.drawImage(main_img, csizes.cropX, csizes.cropY, csizes.cropW, csizes.cropH, csizes.canvasX, csizes.canvasY, csizes.canvasW, csizes.canvasH);
