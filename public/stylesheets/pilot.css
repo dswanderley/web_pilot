@@ -176,10 +176,25 @@
     min-width: 50px;
 }
 
+.eg-change {
+    margin-top: 110px;
+    color: #f8f9fa;
+    font-size: xx-large;
+    border: none;
+    background-color: #000;
+    padding-top: 0;
+}
+
+.eg-count {
+    color: whitesmoke;
+    text-align: right;
+    padding-right:50px;
+}
+
+
 /*
  *   Loader
  */
-
 .loader {
     border: 16px solid #343a40;
     border-radius: 50%;

@@ -18,8 +18,21 @@ block content
 							button.btn.btn-outline-light.eg-btn-qual#btn-qual-high(onClick='setQualEg(this)') High
 							button.btn.btn-outline-light.eg-btn-qual#btn-qual-low(onClick='setQualEg(this)') Low
 
-						img.img-eg#img-eg-dr(src="")
-											
+						ul.pagination
+							li.page-item
+								a.page-link.eg-change(href='#' aria-label="Previous")
+									span(aria-hidden="true")&laquo;
+									span.sr-only Previous
+							li.page-item
+								img.img-eg#img-eg-dr(src="")
+							li.page-item
+								a.page-link.eg-change(href='#' aria-label="Previous" onClick="console.log('hello');")
+									span(aria-hidden="true")&raquo;
+									span.sr-only Next
+						
+						.eg-count
+							.badge.badge-dark 
+
 						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='DR examples')
 							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r0(onClick='setDrEg(this)') R0
 							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r1(onClick='setDrEg(this)') R1
