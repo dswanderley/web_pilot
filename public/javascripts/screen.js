@@ -20,7 +20,7 @@ var drList_r1 = [];
 var drList_r2 = [];
 var drList_r3 = [];
 var drList_rx = [];
-var selectEg = 'RX';
+var selectedEg = 'RX';
 var eg_list = [];
 var ex_idx = -1;
 // Canvas
@@ -186,7 +186,6 @@ function loadGallery() {
                 current_idx = idx;
                 // Load Example
                 setImgEg(idx);
-                selectEg
                 // Set full image 
                 setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
             }
@@ -743,7 +742,8 @@ function setImgEg(id) {
     // Quality
     changeQualEg(imgInfo.quality);
     // Counter
-    setEgCounter(id, imgInfo.grading);
+    selectedEg = imgInfo.grading;
+    setEgData(id);
 }
 
 function setImgQualEg(click_id) {
@@ -752,27 +752,27 @@ function setImgQualEg(click_id) {
      */
     if (click_id === 'btn-qual-high') {
         qual = 'High';
+        eg_list = qList_high;
     }
     else {
         qual = 'Low';
+        eg_list = qList_low;
     }
+    // Check if click on same button
+    if (qual === selectedEg)
+        return;
+    // Change selected example class
+    selectedEg = qual;
     // Pick an index
-    idx = Math.floor(Math.random() * galleryData.length);
+    var id = Math.floor(Math.random() * eg_list.length);
     // Create an auxiliary list starting by the sorted index
-    auxlist1 = galleryData.slice(idx, galleryData.length);
-    auxlist2 = galleryData.slice(0, idx);
-    auxlist = auxlist1.concat(auxlist2);
-    // Find the next image in the list
-    for (i = 0; i < auxlist.length; i++) {
-        el = auxlist[i];
-        if (el.quality === qual) {
-            src = galleryURL + el.filename;
-            // Set example image
-            setEgImg(src);
-            changeDrEg(el.grading);
-            break;
-        }
-    }
+    var src = src = galleryURL + eg_list[id].filename;
+    setEgImg(src);
+    setEgCounter(id);
+    // Global index
+    var idx = eg_list[id].idx;
+    // Change quality
+    changeDrEg(galleryData[idx].grading);
 }
 
 function setImgDrEg(click_id) {
@@ -784,37 +784,39 @@ function setImgDrEg(click_id) {
     switch (click_id) {
         case 'btn-dr-r0':
             grad = 'R0';
+            eg_list = drList_r0;
             break;
         case 'btn-dr-r1':
             grad = 'R1';
+            eg_list = drList_r1;
             break;
         case 'btn-dr-r2':
             grad = 'R2';
+            eg_list = drList_r2;
             break;
         case 'btn-dr-r3':
             grad = 'R3';
+            eg_list = drList_r3;
             break;
         default:
             grad = 'RX';
+            eg_list = drList_rx;
     }
+    // Check if click on same button
+    if (grad === selectedEg)
+        return;
+    // Change selected example class
+    selectedEg = grad;
     // Pick an index
-    idx = Math.floor(Math.random() * galleryData.length);
+    var id = Math.floor(Math.random() * eg_list.length);
     // Create an auxiliary list starting by the sorted index
-    auxlist1 = galleryData.slice(idx, galleryData.length);
-    auxlist2 = galleryData.slice(0, idx);
-    auxlist = auxlist1.concat(auxlist2);
-    // Find the next image in the list
-    for (i = 0; i < auxlist.length; i++) {
-        el = auxlist[i];
-        if (el.grading === grad) {
-            src = galleryURL + el.filename;
-            // Set example image
-            setEgImg(src);
-            changeQualEg(el.quality);
-            break;
-        }
-    }
-
+    var src = src = galleryURL + eg_list[id].filename;
+    setEgImg(src);
+    setEgCounter(id);
+    // Global index
+    var idx = eg_list[id].idx;
+    // Change quality
+    changeQualEg(galleryData[idx].quality);
 }
 
 function setEgImg(src) {
@@ -898,13 +900,12 @@ function clearBtnDrEg() {
     $('#btn-dr-rx').removeClass('focus');
 }
 
-function setEgCounter(idx, c_list) {
+function setEgData(idx) {
     /** @description Set the example images counter using the full index and the select button list
     * @param {int} idx
-    * @param {string} c_list
      */
     // Set Eg Lists
-    switch (c_list) {
+    switch (selectedEg) {
         case 'R0':
             eg_list = drList_r0;
             break;
@@ -934,16 +935,26 @@ function setEgCounter(idx, c_list) {
             break;
         }
     }
-    var pos = i + 1;
+    setEgCounter(id);
+}
+
+function setEgCounter(local_id) {
+    /** @description Set the example images counter with local index
+    * @param {int} idx
+     */
+    var pos = local_id + 1;
     var bcounter = $('#eg-counter');
     bcounter.text(pos + '/' + eg_list.length);
 }
 
 function passEs(el) {
-
+    /** @description Pass images forward or backward
+    * @param {element} el
+     */
+    // Get current image
     var src = $('#img-eg-dr')[0].src;
     var id = -1;
-
+    // Find image in local list
     for (i = 0; i < eg_list.length; i++) {
 
         if (src.includes(eg_list[i].filename)) {
@@ -951,7 +962,7 @@ function passEs(el) {
             break;
         }
     }
-    
+    // Check direction
     if (el.innerText.includes("Next")) {
         id = id + 1;
         if (id >= eg_list.length)
@@ -962,9 +973,8 @@ function passEs(el) {
         if (id <= 0)
             id = eg_list.length-1;
     }
-    $('#img-eg-dr')[0].src = galleryURL + eg_list[id].filename;
-
-
+    // Set image and counter
+    setEgImg(galleryURL + eg_list[id].filename);
     var pos = id + 1;
     var bcounter = $('#eg-counter');
     bcounter.text(pos + '/' + eg_list.length);
