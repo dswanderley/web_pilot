@@ -146,6 +146,7 @@
 */
 .eg-block {
     text-align: center;
+    /*text-align: -webkit-center;*/
     margin: 20px auto 0 auto;
 }
 
@@ -160,6 +161,7 @@
 
 .eg-lbl {
     width: 250px;
+    margin-left: 40px;
 }
 
 .eg-btn-group {

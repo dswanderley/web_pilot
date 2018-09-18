@@ -12,6 +12,14 @@ var img_idref = 'g_img_';
 var galleryURL = 'gallery/';
 var currentSrc = "";
 var current_idx = "";
+// Eg Lists
+var qList_high = [];
+var qList_low = [];
+var drList_r0 = [];
+var drList_r1 = [];
+var drList_r2 = [];
+var drList_r3 = [];
+var drList_rx = [];
 // Canvas
 var main_img = new Image();
 var ctx;
@@ -133,13 +141,37 @@ function loadGallery() {
                 galleryData = data.gallery_list;
                 i = 0;
                 // Read images in gallery folder
-                data.file_list.forEach(file => {
+                data.gallery_list.forEach(file => {
                     // Define image ID
                     im_id = img_idref + i;
                     // Create each image element - list item
-                    el_ul.append(getGalleryEl(im_id, file));
+                    el_ul.append(getGalleryEl(im_id, file.filename));
                     // Add filename to gallery list
-                    galleryList.push(file);
+                    galleryList.push(file.filename);
+                    // Quality List
+                    switch (file.quality) {
+                        case 'High':
+                            qList_high.push({ idx: i, filename: file.filename });
+                            break;
+                        default:
+                            qList_low.push({ idx: i, filename: file.filename });
+                    }
+                    switch (file.grading) {
+                        case 'R0':
+                            drList_r0.push({ idx: i, filename: file.filename });
+                            break;
+                        case 'R1':
+                            drList_r1.push({ idx: i, filename: file.filename });
+                            break;
+                        case 'R2':
+                            drList_r2.push({ idx: i, filename: file.filename });
+                            break;
+                        case 'R3':
+                            drList_r3.push({ idx: i, filename: file.filename });
+                            break;
+                        default:
+                            drList_rx.push({ idx: i, filename: file.filename });
+                    }
                     i += 1;
                 });
                 // Add list to gallery
@@ -706,6 +738,8 @@ function setImgEg(id) {
     changeDrEg(imgInfo.grading);
     // Quality
     changeQualEg(imgInfo.quality);
+    // Counter
+    setEgCounter(id, imgInfo.grading);
 }
 
 function setImgQualEg(click_id) {
@@ -860,6 +894,47 @@ function clearBtnDrEg() {
     $('#btn-dr-rx').removeClass('focus');
 }
 
+function setEgCounter(idx, c_list) {
+    /** @description Set the example images counter using the full index and the select button list
+    * @param {int} idx
+    * @param {string} c_list
+     */
+    // Set Eg Lists
+    var eg_list = [];
+    switch (c_list) {
+        case 'R0':
+            eg_list = drList_r0;
+            break;
+        case 'R1':
+            eg_list = drList_r1;
+            break;
+        case 'R2':
+            eg_list = drList_r2;
+            break;
+        case 'R3':
+            eg_list = drList_r3;
+            break;
+        case 'High':
+            eg_list = qList_high;
+            break;
+        case 'Low':
+            eg_list = qList_low;
+            break;
+        default:
+            eg_list = drList_rx;
+    }
+    // Read data of local list
+    for(i = 0; i < eg_list.length; i++){
+        // Check if local name is equal to full index name
+        if (eg_list[i].filename === galleryData[idx].filename) {
+            id = i;
+            break;
+        }
+    }
+    var pos = i + 1;
+    var bcounter = $('#eg-counter');
+    bcounter.text(pos + '/' + eg_list.length);
+}
 
 /*
  * * SVG
