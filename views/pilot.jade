@@ -20,13 +20,13 @@ block content
 
 						ul.pagination
 							li.page-item
-								a.page-link.eg-change(href='#' aria-label="Previous")
+								.btn-link.page-link.eg-change(aria-label="Previous" onClick="passEs(this);")
 									span(aria-hidden="true")&laquo;
 									span.sr-only Previous
 							li.page-item
 								img.img-eg#img-eg-dr(src="")
 							li.page-item
-								a.page-link.eg-change(href='#' aria-label="Previous" onClick="console.log('hello');")
+								.btn-link.page-link.eg-change(aria-label="Next" onClick="passEs(this);")
 									span(aria-hidden="true")&raquo;
 									span.sr-only Next
 						

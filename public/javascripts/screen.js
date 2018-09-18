@@ -20,6 +20,9 @@ var drList_r1 = [];
 var drList_r2 = [];
 var drList_r3 = [];
 var drList_rx = [];
+var selectEg = 'RX';
+var eg_list = [];
+var ex_idx = -1;
 // Canvas
 var main_img = new Image();
 var ctx;
@@ -183,6 +186,7 @@ function loadGallery() {
                 current_idx = idx;
                 // Load Example
                 setImgEg(idx);
+                selectEg
                 // Set full image 
                 setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
             }
@@ -900,7 +904,6 @@ function setEgCounter(idx, c_list) {
     * @param {string} c_list
      */
     // Set Eg Lists
-    var eg_list = [];
     switch (c_list) {
         case 'R0':
             eg_list = drList_r0;
@@ -935,6 +938,38 @@ function setEgCounter(idx, c_list) {
     var bcounter = $('#eg-counter');
     bcounter.text(pos + '/' + eg_list.length);
 }
+
+function passEs(el) {
+
+    var src = $('#img-eg-dr')[0].src;
+    var id = -1;
+
+    for (i = 0; i < eg_list.length; i++) {
+
+        if (src.includes(eg_list[i].filename)) {
+            id = i;
+            break;
+        }
+    }
+    
+    if (el.innerText.includes("Next")) {
+        id = id + 1;
+        if (id >= eg_list.length)
+            id = 0;
+    }
+    else {
+        id = id - 1;
+        if (id <= 0)
+            id = eg_list.length-1;
+    }
+    $('#img-eg-dr')[0].src = galleryURL + eg_list[id].filename;
+
+
+    var pos = id + 1;
+    var bcounter = $('#eg-counter');
+    bcounter.text(pos + '/' + eg_list.length);
+}
+
 
 /*
  * * SVG
