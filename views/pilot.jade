@@ -24,7 +24,8 @@ block content
 									span(aria-hidden="true")&laquo;
 									span.sr-only Previous
 							li.page-item
-								img.img-eg#img-eg-dr(src="")
+								span.zoom#eg-img-zoom
+									img.img-eg#img-eg-dr(src="")
 							li.page-item
 								.btn-link.page-link.eg-change(aria-label="Next" onClick="passEs(this);")
 									span(aria-hidden="true")&raquo;
@@ -95,6 +96,7 @@ block content
 									label.result-txt#lbl-res5 Quality Map
 
 
+	script(src="/javascripts/jquery.zoom.js")
 	script(src="/javascripts/screen.js")
 	script.		
 		$(window).on("load", function(){
@@ -102,4 +104,4 @@ block content
 		});
 		window.onresize = function (event) {
 			refreshScreenSize();
-		}
+		}		

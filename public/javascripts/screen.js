@@ -55,6 +55,7 @@ function initExamples() {
     setEgImg('/images/quality_high.png');
     $('#btn-qual-high').addClass('focus');
     $('#btn-dr-r0').addClass('focus');
+    $('#eg-img-zoom').zoom({ on: 'grab' });
 }
 
 function setScreenSize() {
@@ -685,7 +686,7 @@ function setEvalBtn() {
         $('#btn-dr').removeAttr("disabled").button('refresh');
     }
     else {
-        $('#btn-dr').attr("disabled", "disabled").button('refresh');
+        $('#btn-dr').attr("disabled", "disabled");
     }
 }
 

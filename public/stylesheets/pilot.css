@@ -144,6 +144,7 @@
 /*
  *  Examples Col
 */
+
 .eg-block {
     text-align: center;
     /*text-align: -webkit-center;*/
@@ -192,6 +193,36 @@
     text-align: right;
     padding-right:50px;
 }
+
+/*
+ * Zoom
+ */
+
+.zoom {
+    display: inline-block;
+    cursor: zoom-in;
+}
+
+/* magnifying glass icon */
+.zoom:after {
+    content: '';
+    display: block;
+    width: 33px;
+    height: 33px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: move;
+}
+
+.zoom img {
+    display: block;
+}
+
+
+.zoom img::selection {
+    background-color: transparent;
+}   
 
 
 /*
