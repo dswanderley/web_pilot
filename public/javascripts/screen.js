@@ -53,8 +53,6 @@ function initExamples() {
     clearBtnQualEg();
     clearBtnDrEg();
     setEgImg('/images/quality_high.png');
-    $('#btn-qual-high').addClass('focus');
-    $('#btn-dr-r0').addClass('focus');
     $('#eg-img-zoom').zoom({ on: 'grab' });
 }
 
@@ -827,21 +825,22 @@ function setEgImg(src) {
     $('#img-eg-dr')[0].src = src;
 }
 
-function setQualEg(btn) {
-    /** @description Manage the Quality example buttons 
-    * @param {obj} Button
-     */
-    setImgQualEg(btn.id);
-    clearBtnQualEg();
-    $('#' + btn.id).addClass('focus');
-}
-
-function setDrEg(btn) {
-    /** @description Manage the DR example buttons 
+function setEg(btn) {
+    /** @description Manage the example buttons 
     * @param {obj} Button
     */
-    setImgDrEg(btn.id);
+
     clearBtnDrEg();
+    clearBtnQualEg();
+
+    if (btn.id.includes('dr')) {
+        setImgDrEg(btn.id);
+    }
+    else {
+        setImgQualEg(btn.id);
+    }   
+    $('#' + btn.id).removeClass('btn-outline-light');
+    $('#' + btn.id).addClass('btn-light');
     $('#' + btn.id).addClass('focus');
 }
 
@@ -856,8 +855,8 @@ function changeQualEg(qual) {
         default:
             btn_q_id = '#btn-qual-low';
     }
-    clearBtnQualEg();
-    $(btn_q_id).addClass('focus');
+    $(btn_q_id).removeClass('btn-outline-light');
+    $(btn_q_id).addClass('btn-light');
 }
 
 function changeDrEg(grad) {
@@ -880,8 +879,8 @@ function changeDrEg(grad) {
         default:
             btn_rd_id = '#btn-dr-rx';
     }
-    clearBtnDrEg();
-    $(btn_rd_id).addClass('focus');
+    $(btn_rd_id).removeClass('btn-outline-light');
+    $(btn_rd_id).addClass('btn-light');
 }
 
 function clearBtnQualEg() {
@@ -889,6 +888,12 @@ function clearBtnQualEg() {
     */
     $('#btn-qual-high').removeClass('focus');
     $('#btn-qual-low').removeClass('focus');
+    
+    $('#btn-qual-high').removeClass('btn-light');
+    $('#btn-qual-low').removeClass('btn-light');
+
+    $('#btn-qual-high').addClass('btn-outline-light');
+    $('#btn-qual-low').addClass('btn-outline-light');
 }
 
 function clearBtnDrEg() {
@@ -899,6 +904,18 @@ function clearBtnDrEg() {
     $('#btn-dr-r2').removeClass('focus');
     $('#btn-dr-r3').removeClass('focus');
     $('#btn-dr-rx').removeClass('focus');
+
+    $('#btn-dr-r0').removeClass('btn-light');
+    $('#btn-dr-r1').removeClass('btn-light');
+    $('#btn-dr-r2').removeClass('btn-light');
+    $('#btn-dr-r3').removeClass('btn-light');
+    $('#btn-dr-rx').removeClass('btn-light');
+
+    $('#btn-dr-r0').addClass('btn-outline-light');
+    $('#btn-dr-r1').addClass('btn-outline-light');
+    $('#btn-dr-r2').addClass('btn-outline-light');
+    $('#btn-dr-r3').addClass('btn-outline-light');
+    $('#btn-dr-rx').addClass('btn-outline-light');
 }
 
 function setEgData(idx) {
@@ -909,24 +926,31 @@ function setEgData(idx) {
     switch (selectedEg) {
         case 'R0':
             eg_list = drList_r0;
+            $('#btn-dr-r0').addClass('focus');
             break;
         case 'R1':
             eg_list = drList_r1;
+            $('#btn-dr-r1').addClass('focus');
             break;
         case 'R2':
             eg_list = drList_r2;
+            $('#btn-dr-r2').addClass('focus');
             break;
         case 'R3':
             eg_list = drList_r3;
+            $('#btn-dr-r3').addClass('focus');
             break;
         case 'High':
             eg_list = qList_high;
+            $('#btn-qual-high').addClass('focus');
             break;
         case 'Low':
             eg_list = qList_low;
+            $('#btn-qual-low').addClass('focus');
             break;
         default:
             eg_list = drList_rx;
+            $('#btn-dr-rx').addClass('focus');
     }
     // Read data of local list
     for(i = 0; i < eg_list.length; i++){
