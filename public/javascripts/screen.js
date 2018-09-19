@@ -1005,14 +1005,22 @@ function passEs(el) {
     }
     else {
         id = id - 1;
-        if (id <= 0)
-            id = eg_list.length-1;
+        if (id < 0)
+            id = eg_list.length - 1;
     }
+
+    // Clear button
+    clearBtnDrEg();
+    // Get general id
+    var idx = eg_list[id].idx;
+    // Set button names
+    changeDrEg(galleryData[idx].grading);
+    changeQualEg(galleryData[idx].quality);
+    // Set example data
+    setEgData(idx);
     // Set image and counter
     setEgImg(galleryURL + eg_list[id].filename);
-    var pos = id + 1;
-    var bcounter = $('#eg-counter');
-    bcounter.text(pos + '/' + eg_list.length);
+    setEgCounter(id);
 }
 
 
