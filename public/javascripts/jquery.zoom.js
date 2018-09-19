@@ -68,14 +68,14 @@
 				offset = $source.offset();
 			},
 			move: function (e) {
-				var left = (e.pageX - offset.left),
-					top = (e.pageY - offset.top);
+				var left = e.pageX - offset.left,
+					top = e.pageY - offset.top;
 
 				top = Math.max(Math.min(top, sourceHeight), 0);
 				left = Math.max(Math.min(left, sourceWidth), 0);
 
-				img.style.left = (left * -xRatio) + 'px';
-				img.style.top = (top * -yRatio) + 'px';
+				img.style.left = left * -xRatio + 'px';
+				img.style.top = top * -yRatio + 'px';
 			}
 		};
 	};
@@ -89,7 +89,7 @@
 			//source will provide zoom location info (thumbnail)
 			source = this,
 			$source = $(source),
-			img = document.createElement('img'),
+            img = document.createElement('img'),
 			$img = $(img),
 			mousemove = 'mousemove.zoom',
 			clicked = false,
@@ -226,7 +226,7 @@
 				}
 			};
 
-			img.setAttribute('role', 'presentation');
+            img.setAttribute('role', 'presentation');
 			img.alt = '';
 			img.src = settings.url;
 		});

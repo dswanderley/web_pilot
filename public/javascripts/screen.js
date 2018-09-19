@@ -52,8 +52,6 @@ function initExamples() {
      */
     clearBtnQualEg();
     clearBtnDrEg();
-    setEgImg('/images/quality_high.png');
-    $('#eg-img-zoom').zoom({ on: 'grab' });
 }
 
 function setScreenSize() {
@@ -664,7 +662,6 @@ function redraw(reset) {
 }
 
 
-
 /*
  * Set Results
  */
@@ -822,7 +819,17 @@ function setEgImg(src) {
     /** @description Set image of image example
     * @param {string} image src
     */
+    // Check list of images (small and larg)
+    el_im_list = $('#eg-img-zoom').find($("img"));
+    for (i = 0; i < el_im_list.length; i++) {
+        if (el_im_list[i].id !== "img-eg-dr")
+            // Remove large image
+            el_im_list[i].remove();
+    }
+    // change small image
     $('#img-eg-dr')[0].src = src;
+    // add zoom functionality and large image
+    $('#eg-img-zoom').zoom({ on: 'grab' });
 }
 
 function setEg(btn) {
@@ -985,7 +992,6 @@ function passEs(el) {
     var id = -1;
     // Find image in local list
     for (i = 0; i < eg_list.length; i++) {
-
         if (src.includes(eg_list[i].filename)) {
             id = i;
             break;
