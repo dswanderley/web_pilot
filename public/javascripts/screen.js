@@ -829,16 +829,20 @@ function setEg(btn) {
     /** @description Manage the example buttons 
     * @param {obj} Button
     */
-
+    // Avoid double click
+    if ($('#' + btn.id).hasClass('focus'))
+        return;
+    // Clear buttons
     clearBtnDrEg();
     clearBtnQualEg();
-
+    // Check if button is dr or quality
     if (btn.id.includes('dr')) {
         setImgDrEg(btn.id);
     }
     else {
         setImgQualEg(btn.id);
     }   
+    // Manage classes
     $('#' + btn.id).removeClass('btn-outline-light');
     $('#' + btn.id).addClass('btn-light');
     $('#' + btn.id).addClass('focus');
