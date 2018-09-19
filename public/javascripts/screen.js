@@ -377,6 +377,9 @@ function selectGalleryImage(imgid) {
     img_orig = imgid.src;
     currentSrc = img_orig;
     setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+    // Clear buttons
+    clearBtnDrEg();
+    clearBtnQualEg();
     // Set example
     setImgEg(id);
 }
