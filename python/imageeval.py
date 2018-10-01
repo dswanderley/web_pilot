@@ -144,8 +144,61 @@ def saveImage(inpath, outpath):
 
 ###############################################################################
 
+def img_quality(img):
+    """
+    Evaluate the image quality
+    """
+    
+    # Load  global variables
+    global wsqual
+    # Convert image to array
+    img_p = img_to_array(img)
+    img_p = wsqual.preprocessing_fn(img_p)[np.newaxis]
+    # Mask
+    mask = getmask(np.array(img))
+    
+    # Quality evaluation
+    y_pred = wsqual.model.predict(img_p)
+    lesions = wsqual.fog_detector.predict(img_p)
+
+    # Plot lesions map
+    li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
+                                 architecture = wsqual.architecture, 
+                                 layer = wsqual.layer)
+    li = li*mask   
+           
+    return y_pred, li
+    
+
+def dr_detection(img):
+    """
+    Detect Diabetic Retinopathy
+    
+    """    
+    # Load  global variables
+    global wsdcnn
+    # Convert image to arrya and pre-process
+    img_p = img_to_array(img)
+    img_p = wsdcnn.preprocessing_fn(img_p)[np.newaxis]
+
+    # Prediction
+    y_pred = wsdcnn.model.predict(img_p)
+    lesions = wsdcnn.lesion_detectors[0].predict(img_p)
+    # Mask
+    mask = getmask(np.array(img))
+
+    # Plot lesions map
+    li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
+                                 architecture=wsdcnn.architecture, 
+                                 layer=wsdcnn.layer)
+    li = li*mask 
+    
+    return y_pred, li
+
+###############################################################################
+
 @app.route("/qual")
-def img_quality():
+def call_quality():    
     """
     Evaluate the image quality
     
@@ -169,21 +222,13 @@ def img_quality():
     path_to_img =  os.path.join(file_dir, fname)
     print('Received Quality Request')
     
-    # Load  global variables
-    global wsqual
     # Load and process image
     img = load_img(path_to_img, target_size=(512, 512))
-    img_p = img_to_array(img)
-    img_p = wsqual.preprocessing_fn(img_p)[np.newaxis]
-
-    # Quality evaluation
-    y_pred = wsqual.model.predict(img_p)
-    lesions = wsqual.fog_detector.predict(img_p)
-
-    # Plot lesions map
-    li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
-                                 architecture = wsqual.architecture, 
-                                 layer = wsqual.layer)
+    
+    # Predict quality
+    y_pred, li = img_quality(img)
+        
+    # Plot level contours
     plt.figure(figsize=(5.12, 5.12), dpi=100)
     f, ax = plt.subplots()
     ax.set_axis_off()
@@ -194,7 +239,7 @@ def img_quality():
     ax.imshow(img_empty)
     plt.contour(li, levels = np.linspace(0.1, 1, num=4))
     
-   # Output file
+    # Output file
     out_path = os.path.join(dir_qual, fname)
     # Save figure
     f.savefig(out_path, bbox_inches='tight', pad_inches=0, dpi=512)
@@ -208,10 +253,10 @@ def img_quality():
                             q_pred = 100 - (y_pred[0, 0] * 100))
            
     return json.dumps(qual_data.__dict__) 
-    
+
 
 @app.route("/dr")
-def dr_detection():
+def call_dr():
     """
     Detect Diabetic Retinopathy
     
@@ -235,21 +280,13 @@ def dr_detection():
     path_to_img =  os.path.join(file_dir, fname)
     print('Received DR Request')
     
-    # Load  global variables
-    global wsdcnn
     # Load and process image
     img = load_img(path_to_img, target_size=(512, 512))
-    img_p = img_to_array(img)
-    img_p = wsdcnn.preprocessing_fn(img_p)[np.newaxis]
-
-    # Prediction
-    y_pred = wsdcnn.model.predict(img_p)
-    lesions = wsdcnn.lesion_detectors[0].predict(img_p)
-
-    # Plot lesions map
-    li = get_gaussian_lesion_map(lesion_to_map(lesions, 0),
-                                 architecture=wsdcnn.architecture, 
-                                 layer=wsdcnn.layer)
+    
+    # Detect DR
+    y_pred, li = dr_detection(img)
+    
+    # Plot level contours
     plt.figure(figsize=(5.12, 5.12), dpi=100)
     f, ax = plt.subplots()
     ax.set_axis_off()
