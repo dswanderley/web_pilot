@@ -147,8 +147,7 @@ def saveImage(inpath, outpath):
 def img_quality(img):
     """
     Evaluate the image quality
-    """
-    
+    """    
     # Load  global variables
     global wsqual
     # Convert image to array
@@ -311,6 +310,7 @@ def call_dr():
                                       dr_pred = y_pred[0, 0] * 100)
     
     return json.dumps(dr_data.__dict__) 
+
 
 ###############################################################################
 

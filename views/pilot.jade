@@ -68,6 +68,17 @@ block content
 
 				.row.justify-content-left
 					.menu-container.col
+
+						.menu-eval#menu-upload
+							
+							form.input-group.mb-3#fileupload(name="fileupload", method="POST", action="/fileupload", enctype="multipart/form-data")
+								.input-group-prepend
+									button.input-group-text#btn-upload-img(type="submit") Upload
+								.custom-file
+									input.custom-file-input#inputGroupFile01(type="file", name="filetoupload")
+									.custom-file-label.form-control-file(for="inputGroupFile01") Choose file
+
+								
 						.menu-eval#menu-qual
 							button.btn.btn-light#btn-qual(onClick="quality();") Quality
 			

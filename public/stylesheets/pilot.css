@@ -139,6 +139,17 @@
     margin-bottom: 5px;
 }
 
+/*
+ * Upload Area
+ */
+
+#btn-upload-img {
+    cursor: pointer;
+}
+
+.custom-file-control.selected:lang(en)::after {
+    content: "";
+}
 
 
 /*

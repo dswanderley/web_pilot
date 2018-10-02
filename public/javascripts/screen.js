@@ -31,7 +31,6 @@ var max_img_height = 256;
 var max_img_width = 256;
 var canvasScale = 1.0;
 
-
 /*
  * Load Page functions
  */
@@ -45,6 +44,18 @@ function loadScreenDrApp() {
     addEvents();
     loadGallery();
     initExamples();
+    // Allow change on upload label
+    $('.custom-file-input').on('change', function () {
+        var fileName = $(this).val();
+        // Windows systems
+        f_names = fileName.split(/\\/);
+        fileName = f_names[f_names.length - 1];
+        // Unix systems
+        f_names = fileName.split("/");
+        fileName = f_names[f_names.length - 1];
+        // Set filename
+        $(this).next('.form-control-file').addClass("selected").html(fileName);
+    });
 }
 
 function initExamples() {
