@@ -56,6 +56,32 @@ function loadScreenDrApp() {
         // Set filename
         $(this).next('.form-control-file').addClass("selected").html(fileName);
     });
+
+    $("#fileupload").submit(function (event) {
+
+        var form = $(this);
+        var url = form.attr('action');
+
+        if ($("#input-up-img").get(0).files.length > 0) {
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                cache: false,
+                async: true,
+                data: form.serialize(), // serializes the form's elements.
+                success: function (data) {
+                    console.log(data); // show response from the php script.
+                    console.log('a');
+                }
+            });
+        }
+        else
+            event.preventDefault();
+
+        
+    });
 }
 
 function initExamples() {

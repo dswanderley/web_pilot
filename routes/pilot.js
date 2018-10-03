@@ -9,8 +9,9 @@ var router = require('express').Router(),
     sizeOf = require('image-size');
 
 var galleryDir = './images/gallery/';
+var uploadDir = './images/upload/';
 
-// Upload - GET
+// Main application - GET
 router.get('/pilot', function (req, res) {
     // Render page Pilot
     res.render('./pilot', {
@@ -46,6 +47,37 @@ router.get('/gallery', function (req, res) {
         // Send list of files
         res.send({file_list, gallery_list});
     });    
+});
+
+// Upload - POST
+router.post('/imgupload', function (req, res) {
+    // Check if has file
+    if (!req.files) {
+        return;
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let files = req.files.filetoupload;
+    file_list = [];
+    // Read files
+    if (files) {
+        files.forEach(file => {
+
+            var filename = file.name;
+            var path = uploadDir + filename;
+            // if move add to list
+            file_list.push(path);
+            // Move each file
+            file.mv(path, function (err) {
+                if (err)
+                    file_list.pop();
+            });
+            
+        });
+    }
+    console.log(file_list);
+
+    res.send(file_list);
 });
 
 // Return routers

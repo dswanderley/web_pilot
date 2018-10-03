@@ -58,8 +58,7 @@ block content
 				.row.justify-content-md-center
 					.gallery-container
 						.gallery#gallery
-
-			
+									
 
 			.col#col-diag-right
 
@@ -71,12 +70,12 @@ block content
 
 						.menu-eval#menu-upload
 							
-							form.input-group.mb-3#fileupload(name="fileupload", method="POST", action="/fileupload", enctype="multipart/form-data")
+							form.input-group.mb-3#fileupload(name="fileupload", method="POST", action="/imgupload", enctype="multipart/form-data")
 								.input-group-prepend
 									button.input-group-text#btn-upload-img(type="submit") Upload
 								.custom-file
-									input.custom-file-input#inputGroupFile01(type="file", name="filetoupload")
-									.custom-file-label.form-control-file(for="inputGroupFile01") Choose file
+									input.custom-file-input#input-up-img(type="file", name="filetoupload", accept="image/*", multiple)
+									.custom-file-label.form-control-file(for="input-up-img") Choose file
 
 								
 						.menu-eval#menu-qual

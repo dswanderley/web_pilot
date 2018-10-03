@@ -52,6 +52,6 @@ var pilot = require('./routes/pilot');
 app.use(pilot);
 // Gallery
 app.use('/gallery', pilot);
-
+app.use('/imgupload', pilot);
 // Deploy
 app.listen(3000);
