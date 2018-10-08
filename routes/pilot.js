@@ -59,8 +59,9 @@ router.post('/imgupload', function (req, res) {
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let files = req.files.filetoupload;
     file_list = [];
+    
     // Read files
-    if (files) {
+    if (Array.isArray(files)) {
         files.forEach(file => {
 
             var filename = file.name;
@@ -72,9 +73,14 @@ router.post('/imgupload', function (req, res) {
                 if (err)
                     file_list.pop();
             });
-            
         });
     }
+    else {
+        var filename = files.name;
+        var path = uploadDir + filename;
+        file_list.push(path);
+    }
+
     console.log(file_list);
 
     res.send(file_list);
