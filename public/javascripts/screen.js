@@ -57,32 +57,23 @@ function loadScreenDrApp() {
         $(this).next('.form-control-file').addClass("selected").html(fileName);
     });
 
-    $("#fileupload").submit(function (event) {
-
-        var form = $(this);
-        var url = form.attr('action');
-
-        if ($("#input-up-img").get(0).files.length > 0) {
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                dataType: 'json',
-                cache: false,
-                async: true,
-                data: form.serialize(), // serializes the form's elements.
-                success: function (data) {
-                    console.log(data); // show response from the php script.
-                    console.log('a');
-                }
-            });
-        }
-        else
-            event.preventDefault();
-
-        
+    
+    // SUBMIT FORM
+    $("iframe").on('load', function () {
+        // ok , now you know that the file is uploaded , you can do what you want , for example tell the user that the file is uploaded 
+        console.log("The file is uploaded");
+        // or you can has your own technique to display the uploaded file name + id ? 
+        $.post('imgupload',
+            null,
+            function (attachment) {
+                // add the last uploaded file , so the user can see the uploaded files
+                $("#ajaxResultTest").html('test');
+            },
+            'json'
+        );
     });
 }
+
 
 function initExamples() {
     /** @description Set example buttons and images

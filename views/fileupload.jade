@@ -13,7 +13,14 @@ block content
 		.btn-container
 			.btn-col
 				button(onClick="grayscale();", style=btnshow) To grayscale
+
+		iframe#uploadTrg(name="uploadTrg")
+		form#myForm(name="uploadTrg" method="POST" action="/fileupload2" enctype="multipart/form-data"  target="uploadTrg")
+			input#fileid(type="file" name="file")
+			input#submitBtn(type="submit" value="submit")
   
+		#ajaxResultTest
+
 		.image-container
 			.img-column
 				img.image(src=imgname, id="img-upload", width="100%;")
@@ -23,3 +30,18 @@ block content
 
 	script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js")
 	script(src="/javascripts/screen.js")
+
+	script.
+		$("iframe").on('load', function(){
+			// ok , now you know that the file is uploaded , you can do what you want , for example tell the user that the file is uploaded 
+			alert("The file is uploaded");
+			// or you can has your own technique to display the uploaded file name + id ? 
+			$.post('http://localhost:3000/fileupload2',
+				null,
+				function(attachment){
+					// add the last uploaded file , so the user can see the uploaded files
+					$("#ajaxResultTest").html('test');
+				},
+				'json'
+			);
+		});

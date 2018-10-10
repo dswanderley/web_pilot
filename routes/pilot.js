@@ -45,15 +45,17 @@ router.get('/gallery', function (req, res) {
             });            
         });
         // Send list of files
-        res.send({file_list, gallery_list});
+        return res.send({file_list, gallery_list});
     });    
 });
 
 // Upload - POST
 router.post('/imgupload', function (req, res) {
+
     // Check if has file
     if (!req.files) {
-        return;
+        console.log('no file');
+        return res.send('error');
     }
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
@@ -81,10 +83,9 @@ router.post('/imgupload', function (req, res) {
         file_list.push(path);
     }
 
-    console.log(file_list);
-
-    res.send(file_list);
+    return res.send(file_list);
 });
+
 
 // Return routers
 module.exports = router;

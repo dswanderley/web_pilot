@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+	.container
+		.col-sm-4
+			h3 NodeJS
+
+			form#customerForm
+				.form-group
+					label(for="firstname") Fist Name:
+					input.form-control#firstname(type="text" placeholder="Enter FirstName")
+
+				.form-group
+					label
+					input.form-control#lastname(type="text" placeholder="Enter LastName")
+
+				.form-group
+					input#filetoupload(type="file", name="filetoupload")
+
+				button.btn.btn-default(type="submit") submit
+
+				#postResultDiv
+	
+	script(src="/javascripts/test.js")
