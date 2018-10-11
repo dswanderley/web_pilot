@@ -70,8 +70,7 @@ block content
 
 						.menu-eval#menu-upload						
 							
-							iframe#uploadTrg(name="uploadTrg"  height="0" width="0" frameborder="0" scrolling="no")
-							form.input-group.mb-3#fileupload(name="uploadTrg" method="POST" action="/imgupload" enctype="multipart/form-data" target="uploadTrg")
+							form.input-group.mb-3#fileupload(name="uploadTrg" method="POST" action="javascript:submitImgForm();" enctype="multipart/form-data" target="uploadTrg")
 								
 								.input-group-prepend
 									button.input-group-text#btn-upload-img(type="submit") Upload
@@ -108,8 +107,6 @@ block content
 											span.onoffswitch2-switch
 									label.result-txt#lbl-res5 Quality Map
 
-							#postResultDiv
-							
 	script(src="/javascripts/jquery.zoom.js")
 	script(src="/javascripts/screen.js")
 	script.		

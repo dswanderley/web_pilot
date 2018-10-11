@@ -56,24 +56,7 @@ function loadScreenDrApp() {
         // Set filename
         $(this).next('.form-control-file').addClass("selected").html(fileName);
     });
-
-    
-    // SUBMIT FORM
-    $("iframe").on('load', function () {
-        // ok , now you know that the file is uploaded , you can do what you want , for example tell the user that the file is uploaded 
-        console.log("The file is uploaded");
-        // or you can has your own technique to display the uploaded file name + id ? 
-        $.post('imgupload',
-            null,
-            function (attachment) {
-                // add the last uploaded file , so the user can see the uploaded files
-                $("#ajaxResultTest").html('test');
-            },
-            'json'
-        );
-    });
 }
-
 
 function initExamples() {
     /** @description Set example buttons and images
@@ -337,6 +320,24 @@ function dr_detection() {
         });
 }
 
+function submitImgForm() {
+    /** @description Asynchronous submition of the form image
+     */
+    var formData = new FormData($('#fileupload')[0]);
+    $.ajax({
+        url: '/imgupload',
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            console.log(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
+}
 
 /*
  * Set Image

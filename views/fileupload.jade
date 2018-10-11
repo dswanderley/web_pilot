@@ -18,7 +18,12 @@ block content
 		form#myForm(name="uploadTrg" method="POST" action="/fileupload2" enctype="multipart/form-data"  target="uploadTrg")
 			input#fileid(type="file" name="file")
 			input#submitBtn(type="submit" value="submit")
-  
+		
+		form#imageForum(action="javascript:submitForm();" method="post" enctype = "multipart/form-data")
+			label(for="fileUpload")
+			input#fileUpload(type="file" name="file")
+			input#submitBtn2(type="submit" value="submit")
+
 		#ajaxResultTest
 
 		.image-container
@@ -45,3 +50,20 @@ block content
 				'json'
 			);
 		});
+		function submitForm() {
+			var formData = new FormData($('#imageForum')[0]);
+			$.ajax({
+				url: '/fileupload2',
+				type: 'POST',
+				data: formData,
+				async: false,
+				success: function (data) {
+					alert('posted')
+				},
+				cache: false,
+				contentType: false,
+				processData: false
+			});
+
+			return false;
+		}
