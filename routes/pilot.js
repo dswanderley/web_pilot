@@ -116,17 +116,14 @@ router.get('/imgupload', function (req, res) {
 
     // Read directory
     fs.readdir(uploadDir, (err, files) => {
-        
         // Load files
         files.forEach(file => {
-
+            // Read list
             data_list.forEach(function (el) {
-
+                // Compare file and list
                 if (el.filename === file) {
-
-                    console.log(file);
-
-                    file_list.push(file); // add to file list
+                    // add to file list
+                    file_list.push(file); 
                     // Get Dimensions
                     var dimensions = sizeOf(uploadDir + file);
                     el.width = dimensions.width;
@@ -135,8 +132,7 @@ router.get('/imgupload', function (req, res) {
                     upload_list.push(el);
                 }
             });
-        });
-        
+        });        
         // Send list of files
         return res.send({ file_list, upload_list });
     });    

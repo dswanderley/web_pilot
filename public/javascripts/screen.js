@@ -342,7 +342,7 @@ function submitImgForm() {
 
 function loadUpImages(datain) {
     /** @description Get image list of recent upload images
-      * @param {string} g_img id
+      * @param {obj} datain obj with a list
      */
 
     // Ajax call
