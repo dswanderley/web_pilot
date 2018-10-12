@@ -323,6 +323,7 @@ function dr_detection() {
 function submitImgForm() {
     /** @description Asynchronous submition of the form image
      */
+    $('.loader').show();
     var formData = new FormData($('#fileupload')[0]);
     $.ajax({
         url: '/imgupload',
@@ -330,6 +331,9 @@ function submitImgForm() {
         data: formData,
         success: function (data) {
             console.log(data);
+            src = data[0];
+            src = src.replace("./images/", "");
+            setMainImage(src, galleryData[current_idx].width, galleryData[current_idx].height);
         },
         cache: false,
         contentType: false,

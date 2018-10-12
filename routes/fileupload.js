@@ -6,7 +6,7 @@
 // Module dependencies
 var router = require('express').Router();
 
-var uploadDir = 'E:/ScreenDR/Web_Pilot/images/upload/';
+var uploadDir = './images/upload/';
 
 
 // Upload - GET
@@ -31,6 +31,7 @@ router.post('/fileupload', function (req, res) {
     var filename = thefile.name;
 
     // Use the mv() method to place the file somewhere on your server
+    console.log(uploadDir + filename);
     thefile.mv(uploadDir + filename, function (err) {
         if (err)
             return res.status(500).send(err);
