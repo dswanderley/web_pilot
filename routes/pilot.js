@@ -22,8 +22,8 @@ router.get('/pilot', function (req, res) {
 // Gallery - GET
 router.get('/gallery', function (req, res) {
     // Initialize list of files
-    file_list = [];
-    gallery_list = [];
+    let file_list = [];
+    let gallery_list = [];
     // Read json file
     var obj = JSON.parse(fs.readFileSync(galleryDir + 'gallery.json', 'utf8'));
     // Read directory
@@ -54,7 +54,6 @@ router.post('/imgupload', function (req, res) {
 
     // Check if has file
     if (!req.files) {
-        console.log('no file');
         return res.send('error');
     }
 
@@ -65,35 +64,83 @@ router.post('/imgupload', function (req, res) {
     // Read files
     if (Array.isArray(files)) {
         files.forEach(file => {
-
+            // Filename
             var filename = file.name;
             var path = uploadDir + filename;
-            // if move add to list
-            file_list.push(path);
+            // Json element
+            var el = {
+                filename: filename,
+                src: path
+            };
+            // move to list
+            file_list.push(el);
             // Move each file
             file.mv(path, function (err) {
                 if (err)
-                    file_list.pop();
+                    file_list.pop(); // if does not move pop from list
             });
         });
     }
     else {
         var filename = files.name;
         var path = uploadDir + filename;
-
+        // Json element
+        var el = {
+            filename: filename,
+            src: path
+        };
+        // move to list
+        file_list.push(el);
+        // Move each file
         files.mv(path, function (err) {
             if (err)
-                file_list.pop();
+                file_list.pop(); // if does not move pop from list
         });
-
-        file_list.push(path);
     }
-
-    console.log(path);
 
     return res.send(file_list);
 });
 
+// Upload - GET
+router.get('/imgupload', function (req, res) {
+
+    // Check if has file
+    if (!req.query.data) {
+        return res.send('error');
+    }
+    // List of images
+    var data_list = req.query.data;
+    // Initialize list of files
+    let file_list = [];
+    let upload_list = [];
+
+    // Read directory
+    fs.readdir(uploadDir, (err, files) => {
+        
+        // Load files
+        files.forEach(file => {
+
+            data_list.forEach(function (el) {
+
+                if (el.filename === file) {
+
+                    console.log(file);
+
+                    file_list.push(file); // add to file list
+                    // Get Dimensions
+                    var dimensions = sizeOf(uploadDir + file);
+                    el.width = dimensions.width;
+                    el.height = dimensions.height;
+                    // add file informations 
+                    upload_list.push(el);
+                }
+            });
+        });
+        
+        // Send list of files
+        return res.send({ file_list, upload_list });
+    });    
+});
 
 // Return routers
 module.exports = router;

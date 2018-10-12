@@ -330,10 +330,7 @@ function submitImgForm() {
         type: 'POST',
         data: formData,
         success: function (data) {
-            console.log(data);
-            src = data[0];
-            src = src.replace("./images/", "");
-            setMainImage(src, galleryData[current_idx].width, galleryData[current_idx].height);
+            loadUpImages(data);
         },
         cache: false,
         contentType: false,
@@ -342,6 +339,33 @@ function submitImgForm() {
 
     return false;
 }
+
+function loadUpImages(datain) {
+    /** @description Get image list of recent upload images
+      * @param {string} g_img id
+     */
+
+    // Ajax call
+    $.ajax(
+        {
+            type: 'GET',
+            url: '/imgupload',
+            data: { data: datain },
+            dataType: 'json',
+            cache: false,
+            async: true,
+            success: function (data) {
+                // Load data
+                var uploadList = data.file_list;
+                var uploadData = data.upload_list;
+                // Get first image src
+                var src = 'upload/' + uploadList[0];
+                // set image on canvas
+                setMainImage(src, uploadData[0].width, uploadData[0].height);                
+            }
+        });
+}
+
 
 /*
  * Set Image
