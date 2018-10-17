@@ -69,10 +69,21 @@
     width: auto;
 }
 
+.gal-btn-row {
+    margin-top: 0;
+    margin-bottom: 20px;
+    z-index: 4;
+}
+
+.btn-gallery {
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+
 /*
  * Large Images
  */
-
 .image-container {
     margin: 5px 0;
     white-space: nowrap;
