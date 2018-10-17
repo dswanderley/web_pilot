@@ -48,10 +48,13 @@ app.use(fileupload);
 var imageeval = require('./routes/imageeval');
 app.use(imageeval);
 // Pilot 
+var demo = require('./routes/demo');
+app.use(demo);
+// demo
+app.use('/gallery', demo);
+// Pilot 
 var pilot = require('./routes/pilot');
 app.use(pilot);
-// Gallery
-app.use('/gallery', pilot);
 app.use('/imgupload', pilot);
 // Deploy
 app.listen(3000);

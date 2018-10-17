@@ -12,7 +12,37 @@ block content
 
 				.row.justify-content-center
 
-					
+					.eg-block
+						.h6.text-white.eg-lbl Quality
+
+						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='Quality examples')
+							button.btn.btn-outline-light.eg-btn-qual#btn-qual-high(onClick='setEg(this)') High
+							button.btn.btn-outline-light.eg-btn-qual#btn-qual-low(onClick='setEg(this)') Low
+
+						ul.pagination
+							li.page-item
+								.btn-link.page-link.eg-change(aria-label="Previous" onClick="passEs(this);")
+									span(aria-hidden="true")&laquo;
+									span.sr-only Previous
+							li.page-item
+								span.zoom#eg-img-zoom
+									img.img-eg#img-eg-dr(src="")
+							li.page-item
+								.btn-link.page-link.eg-change(aria-label="Next" onClick="passEs(this);")
+									span(aria-hidden="true")&raquo;
+									span.sr-only Next
+						
+						.eg-count
+							.badge.badge-dark#eg-counter 
+
+						.btn-group.btn-group-sm.eg-btn-group(role='group' aria-label='DR examples')
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r0(onClick='setEg(this)') R0
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r1(onClick='setEg(this)') R1
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r2(onClick='setEg(this)') R2
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-r3(onClick='setEg(this)') R3
+							button.btn.btn-outline-light.eg-btn-dr#btn-dr-rx(onClick='setEg(this)') RX
+
+						.h6.text-white.eg-lbl Diabetic Retinopathy
 
 
 			.col#col-diag-center
@@ -26,6 +56,9 @@ block content
 					.image-container.col-auto
 						canvas.img-disp#main-canvas
 
+				.row.justify-content-md-center
+					.gallery-container
+						.gallery#gallery
 									
 
 			.col#col-diag-right
@@ -64,7 +97,7 @@ block content
 									label.result-txt#lbl-res5 Quality Map
 
 	script(src="/javascripts/jquery.zoom.js")
-	script(src="/javascripts/screen_pilot.js")
+	script(src="/javascripts/screen_demo.js")
 	script.		
 		$(window).on("load", function(){
 			loadScreenDrApp();
