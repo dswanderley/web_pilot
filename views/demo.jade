@@ -1,5 +1,10 @@
 extends layout
 
+append stylesheets
+	link(rel='stylesheet', href='/stylesheets/appstyle.css')
+	link(rel='stylesheet', href='/stylesheets/demo.css')
+	
+
 block content
 	.container-fluid#container-diag
 		.row.justify-content-between#app-row
@@ -67,7 +72,7 @@ block content
 					.h6.breadcrumb-item Computed Assessment
 
 				.row.justify-content-left
-					.menu-container.col
+					.results-container.col
 								
 						.menu-eval#menu-qual
 							button.btn.btn-light#btn-qual(onClick="quality();") Quality

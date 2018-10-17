@@ -320,53 +320,6 @@ function dr_detection() {
         });
 }
 
-function submitImgForm() {
-    /** @description Asynchronous submition of the form image
-     */
-    $('.loader').show();
-    var formData = new FormData($('#fileupload')[0]);
-    $.ajax({
-        url: '/imgupload',
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-            loadUpImages(data);
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-
-    return false;
-}
-
-function loadUpImages(datain) {
-    /** @description Get image list of recent upload images
-      * @param {obj} datain obj with a list
-     */
-
-    // Ajax call
-    $.ajax(
-        {
-            type: 'GET',
-            url: '/imgupload',
-            data: { data: datain },
-            dataType: 'json',
-            cache: false,
-            async: true,
-            success: function (data) {
-                // Load data
-                var uploadList = data.file_list;
-                var uploadData = data.upload_list;
-                // Get first image src
-                var src = 'upload/' + uploadList[0];
-                // set image on canvas
-                setMainImage(src, uploadData[0].width, uploadData[0].height);                
-            }
-        });
-}
-
-
 /*
  * Set Image
  */
@@ -394,27 +347,6 @@ function getGalleryEl(id, img) {
     el_li.append(el_img);
 
     return el_li;
-}
-
-function selectGalleryImage(imgid) {
-    /** @description Change large image after click on image gallery
-      * @param {string} image Image Element Id
-     */
-    resetimages();
-    resetLbl();
-    hasQuality = false;
-    setEvalBtn();
-    // Get image index in JS
-    id_str = imgid.id;
-    id = id_str.substr(img_idref.length, id_str.length - 1);
-    id = parseInt(id);
-    current_idx = id;
-    // Set main image
-    img_orig = imgid.src;
-    currentSrc = img_orig;
-    setMainImage();
-    // Set example
-    setImgEg(id);
 }
 
 function selectGalleryImage(imgid) {

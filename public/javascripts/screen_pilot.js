@@ -6,23 +6,10 @@ var galleryData = [];
 var hasQuality = false;
 // Images src
 var img_orig = "";
-var img_qual = "";
-var img_dr = "";
 var img_idref = 'g_img_';
 var galleryURL = 'gallery/';
 var currentSrc = "";
 var current_idx = "";
-// Eg Lists
-var qList_high = [];
-var qList_low = [];
-var drList_r0 = [];
-var drList_r1 = [];
-var drList_r2 = [];
-var drList_r3 = [];
-var drList_rx = [];
-var selectedEg = 'RX';
-var eg_list = [];
-var ex_idx = -1;
 // Canvas
 var main_img = new Image();
 var ctx;
@@ -42,8 +29,7 @@ function loadScreenDrApp() {
     setEvalBtn();
     setScreenSize();
     addEvents();
-    loadGallery();
-    initExamples();
+    //loadGallery();
     // Allow change on upload label
     $('.custom-file-input').on('change', function () {
         var fileName = $(this).val();
@@ -56,13 +42,6 @@ function loadScreenDrApp() {
         // Set filename
         $(this).next('.form-control-file').addClass("selected").html(fileName);
     });
-}
-
-function initExamples() {
-    /** @description Set example buttons and images
-     */
-    clearBtnQualEg();
-    clearBtnDrEg();
 }
 
 function setScreenSize() {
@@ -83,7 +62,6 @@ function setScreenSize() {
     if (max_img_height < 256)
         max_img_height = 256;
 
-    max_img_width = $('#gallery').width();
     // Initializes canvas
     initCanvas();
 }
@@ -159,30 +137,6 @@ function loadGallery() {
                     el_ul.append(getGalleryEl(im_id, file.filename));
                     // Add filename to gallery list
                     galleryList.push(file.filename);
-                    // Quality List
-                    switch (file.quality) {
-                        case 'High':
-                            qList_high.push({ idx: i, filename: file.filename });
-                            break;
-                        default:
-                            qList_low.push({ idx: i, filename: file.filename });
-                    }
-                    switch (file.grading) {
-                        case 'R0':
-                            drList_r0.push({ idx: i, filename: file.filename });
-                            break;
-                        case 'R1':
-                            drList_r1.push({ idx: i, filename: file.filename });
-                            break;
-                        case 'R2':
-                            drList_r2.push({ idx: i, filename: file.filename });
-                            break;
-                        case 'R3':
-                            drList_r3.push({ idx: i, filename: file.filename });
-                            break;
-                        default:
-                            drList_rx.push({ idx: i, filename: file.filename });
-                    }
                     i += 1;
                 });
                 // Add list to gallery
@@ -192,8 +146,6 @@ function loadGallery() {
                 currentSrc = url_g + '/' + galleryList[idx];
                 img_orig = currentSrc;
                 current_idx = idx;
-                // Load Example
-                setImgEg(idx);
                 // Set full image 
                 setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
             }
@@ -412,33 +364,8 @@ function selectGalleryImage(imgid) {
     // Set main image
     img_orig = imgid.src;
     currentSrc = img_orig;
-    setMainImage();
-    // Set example
-    setImgEg(id);
-}
-
-function selectGalleryImage(imgid) {
-    /** @description Change large image after click on image gallery
-      * @param {string} image Image Element Id
-     */
-    resetimages();
-    resetLbl();
-    hasQuality = false;
-    setEvalBtn();
-    // Get image index in JS
-    id_str = imgid.id;
-    id = id_str.substr(img_idref.length, id_str.length - 1);
-    id = parseInt(id);
-    current_idx = id;
-    // Set main image
-    img_orig = imgid.src;
-    currentSrc = img_orig;
     setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
-    // Clear buttons
-    clearBtnDrEg();
-    clearBtnQualEg();
-    // Set example
-    setImgEg(id);
+    
 }
 
 function setMainImage(src, w, h) {
@@ -779,308 +706,6 @@ function toogleBtnClick() {
         currentSrc = img_orig;
         setMainImage();
     }
-}
-
-/*
- * Set Examples
- */
-
-function setImgEg(id) {
-    /** @description Initiate example image with a R0 image
-     * @param {int} id Image gallery id
-     */
-    // Set example
-    imgInfo = galleryData[id];
-    // URL
-    setEgImg(galleryURL + imgInfo.filename);
-    // Grading
-    changeDrEg(imgInfo.grading);
-    // Quality
-    changeQualEg(imgInfo.quality);
-    // Counter
-    selectedEg = imgInfo.grading;
-    setEgData(id);
-}
-
-function setImgQualEg(click_id) {
-    /** @description Set image of quality image example
-     * @param {string} image src
-     */
-    if (click_id === 'btn-qual-high') {
-        qual = 'High';
-        eg_list = qList_high;
-    }
-    else {
-        qual = 'Low';
-        eg_list = qList_low;
-    }
-    // Check if click on same button
-    if (qual === selectedEg)
-        return;
-    // Change selected example class
-    selectedEg = qual;
-    // Pick an index
-    var id = Math.floor(Math.random() * eg_list.length);
-    // Create an auxiliary list starting by the sorted index
-    var src = src = galleryURL + eg_list[id].filename;
-    setEgImg(src);
-    setEgCounter(id);
-    // Global index
-    var idx = eg_list[id].idx;
-    // Change quality
-    changeDrEg(galleryData[idx].grading);
-}
-
-function setImgDrEg(click_id) {
-    /** @description Set image of DR image example
-     * @param {string} image src
-     */
-
-    // Verify the selected gradding
-    switch (click_id) {
-        case 'btn-dr-r0':
-            grad = 'R0';
-            eg_list = drList_r0;
-            break;
-        case 'btn-dr-r1':
-            grad = 'R1';
-            eg_list = drList_r1;
-            break;
-        case 'btn-dr-r2':
-            grad = 'R2';
-            eg_list = drList_r2;
-            break;
-        case 'btn-dr-r3':
-            grad = 'R3';
-            eg_list = drList_r3;
-            break;
-        default:
-            grad = 'RX';
-            eg_list = drList_rx;
-    }
-    // Check if click on same button
-    if (grad === selectedEg)
-        return;
-    // Change selected example class
-    selectedEg = grad;
-    // Pick an index
-    var id = Math.floor(Math.random() * eg_list.length);
-    // Create an auxiliary list starting by the sorted index
-    var src = src = galleryURL + eg_list[id].filename;
-    setEgImg(src);
-    setEgCounter(id);
-    // Global index
-    var idx = eg_list[id].idx;
-    // Change quality
-    changeQualEg(galleryData[idx].quality);
-}
-
-function setEgImg(src) {
-    /** @description Set image of image example
-    * @param {string} image src
-    */
-    // Check list of images (small and larg)
-    el_im_list = $('#eg-img-zoom').find($("img"));
-    for (i = 0; i < el_im_list.length; i++) {
-        if (el_im_list[i].id !== "img-eg-dr")
-            // Remove large image
-            el_im_list[i].remove();
-    }
-    // change small image
-    $('#img-eg-dr')[0].src = src;
-    // add zoom functionality and large image
-    $('#eg-img-zoom').zoom({ on: 'grab' });
-}
-
-function setEg(btn) {
-    /** @description Manage the example buttons 
-    * @param {obj} Button
-    */
-    // Avoid double click
-    if ($('#' + btn.id).hasClass('focus'))
-        return;
-    // Clear buttons
-    clearBtnDrEg();
-    clearBtnQualEg();
-    // Check if button is dr or quality
-    if (btn.id.includes('dr')) {
-        setImgDrEg(btn.id);
-    }
-    else {
-        setImgQualEg(btn.id);
-    }   
-    // Manage classes
-    $('#' + btn.id).removeClass('btn-outline-light');
-    $('#' + btn.id).addClass('btn-light');
-    $('#' + btn.id).addClass('focus');
-}
-
-function changeQualEg(qual) {
-    /** @description Change quality example button 
-    * @param {string} quality
-     */
-    switch (qual) {
-        case 'High':
-            btn_q_id = '#btn-qual-high';
-            break;
-        default:
-            btn_q_id = '#btn-qual-low';
-    }
-    $(btn_q_id).removeClass('btn-outline-light');
-    $(btn_q_id).addClass('btn-light');
-}
-
-function changeDrEg(grad) {
-    /** @description Change quality example button 
-    * @param {string} grading
-     */
-    switch (grad) {
-        case 'R0':
-            btn_rd_id = '#btn-dr-r0';
-            break;
-        case 'R1':
-            btn_rd_id = '#btn-dr-r1';
-            break;
-        case 'R2':
-            btn_rd_id = '#btn-dr-r2';
-            break;
-        case 'R3':
-            btn_rd_id = '#btn-dr-r3';
-            break;
-        default:
-            btn_rd_id = '#btn-dr-rx';
-    }
-    $(btn_rd_id).removeClass('btn-outline-light');
-    $(btn_rd_id).addClass('btn-light');
-}
-
-function clearBtnQualEg() {
-    /** @description Remove classes from Quality Examples Buttons
-    */
-    $('#btn-qual-high').removeClass('focus');
-    $('#btn-qual-low').removeClass('focus');
-    
-    $('#btn-qual-high').removeClass('btn-light');
-    $('#btn-qual-low').removeClass('btn-light');
-
-    $('#btn-qual-high').addClass('btn-outline-light');
-    $('#btn-qual-low').addClass('btn-outline-light');
-}
-
-function clearBtnDrEg() {
-    /** @description Remove classes from DR Examples Buttons
-    */
-    $('#btn-dr-r0').removeClass('focus');
-    $('#btn-dr-r1').removeClass('focus');
-    $('#btn-dr-r2').removeClass('focus');
-    $('#btn-dr-r3').removeClass('focus');
-    $('#btn-dr-rx').removeClass('focus');
-
-    $('#btn-dr-r0').removeClass('btn-light');
-    $('#btn-dr-r1').removeClass('btn-light');
-    $('#btn-dr-r2').removeClass('btn-light');
-    $('#btn-dr-r3').removeClass('btn-light');
-    $('#btn-dr-rx').removeClass('btn-light');
-
-    $('#btn-dr-r0').addClass('btn-outline-light');
-    $('#btn-dr-r1').addClass('btn-outline-light');
-    $('#btn-dr-r2').addClass('btn-outline-light');
-    $('#btn-dr-r3').addClass('btn-outline-light');
-    $('#btn-dr-rx').addClass('btn-outline-light');
-}
-
-function setEgData(idx) {
-    /** @description Set the example images counter using the full index and the select button list
-    * @param {int} idx
-     */
-    // Set Eg Lists
-    switch (selectedEg) {
-        case 'R0':
-            eg_list = drList_r0;
-            $('#btn-dr-r0').addClass('focus');
-            break;
-        case 'R1':
-            eg_list = drList_r1;
-            $('#btn-dr-r1').addClass('focus');
-            break;
-        case 'R2':
-            eg_list = drList_r2;
-            $('#btn-dr-r2').addClass('focus');
-            break;
-        case 'R3':
-            eg_list = drList_r3;
-            $('#btn-dr-r3').addClass('focus');
-            break;
-        case 'High':
-            eg_list = qList_high;
-            $('#btn-qual-high').addClass('focus');
-            break;
-        case 'Low':
-            eg_list = qList_low;
-            $('#btn-qual-low').addClass('focus');
-            break;
-        default:
-            eg_list = drList_rx;
-            $('#btn-dr-rx').addClass('focus');
-    }
-    // Read data of local list
-    for(i = 0; i < eg_list.length; i++){
-        // Check if local name is equal to full index name
-        if (eg_list[i].filename === galleryData[idx].filename) {
-            id = i;
-            break;
-        }
-    }
-    setEgCounter(id);
-}
-
-function setEgCounter(local_id) {
-    /** @description Set the example images counter with local index
-    * @param {int} idx
-     */
-    var pos = local_id + 1;
-    var bcounter = $('#eg-counter');
-    bcounter.text(pos + '/' + eg_list.length);
-}
-
-function passEs(el) {
-    /** @description Pass images forward or backward
-    * @param {element} el
-     */
-    // Get current image
-    var src = $('#img-eg-dr')[0].src;
-    var id = -1;
-    // Find image in local list
-    for (i = 0; i < eg_list.length; i++) {
-        if (src.includes(eg_list[i].filename)) {
-            id = i;
-            break;
-        }
-    }
-    // Check direction
-    if (el.innerText.includes("Next")) {
-        id = id + 1;
-        if (id >= eg_list.length)
-            id = 0;
-    }
-    else {
-        id = id - 1;
-        if (id < 0)
-            id = eg_list.length - 1;
-    }
-
-    // Clear button
-    clearBtnDrEg();
-    // Get general id
-    var idx = eg_list[id].idx;
-    // Set button names
-    changeDrEg(galleryData[idx].grading);
-    changeQualEg(galleryData[idx].quality);
-    // Set example data
-    setEgData(idx);
-    // Set image and counter
-    setEgImg(galleryURL + eg_list[id].filename);
-    setEgCounter(id);
 }
 
 

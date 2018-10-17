@@ -1,0 +1,108 @@
+/*
+ * MENU
+ */
+
+.results-container {
+    margin: 10px 0 auto auto;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/*
+ * App container
+ */
+
+.breadcrumb-item {
+    margin: 0 auto;
+}
+
+.bg-green {
+    background-color: #417d44;
+    color: ghostwhite;
+}
+
+
+/*
+ *   GALLERY 
+ */
+
+/* Define gallery images properties */
+.gallery-img {
+    padding: 1px;
+    height: 64px;
+    width: auto;
+}
+
+
+/*
+ * Large Images
+ */
+.image-container {
+    margin: 5px 0;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.img-column {
+    padding: 10px;
+    display: inline;
+}
+
+.img-disp {
+    max-width: 800px;
+}
+
+
+/*
+ * Results Area
+*/
+
+.eval-container {
+    width: auto;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.res-field {
+    display: inline; 
+    visibility: hidden;
+}
+
+.menu-eval {
+    padding: 20px 5px 10px 5px;
+    min-height: 140px;
+}
+
+.result-txt {
+    padding: 10px 0 5px 0;
+    color: whitesmoke;
+}
+
+
+/*
+ *   Loader
+ */
+
+.loader {
+    border: 16px solid #343a40;
+    border-radius: 50%;
+    border-top: 16px solid #417d44;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    top: 40%;
+    left: 42%;
+    position: absolute;
+    z-index: 1;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
