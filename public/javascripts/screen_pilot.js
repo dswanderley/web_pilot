@@ -95,23 +95,43 @@ function handleFileSelect(e) {
 
     if (!e.target.files) return;
 
+    // Start body
+    var tbody = document.createElement("tbody");
     
     var files = e.target.files;
     for (var i = 0; i < files.length; i++) {
         var f = files[i];
-
-        var fname = f.name;
+        var fname = adjustNameLength(f.name);
         // handle image
         var newImage = readURL(f);
+        newImage.classList.add("upload-thumb");
         // Create list item
-        var li = document.createElement("li");
-        li.classList.add("list-group-item");
-        li.classList.add("list-group-item-light");        
-        li.append(newImage);
-        li.append(fname);
-        // Append on file list
-        $("#selected-files").append(li);
+        var row = document.createElement("tr");
+        row.classList.add("list-group-item");
+        row.classList.add("list-group-item-light");
+        row.classList.add("list-group-item-upload"); 
+        // Append Image thumbnail
+        var td1 = document.createElement("td");              
+        td1.appendChild(newImage);
+        row.appendChild(td1);
+        // Append image name
+        var td2 = document.createElement("td");
+        td2.classList.add("upload-name");
+        td2.appendChild(document.createTextNode(fname));
+        row.appendChild(td2);
+        // Append delete button
+        var td3 = document.createElement("td");
+        var btn = document.createElement("button");
+        btn.innerHTML = "&#10006";
+        btn.classList.add("btn"); btn.classList.add("btn-danger"); btn.classList.add("btn-cancel-upload");
+        td3.appendChild(btn);
+        row.appendChild(td3);
+        // Append Row to table
+        tbody.appendChild(row);
     }
+
+    // Append on file list
+    $("#selected-files").append(tbody);
 }
 
 function adjustNameLength(fname) {
@@ -134,7 +154,7 @@ function readURL(infile) {
     /** @description Read image data and convert to image src. Retunr a image object.
      *  @param {obj} infile file object
      */
-    var newImage = new Image(36, 36);
+    var newImage = new Image(30, 30);
     var reader = new FileReader();
     // render image
     reader.onload = function (e) {

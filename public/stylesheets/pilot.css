@@ -74,4 +74,26 @@
 
 #selected-files {
     text-align: left;
+    width: 370px;
+}
+
+.list-group-item-upload {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.upload-thumb {
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.upload-name {
+    width: 220px;
+}
+
+.btn-cancel-upload {
+    margin-left: 20px;
+    padding: 0;
+    height: 28px;
+    width: 28px;
 }
