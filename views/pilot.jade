@@ -13,10 +13,24 @@ block content
 
 				
 				.breadcrumb.navbar-success.bg-green
-					.h6.breadcrumb-item Expert Assessment
+					.h6.breadcrumb-item Uploaded Images
 
 				.row.justify-content-center
+					
+					#menu-upload						
+					
+						form.input-group.mb-3#fileupload(name="uploadTrg" method="POST" action="javascript:submitImgForm();" enctype="multipart/form-data" target="uploadTrg")
+							
+							.input-group-prepend
+								button.input-group-text#btn-upload-img(type="submit") Upload
+						
+							.custom-file
+								input.custom-file-input#input-up-img(type="file", name="filetoupload", accept="image/*", multiple)
+								.custom-file-label.form-control-file(for="input-up-img") Choose file
 				
+				.row.justify-content-center
+					ul.list-group#selected-files
+							
 
 			.col#col-diag-center
 				
@@ -66,6 +80,7 @@ block content
 											span.onoffswitch2-switch
 									label.result-txt#lbl-res5 Quality Map
 
+
 	script(src="/javascripts/screen_pilot.js")
 	script.		
 		$(window).on("load", function(){
@@ -74,3 +89,7 @@ block content
 		window.onresize = function (event) {
 			refreshScreenSize();
 		}
+		
+		$("#imgInp").change(function() {
+			readURL(this);
+		});

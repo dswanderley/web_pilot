@@ -30,18 +30,6 @@ function loadScreenDrApp() {
     setScreenSize();
     addEvents();
     //loadGallery();
-    // Allow change on upload label
-    $('.custom-file-input').on('change', function () {
-        var fileName = $(this).val();
-        // Windows systems
-        f_names = fileName.split(/\\/);
-        fileName = f_names[f_names.length - 1];
-        // Unix systems
-        f_names = fileName.split("/");
-        fileName = f_names[f_names.length - 1];
-        // Set filename
-        $(this).next('.form-control-file').addClass("selected").html(fileName);
-    });
 }
 
 function setScreenSize() {
@@ -77,6 +65,9 @@ function refreshScreenSize() {
 function addEvents() {
     /** @description Add Events listener
      */
+    // Upload
+    document.querySelector('#input-up-img').addEventListener('change', handleFileSelect, false);
+    // Canvas
     canvas.addEventListener('mousedown', canvasMouseDown, false);
     canvas.addEventListener('mousemove', canvasMouseMove, false);
     canvas.addEventListener('mouseup', canvasMouseUp, false);
@@ -96,6 +87,64 @@ function pageMouseUp(evt) {
         canvasMouseUp(evt);
     }
 }
+
+function handleFileSelect(e) {
+    /** @description Handle files select to upload
+     *  @param {event} e event data
+     */
+
+    if (!e.target.files) return;
+
+    
+    var files = e.target.files;
+    for (var i = 0; i < files.length; i++) {
+        var f = files[i];
+
+        var fname = f.name;
+        // handle image
+        var newImage = readURL(f);
+        // Create list item
+        var li = document.createElement("li");
+        li.classList.add("list-group-item");
+        li.classList.add("list-group-item-light");        
+        li.append(newImage);
+        li.append(fname);
+        // Append on file list
+        $("#selected-files").append(li);
+    }
+}
+
+function adjustNameLength(fname) {
+    /** @description Avoid a large filename to be displayed on the filelist.
+     *  @param {string} fname file name
+     */
+    var max_len = 30;
+    var in_pos = Math.floor(max_len / 2);
+    var end_pos = fname.length - Math.ceil(max_len / 2) + 3;
+
+    if (fname.length > max_len) {
+        var nname = fname.substring(0, in_pos) + '...' + fname.substring(end_pos, fname.length);
+        console.log(nname.length);
+        return nname;
+    }
+    return fname;
+}
+
+function readURL(infile) {
+    /** @description Read image data and convert to image src. Retunr a image object.
+     *  @param {obj} infile file object
+     */
+    var newImage = new Image(36, 36);
+    var reader = new FileReader();
+    // render image
+    reader.onload = function (e) {
+        newImage.src = reader.result;
+    }
+    reader.readAsDataURL(infile);
+    // return the new image
+    return newImage;
+}
+
 
 
 /*
@@ -416,10 +465,10 @@ function setMainImage(src, w, h) {
     main_img.src = src;
 }
 
+
 /*
  * Canvas
  */
-
 
 function initCanvas() {
     /** @description Initialize canvas

@@ -72,4 +72,6 @@
     content: "";
 }
 
-
+#selected-files {
+    text-align: left;
+}
