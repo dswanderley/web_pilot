@@ -67,7 +67,7 @@ Activate environment
 Install requested packages
 ```
 >> conda install theano=0.9.0
->> pip install keras==1.1.2
+>> pip install keras==1.2.2
 >> conda install flask
 >> conda install PIL scikit-learn scikit-image h5py
 ```
