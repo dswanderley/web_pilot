@@ -96,7 +96,12 @@ function handleFileSelect(e) {
     if (!e.target.files) return;
 
     // Start body
-    var tbody = document.createElement("tbody");
+    if ($('tbody').length === 0) {
+        var tbody = document.createElement("tbody");
+        tbody.setAttribute("id", "upload-tbody");
+    }
+    else
+        var tbody = document.getElementById("upload-tbody");  
     
     var files = e.target.files;
     for (var i = 0; i < files.length; i++) {
@@ -132,6 +137,13 @@ function handleFileSelect(e) {
 
     // Append on file list
     $("#selected-files").append(tbody);
+
+    var h1 = $('#selected-files').height();
+    var h2 = $('tbody').height();
+
+    if (h1 < h2) {
+        $('#selected-files').css('overflow-y', 'scroll');
+    }
 }
 
 function adjustNameLength(fname) {

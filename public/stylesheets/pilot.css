@@ -73,8 +73,11 @@
 }
 
 #selected-files {
+    overflow: hidden;
+    /*overflow-y: scroll;*/
     text-align: left;
     width: 370px;
+    max-height:500px;
 }
 
 .list-group-item-upload {
