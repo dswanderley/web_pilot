@@ -88,6 +88,120 @@ function pageMouseUp(evt) {
     }
 }
 
+
+
+/*
+ * Ajax calls
+ */
+
+function loadUpGallery() {
+    /** @description Load Gallery of images
+     */
+    $('.loader').show();
+    // Load Gallery Div
+    var gallery = $('#gallery');
+    // Create gallery ul - unordered list
+    var el_ul = jQuery('<ul/>', {
+        class: 'galery-ul'
+    });
+    // Gallery URL
+    url_g = urlBase + '/gallery';
+
+    // Ajax call
+    $.ajax(
+        {
+            type: 'GET',
+            url: url_g,
+            data: { id: '0' },
+            dataType: 'json',
+            cache: false,
+            async: true,
+            success: function (data) {
+                // reset List of images in gallery
+                galleryList = [];
+                galleryData = data.gallery_list;
+                i = 0;
+                // Read images in gallery folder
+                data.gallery_list.forEach(file => {
+                    // Define image ID
+                    im_id = img_idref + i;
+                    // Create each image element - list item
+                    el_ul.append(getGalleryEl(im_id, file.filename));
+                    // Add filename to gallery list
+                    galleryList.push(file.filename);
+                    i += 1;
+                });
+                // Add list to gallery
+                gallery.append(el_ul);
+                // Set orginal image block with the first image on gallery
+                idx = Math.floor(Math.random() * galleryData.length);
+                currentSrc = url_g + '/' + galleryList[idx];
+                img_orig = currentSrc;
+                current_idx = idx;
+                // Set full image 
+                setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+            }
+        });
+}
+
+function submitImgForm() {
+    /** @description Asynchronous submition of the form image
+     */
+    $('.loader').show();
+    var formData = new FormData($('#fileupload')[0]);
+    $.ajax({
+        url: '/imgupload',
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+            loadUpImages(data);
+            clearUploadList();
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
+}
+
+function loadUpImages(datain) {
+    /** @description Get image list of recent upload images
+      * @param {obj} datain obj with a list
+     */
+
+    // Ajax call
+    $.ajax(
+        {
+            type: 'GET',
+            url: '/imgupload',
+            data: { data: datain },
+            dataType: 'json',
+            cache: false,
+            async: true,
+            success: function (data) {
+                // Load data
+                var uploadList = data.file_list;
+                var uploadData = data.upload_list;
+                // Get first image src
+                var src = 'upload/' + uploadList[0];
+                // set image on canvas
+                setMainImage(src, uploadData[0].width, uploadData[0].height);                
+            }
+        });
+}
+
+
+/*
+ * Upload images
+ */
+
+function clearUploadList() {
+    /** @description Clear upload list body
+     */
+    $("#upload-tbody").remove();
+}
+
 function handleFileSelect(e) {
     /** @description Handle files select to upload
      *  @param {event} e event data
@@ -101,8 +215,8 @@ function handleFileSelect(e) {
         tbody.setAttribute("id", "upload-tbody");
     }
     else
-        var tbody = document.getElementById("upload-tbody");  
-    
+        var tbody = document.getElementById("upload-tbody");
+
     var files = e.target.files;
     for (var i = 0; i < files.length; i++) {
         var f = files[i];
@@ -114,9 +228,9 @@ function handleFileSelect(e) {
         var row = document.createElement("tr");
         row.classList.add("list-group-item");
         row.classList.add("list-group-item-light");
-        row.classList.add("list-group-item-upload"); 
+        row.classList.add("list-group-item-upload");
         // Append Image thumbnail
-        var td1 = document.createElement("td");              
+        var td1 = document.createElement("td");
         td1.appendChild(newImage);
         row.appendChild(td1);
         // Append image name
@@ -176,229 +290,6 @@ function readURL(infile) {
     // return the new image
     return newImage;
 }
-
-
-
-/*
- * Ajax calls
- */
-
-function loadGallery() {
-    /** @description Load Gallery of images
-     */
-    $('.loader').show();
-    // Load Gallery Div
-    var gallery = $('#gallery');
-    // Create gallery ul - unordered list
-    var el_ul = jQuery('<ul/>', {
-        class: 'galery-ul'
-    });
-    // Gallery URL
-    url_g = urlBase + '/gallery';
-
-    // Ajax call
-    $.ajax(
-        {
-            type: 'GET',
-            url: url_g,
-            data: { id: '0' },
-            dataType: 'json',
-            cache: false,
-            async: true,
-            success: function (data) {
-                // reset List of images in gallery
-                galleryList = [];
-                galleryData = data.gallery_list;
-                i = 0;
-                // Read images in gallery folder
-                data.gallery_list.forEach(file => {
-                    // Define image ID
-                    im_id = img_idref + i;
-                    // Create each image element - list item
-                    el_ul.append(getGalleryEl(im_id, file.filename));
-                    // Add filename to gallery list
-                    galleryList.push(file.filename);
-                    i += 1;
-                });
-                // Add list to gallery
-                gallery.append(el_ul);
-                // Set orginal image block with the first image on gallery
-                idx = Math.floor(Math.random() * galleryData.length);
-                currentSrc = url_g + '/' + galleryList[idx];
-                img_orig = currentSrc;
-                current_idx = idx;
-                // Set full image 
-                setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
-            }
-        });
-}
-
-function quality() {
-    /** @description Call image Quality. Evaluate displayed image.
-     */
-    // Read image filename
-    $('.loader').show();
-    var currentSrc = img_orig;
-    var str_list = currentSrc.split('/');
-    img = str_list[str_list.length - 1];
-    folder = str_list[str_list.length - 2];
-    // Ajax call
-    $.ajax(
-        {
-            type: 'GET',
-            url: urlBase + '/quality',
-            data: {
-                dir: folder,
-                img: img
-            },
-            dataType: 'json',
-            cache: false,
-            async: true,
-            success: function (data) {
-                // Convert data to JSON
-                qual_data = data;
-                // Print results
-                $('#res-field-qual').css('visibility', 'visible');
-                //$('#lbl-res1').text('Percentage: ' + Math.round(qual_data.q_pred) + '% ');
-                $('#lbl-res2').text(qual_data.qual);
-
-                console.log("Quality: " + qual_data.qual);
-                console.log("Prediction Val.: " + qual_data.q_pred);
-                // Get image path and URL
-                path = qual_data.path;
-                if (qual_data.q_pred <= 50) {
-                    // Quality flag
-                    hasQuality = false;
-                    // Partial cases
-                    if (qual_data.q_pred > 25) {
-                        hasQuality = true;
-                    }
-                    //  Image src
-                    img_qual = path;
-                    currentSrc = img_qual;
-                    // Set full image 
-                    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
-                    // Set css attributes
-                    $('#img-disp').attr('height', '256px');
-                    $('#lbl-res2').addClass("btn-outline-danger");
-                    $('#res-field-map').css('visibility', 'visible');
-                    $('.onoffswitch2-checkbox').prop('checked', true);
-                    $('#res-field-map').css('visibility', 'visible');
-                    $('#lbl-res5').text('Quality Map');
-                }
-                else {
-                    hasQuality = true;
-                    $('#lbl-res2').addClass("btn-outline-success");
-                    $('#res-field-map').css('visibility', 'hidden');
-                    $('.loader').hide();
-                }
-                // Block or allow Btn
-                setEvalBtn();
-            }
-        });
-}
-
-function dr_detection() {
-    /** @description Call DR detection. Process displayed image.
-     */
-    $('.loader').show();
-    // Read image filename
-    var currentSrc = img_orig;
-    var str_list = currentSrc.split('/');
-    img = str_list[str_list.length - 1];
-    folder = str_list[str_list.length - 2];
-    // Ajax call
-    $.ajax(
-        {
-            type: 'GET',
-            url: urlBase + '/dr_detection',
-            data: {
-                dir: folder,
-                img: img
-            },
-            dataType: 'json',
-            cache: false,
-            async: true,
-            success: function (data) {
-                // Convert data to JSON
-                dr_data = data;
-                // Print results
-                $('#res-field-dr').css('visibility', 'visible');
-                //$('#lbl-res3').text('Percentage: ' + Math.round(dr_data.dr_pred) + '% ');
-                $('#lbl-res4').text(dr_data.dr);
-
-                console.log("Disease: " + dr_data.dr);
-                console.log("Prediction Val.: " + dr_data.dr_pred);
-                // Get image path and URL
-                path = dr_data.path;
-                if (dr_data.dr_pred > 50) {
-                    // Image src
-                    img_dr = path;
-                    currentSrc = img_dr;
-                    // Set full image 
-                    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
-                    // Set css attributes
-                    $('#img-disp').attr('height', '256px');
-                    $('#lbl-res4').addClass("btn-outline-danger");
-                    $('#res-field-map').css('visibility', 'visible');
-                    $('.onoffswitch2-checkbox').prop('checked', true);
-                    $('#lbl-res5').text('Detection Map');
-                }
-                else {
-                    $('#lbl-res4').addClass("btn-outline-success");
-                    $('#res-field-map').css('visibility', 'hidden');
-                    $('.loader').hide();
-                }
-            }
-        });
-}
-
-function submitImgForm() {
-    /** @description Asynchronous submition of the form image
-     */
-    $('.loader').show();
-    var formData = new FormData($('#fileupload')[0]);
-    $.ajax({
-        url: '/imgupload',
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-            loadUpImages(data);
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-
-    return false;
-}
-
-function loadUpImages(datain) {
-    /** @description Get image list of recent upload images
-      * @param {obj} datain obj with a list
-     */
-
-    // Ajax call
-    $.ajax(
-        {
-            type: 'GET',
-            url: '/imgupload',
-            data: { data: datain },
-            dataType: 'json',
-            cache: false,
-            async: true,
-            success: function (data) {
-                // Load data
-                var uploadList = data.file_list;
-                var uploadData = data.upload_list;
-                // Get first image src
-                var src = 'upload/' + uploadList[0];
-                // set image on canvas
-                setMainImage(src, uploadData[0].width, uploadData[0].height);                
-            }
-        });
-}
-
 
 /*
  * Set Image

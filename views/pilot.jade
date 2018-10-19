@@ -11,26 +11,33 @@ block content
 			
 			.col#col-diag-left
 
-				
 				.breadcrumb.navbar-success.bg-green
-					.h6.breadcrumb-item Uploaded Images
+					.h6.breadcrumb-item Images
 
-				.row.justify-content-center
-					
-					#menu-upload						
-					
-						form.input-group.mb-3#fileupload(name="uploadTrg" method="POST" action="javascript:submitImgForm();" enctype="multipart/form-data" target="uploadTrg")
-							
-							.input-group-prepend
-								button.input-group-text#btn-upload-img(type="submit") Upload
-						
-							.custom-file
-								input.custom-file-input#input-up-img(type="file", name="filetoupload", accept="image/*", multiple)
-								.custom-file-label.form-control-file(for="input-up-img") Choose file
+				ul.nav.nav-tabs.row.justify-content-center
+					li.nav-item.double-list.h6
+						a.nav-link.show.active#upload-tab(data-toggle="tab" href="#upload-pane" role="tab" aria-controls="upload-pane" aria-selected="true") Upload
+					li.nav-item.double-list.h6
+						a.nav-link#gallery-tab(data-toggle="tab" href="#gallery-pane" role="tab" aria-controls="gallery-pane" aria-selected="false") Gallery
 				
-				.row.justify-content-center
-					table.list-group#selected-files
-							
+				
+				.tab-content.row.justify-content-center
+				
+					.tab-pane.fade.show.active#upload-pane(role="tabpanel" aria-labelledby="upload-tab")
+						#menu-upload											
+							form.input-group.mb-3#fileupload(name="uploadTrg" method="POST" action="javascript:submitImgForm();" enctype="multipart/form-data" target="uploadTrg")
+								.input-group-prepend
+									button.input-group-text#btn-upload-img(type="submit") Upload
+								.custom-file
+									input.custom-file-input#input-up-img(type="file", name="filetoupload", accept="image/*", multiple)
+									.custom-file-label.form-control-file(for="input-up-img") Choose file
+					
+						table.list-group#selected-files				
+
+					.tab-pane.fade#gallery-pane(role="tabpanel" aria-labelledby="gallery-tab")
+						img(src="https://pbs.twimg.com/profile_images/1196566139/CRV_-_Urso_comptd_400x400.jpg")
+
+
 
 			.col#col-diag-center
 				

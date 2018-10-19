@@ -64,6 +64,18 @@
  * Upload Area
  */
 
+a.nav-link{
+    color: ghostwhite;
+}
+
+ul.nav.nav-tabs.row.justify-content-center {
+    width: 103%;
+}
+
+.double-list {
+    width: 45%;
+}
+
 #btn-upload-img {
     cursor: pointer;
 }
@@ -72,12 +84,20 @@
     content: "";
 }
 
+.tab-pane {
+    margin-top: 5px;
+}
+
+#fileupload {
+    margin-bottom: 5px !important; 
+}
+
 #selected-files {
     overflow: hidden;
     /*overflow-y: scroll;*/
     text-align: left;
     width: 370px;
-    max-height:500px;
+    max-height: 500px;
 }
 
 .list-group-item-upload {
