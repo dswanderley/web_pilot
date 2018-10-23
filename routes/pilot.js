@@ -26,26 +26,24 @@ router.post('/imgupload', function (req, res) {
         return res.send('error');
     }
 
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    /* Handle upload */
+
     let files = req.files.filetoupload;
     var file_list = [];
     
-    // Read files
+    // Read and save files
     if (Array.isArray(files)) {
         files.forEach(file => {
             // Filename
             var filename = file.name;
             var path = uploadDir + filename;
             // Json element
-            var el = {
-                filename: filename,
-                src: path
-            };
+            var el = new ImageData(filename, path);
             // move to list
             file_list.push(el);
             // Move each file
             file.mv(path, function (err) {
-                if (err)
+                if (err) 
                     file_list.pop(); // if does not move pop from list
             });
         });
@@ -54,10 +52,7 @@ router.post('/imgupload', function (req, res) {
         var filename = files.name;
         var path = uploadDir + filename;
         // Json element
-        var el = {
-            filename: filename,
-            src: path
-        };
+        var el = new ImageData(filename, path);
         // move to list
         file_list.push(el);
         // Move each file
@@ -70,6 +65,7 @@ router.post('/imgupload', function (req, res) {
     return res.send(file_list);
 });
 
+
 // Upload - GET
 router.get('/imgupload', function (req, res) {
 
@@ -77,6 +73,23 @@ router.get('/imgupload', function (req, res) {
     if (!req.query.data) {
         return res.send('error');
     }
+
+    // Define JSON file
+    var json_path = uploadDir + 'data.json';
+    // Check if data.json exist
+    if (fs.existsSync(json_path)) {
+        // Load JSON file with data
+        var data = JSON.parse(fs.readFileSync(json_path, 'utf8'));
+    }
+    else {
+        // Create new empty object
+        var data = {
+            images: new Array(),
+            createTime: new Date(),
+            updateTime: new Date()
+        }
+    }
+
     // List of images
     var data_list = req.query.data;
     // Initialize list of files
@@ -101,11 +114,55 @@ router.get('/imgupload', function (req, res) {
                     upload_list.push(el);
                 }
             });
-        });        
+        });    
+
+        // Verify if uploaded files is on filelist
+        var images = data.images;
+        images.forEach(img => {
+            upload_list.forEach(function (uimg, index, object) {
+                if (img.filename === uimg.filename) {
+                    object.splice(index, 1);
+                }
+            });
+        });
+        // Merge lists
+        data.images = images.concat(upload_list);
+        // Save JSON
+        data.updateTime = new Date();
+        fs.writeFile(json_path, JSON.stringify(data), (err) => {
+            if (err) throw err;
+        });
+
+        console.log(upload_list);
+
         // Send list of files
         return res.send({ file_list, upload_list });
     });    
 });
+
+
+/* Classes */
+
+class ImageData {
+    constructor(filename, path) {
+        this.filename = filename;
+        this.path = path;
+        this.width = null;
+        this.height = null;
+        this.patient = new PatientInfo();
+        this.quality = null;
+        this.dr = null;
+        this.processed = false;
+    }
+}
+
+class PatientInfo {
+
+}
+
+
+/* Private Functions */
+
 
 // Return routers
 module.exports = router;
