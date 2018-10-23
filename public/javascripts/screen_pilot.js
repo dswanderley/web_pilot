@@ -43,9 +43,9 @@ function setScreenSize() {
     var height_body = Math.ceil(height_window - height_header - height_footer);
 
     var height_breadcrumb = parseFloat($(".breadcrumb").css("height")) + parseInt($(".breadcrumb").css("margin-bottom")) + parseInt($(".breadcrumb").css("margin-top"));
-    var padding_image = 26;
+    var padding = 26;
 
-    max_img_height = Math.floor(height_body - height_breadcrumb - padding_image);
+    max_img_height = Math.floor(height_body - height_breadcrumb - padding);
     if (max_img_height < 256)
         max_img_height = 256;
 

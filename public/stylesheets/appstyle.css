@@ -21,11 +21,13 @@
     color: ghostwhite;
 }
 
+#col-diag-left, #col-diag-right {
+    max-width: 450px;
+}
 
 /*
  *   GALLERY 
  */
-
 /* Define gallery images properties */
 .gallery-img {
     padding: 1px;
