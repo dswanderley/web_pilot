@@ -65,7 +65,6 @@ router.post('/imgupload', function (req, res) {
     return res.send(file_list);
 });
 
-
 // Upload - GET
 router.get('/imgupload', function (req, res) {
 
@@ -133,13 +132,28 @@ router.get('/imgupload', function (req, res) {
             if (err) throw err;
         });
 
-        console.log(upload_list);
-
         // Send list of files
         return res.send({ file_list, upload_list });
     });    
 });
 
+// Gallery - GET
+router.get('/upgallery', function (req, res) {
+
+    // Define JSON file
+    var json_path = uploadDir + 'data.json';
+    var images = null;
+    // Check if data.json exist
+    if (fs.existsSync(json_path)) {
+        // Load JSON file with data
+        var data = JSON.parse(fs.readFileSync(json_path, 'utf8'));
+        images = data.images;
+    }
+
+    // Send list of files
+    return res.send({ images });
+
+});
 
 /* Classes */
 

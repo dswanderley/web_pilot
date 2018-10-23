@@ -7,7 +7,7 @@ var hasQuality = false;
 // Images src
 var img_orig = "";
 var img_idref = 'g_img_';
-var galleryURL = 'gallery/';
+var galleryURL = 'upload/';
 var currentSrc = "";
 var current_idx = "";
 // Canvas
@@ -29,7 +29,7 @@ function loadScreenDrApp() {
     setEvalBtn();
     setScreenSize();
     addEvents();
-    //loadGallery();
+    loadUpGallery();
 }
 
 function setScreenSize() {
@@ -45,7 +45,7 @@ function setScreenSize() {
     var height_body = Math.ceil(height_window - height_header - height_footer);
     // Get inside elements height
     var height_breadcrumb = parseFloat($(".breadcrumb").css("height")) + parseInt($(".breadcrumb").css("margin-bottom")) + parseInt($(".breadcrumb").css("margin-top"));
-    var height_padding = 26;
+    var height_padding = -10;
     // Calculate canvas max height
     max_img_height = Math.floor(height_body - height_breadcrumb - height_padding);
     if (max_img_height < 256)
@@ -107,48 +107,30 @@ function loadUpGallery() {
     /** @description Load Gallery of images
      */
     $('.loader').show();
-    // Load Gallery Div
-    var gallery = $('#gallery');
-    // Create gallery ul - unordered list
-    var el_ul = jQuery('<ul/>', {
-        class: 'galery-ul'
-    });
     // Gallery URL
-    url_g = urlBase + '/gallery';
+    url_g = urlBase + '/upgallery';
 
     // Ajax call
     $.ajax(
         {
             type: 'GET',
             url: url_g,
-            data: { id: '0' },
             dataType: 'json',
             cache: false,
             async: true,
             success: function (data) {
-                // reset List of images in gallery
-                galleryList = [];
-                galleryData = data.gallery_list;
-                i = 0;
-                // Read images in gallery folder
-                data.gallery_list.forEach(file => {
-                    // Define image ID
-                    im_id = img_idref + i;
-                    // Create each image element - list item
-                    el_ul.append(getGalleryEl(im_id, file.filename));
-                    // Add filename to gallery list
-                    galleryList.push(file.filename);
-                    i += 1;
-                });
-                // Add list to gallery
-                gallery.append(el_ul);
-                // Set orginal image block with the first image on gallery
-                idx = Math.floor(Math.random() * galleryData.length);
-                currentSrc = url_g + '/' + galleryList[idx];
-                img_orig = currentSrc;
-                current_idx = idx;
-                // Set full image 
-                setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+
+                if (data.images) {
+                    // reset List of images in gallery
+                    galleryData = data.images;
+                    // Image ID
+                    current_idx = 0;
+                    currentSrc = galleryURL + '/' + galleryData[current_idx].filename;
+                    img_orig = currentSrc;
+                    
+                    // Set full image 
+                    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+                }                
             }
         });
 }
