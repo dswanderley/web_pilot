@@ -36,17 +36,16 @@ function setScreenSize() {
     /** @description Defines max image heigh according other page elements
      *  Size of all other elements are predefined.
      */
-    height_header = 76;
-    height_footer = 115;
-    height_window = $(window).height();
+    var height_header = parseFloat($("header").css("height"));
+    var height_footer = parseFloat($("footer").css("height"));
+    var height_window = $(window).height();
 
-    height_body = height_window - height_header - height_footer;
+    var height_body = Math.ceil(height_window - height_header - height_footer);
 
-    height_gallery = 86 + 15 + 20;
-    height_breadcrumb = 19 + 12 + 12 + 16;
-    padding_image = 5 + 5;
+    var height_breadcrumb = parseFloat($(".breadcrumb").css("height")) + parseInt($(".breadcrumb").css("margin-bottom")) + parseInt($(".breadcrumb").css("margin-top"));
+    var padding_image = 26;
 
-    max_img_height = height_body - height_gallery - height_breadcrumb - padding_image - 3;
+    max_img_height = Math.floor(height_body - height_breadcrumb - padding_image);
     if (max_img_height < 256)
         max_img_height = 256;
 
