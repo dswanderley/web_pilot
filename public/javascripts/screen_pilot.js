@@ -36,18 +36,28 @@ function setScreenSize() {
     /** @description Defines max image heigh according other page elements
      *  Size of all other elements are predefined.
      */
+
+    // Get element height
     var height_header = parseFloat($("header").css("height"));
     var height_footer = parseFloat($("footer").css("height"));
     var height_window = $(window).height();
-
+    // Body height
     var height_body = Math.ceil(height_window - height_header - height_footer);
-
+    // Get inside elements height
     var height_breadcrumb = parseFloat($(".breadcrumb").css("height")) + parseInt($(".breadcrumb").css("margin-bottom")) + parseInt($(".breadcrumb").css("margin-top"));
-    var padding = 26;
-
-    max_img_height = Math.floor(height_body - height_breadcrumb - padding);
+    var height_padding = 26;
+    // Calculate canvas max height
+    max_img_height = Math.floor(height_body - height_breadcrumb - height_padding);
     if (max_img_height < 256)
         max_img_height = 256;
+
+    // Get Element width
+    var width_window = $(window).width();
+    var width_left = parseFloat($("#col-diag-left").css("width"));
+    var width_right = parseFloat($("#col-diag-right").css("width"));
+    var width_body = Math.ceil(width_window - width_left - width_right);
+    // Calculate canvas max height
+    max_img_width = width_body;
 
     // Initializes canvas
     initCanvas();
