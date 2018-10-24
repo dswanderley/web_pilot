@@ -2,6 +2,7 @@
 import os
 import argparse
 import json
+import datetime
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -310,6 +311,48 @@ def call_dr():
                                       dr_pred = y_pred[0, 0] * 100)
     
     return json.dumps(dr_data.__dict__) 
+
+
+@app.route("/update")
+def update():
+    """
+    Update JSON List - Process all data no evaluated yet for quality and 
+    DR detection.
+    
+    Load the data.json file from folder=upload and re-write the same file.
+    """
+    # Get json data name and path
+    fname = 'data.json'
+    folder = 'upload'
+    # Set image folder
+    file_dir = dir_images + folder + '/'
+    # Set path to image
+    path_to_json =  os.path.join(file_dir, fname)
+    # Set path to image
+    data = json.load(open(path_to_json))
+
+    updated = False
+          
+    # Read Images list
+    for im in data['images']:
+        # Process when necessery
+        if im['processed'] == 'false':
+            updated = True
+            im['quality'] = 1.0
+            
+    if updated:
+        dt_str = str(datetime.datetime.now())
+        dt_str = dt_str.replace(' ', 'T')
+        dt_str = dt_str.replace('000', 'Z')
+        
+        data['updateTime'] = dt_str
+        
+        with open(path_to_json, 'w') as jsf:
+            json.dump(data, jsf, indent=4, sort_keys=True)
+            #jsf.write("\n")  # Add newline cause Py JSON does not
+            jsf.truncate()
+     
+    return 'Json data updated'
 
 
 ###############################################################################

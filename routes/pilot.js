@@ -6,9 +6,11 @@
 // Module dependencies
 var router = require('express').Router(),
     fs = require('fs'),
+    request = require("request"),
     sizeOf = require('image-size');
 
 var uploadDir = './images/upload/';
+var R_PATH = 'http://localhost:' + '5000';
 
 // Main application - GET
 router.get('/pilot', function (req, res) {
@@ -128,7 +130,7 @@ router.get('/imgupload', function (req, res) {
         data.images = images.concat(upload_list);
         // Save JSON
         data.updateTime = new Date();
-        fs.writeFile(json_path, JSON.stringify(data), (err) => {
+        fs.writeFile(json_path, JSON.stringify(data, null, "\t"), (err) => {
             if (err) throw err;
         });
 
@@ -139,6 +141,9 @@ router.get('/imgupload', function (req, res) {
 
 // Gallery - GET
 router.get('/upgallery', function (req, res) {
+
+    // Update JSON list
+    updateData();
 
     // Define JSON file
     var json_path = uploadDir + 'data.json';
@@ -177,6 +182,24 @@ class PatientInfo {
 
 /* Private Functions */
 
+function updateData() {
+    /** @description Send command to process all images on data.json which have not been processed yet.
+     */
+
+    // Python script port
+    var request_path = R_PATH + '/update';
+
+    // Call request
+    request(request_path, function (error, response, body) {
+
+        if (!error) {
+            console.log('JSON data updated!');
+        }
+        else {
+            console.log(error);
+        }
+    });
+}
 
 // Return routers
 module.exports = router;

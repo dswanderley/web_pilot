@@ -261,7 +261,6 @@ function adjustNameLength(fname) {
 
     if (fname.length > max_len) {
         var nname = fname.substring(0, in_pos) + '...' + fname.substring(end_pos, fname.length);
-        console.log(nname.length);
         return nname;
     }
     return fname;
