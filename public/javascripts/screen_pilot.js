@@ -125,9 +125,10 @@ function loadUpGallery() {
                     galleryData = data.images;
                     // Image ID
                     current_idx = 0;
-                    currentSrc = galleryURL + '/' + galleryData[current_idx].filename;
+                    currentSrc = galleryURL + galleryData[current_idx].filename;
                     img_orig = currentSrc;
-                    
+                    // Update Gallery
+                    setGallery()
                     // Set full image 
                     setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
                 }                
@@ -201,7 +202,7 @@ function handleFileSelect(e) {
     if (!e.target.files) return;
 
     // Start body
-    if ($('tbody').length === 0) {
+    if ($("#selected-files").find('tbody').length === 0) {
         var tbody = document.createElement("tbody");
         tbody.setAttribute("id", "upload-tbody");
     }
@@ -281,54 +282,90 @@ function readURL(infile) {
     return newImage;
 }
 
+
 /*
- * Set Image
+ * Gallery List
+ */ 
+
+function setGallery() {
+    /** @description Fill in the list of images in the gallery if it exists.
+     */
+
+    // Change pane and tab class (show/hide)
+    if (galleryData.length > 0) {
+        // Tab
+        $("#upload-tab").removeClass("show active");
+        $("#gallery-tab").addClass("show active");
+        // Pane
+        $("#upload-pane").removeClass("show active");
+        $("#gallery-pane").addClass("show active");
+    } else {
+        // Tab
+        $("#gallery-tab").removeClass("show active");
+        $("#upload-tab").addClass("show active");
+        // Pane
+        $("#gallery-pane").removeClass("show active");
+        $("#upload-pane").addClass("show active");
+    }
+
+    // Create Table
+    $("#gallery-files").empty();
+    var tbody = document.createElement("tbody");
+    tbody.setAttribute("id", "gallery-tbody");
+
+    // Read all gallery data
+    for (var i = 0; i < galleryData.length; i++) {
+        var f = galleryData[i];
+        var src = galleryURL + f.filename;
+        var fname = adjustNameLength(f.filename);
+        // handle image
+        var thumb = new Image(30, 30);
+        thumb.src = src;
+        thumb.classList.add("upload-thumb");
+        // Create list item
+        var row = document.createElement("tr");
+        row.classList.add("list-group-item");
+        row.classList.add("list-group-item-upload");
+        // Append Image thumbnail
+        var td1 = document.createElement("td");
+        td1.appendChild(thumb);
+        row.appendChild(td1);
+        // Append image name
+        var td2 = document.createElement("td");
+        td2.classList.add("upload-name");
+        td2.appendChild(document.createTextNode(fname));
+        row.appendChild(td2);
+        // Append delete button
+        var td3 = document.createElement("td");
+        var btn = document.createElement("button");
+        btn.classList.add("btn-cancel-upload");
+        btn.classList.add("btn"); 
+        td3.appendChild(btn);
+        row.appendChild(td3);
+
+        if (JSON.parse(f.processed)) {
+            row.classList.add("list-group-item-success");
+            btn.innerHTML = "&#128147";
+        }
+        else { 
+            row.classList.add("list-group-item-light");
+            btn.innerHTML = "&#9760";
+            btn.classList.add("btn-danger"); 
+        }
+
+        // Append Row to table
+        tbody.appendChild(row);
+    }
+
+    // Append on file list
+    $("#gallery-files").append(tbody);
+
+}
+
+
+/*
+ * Canvas
  */
-
-function getGalleryEl(id, img) {
-    /** @description Get image element for the gallery
-      * @param {string} g_img id
-      * @param {string} image name
-      * @return {jQuery} list item
-     */
-
-    // Create list item
-    el_li = jQuery("<li/>", {
-        class: "gallery-img",
-        onclick: "selectGalleryImage(" + id + ")"
-    });
-    // Create image element
-    el_img = jQuery("<img/>", {
-        class: "gallery-thumb",
-        id: id,
-        height: "64px",
-        src: galleryURL + img
-    });
-    // Add image to list item
-    el_li.append(el_img);
-
-    return el_li;
-}
-
-function selectGalleryImage(imgid) {
-    /** @description Change large image after click on image gallery
-      * @param {string} image Image Element Id
-     */
-    resetimages();
-    resetLbl();
-    hasQuality = false;
-    setEvalBtn();
-    // Get image index in JS
-    id_str = imgid.id;
-    id = id_str.substr(img_idref.length, id_str.length - 1);
-    id = parseInt(id);
-    current_idx = id;
-    // Set main image
-    img_orig = imgid.src;
-    currentSrc = img_orig;
-    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
-    
-}
 
 function setMainImage(src, w, h) {
     /** @description Set original image src
@@ -355,7 +392,7 @@ function setMainImage(src, w, h) {
     // Load context
     ctx = canvas.getContext("2d");
     trackTransforms(ctx);
-    
+
     // Calculate scale with canvas size
     canvasScale = Math.min(canvas.height / img_height, canvas.width / img_width);
     // coordinate in the destination canvas at which to place the top-left corner of the source image
@@ -377,11 +414,6 @@ function setMainImage(src, w, h) {
     };
     main_img.src = src;
 }
-
-
-/*
- * Canvas
- */
 
 function initCanvas() {
     /** @description Initialize canvas

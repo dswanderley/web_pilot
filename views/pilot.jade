@@ -32,7 +32,7 @@ block content
 									input.custom-file-input#input-up-img(type="file", name="filetoupload", accept="image/*", multiple)
 									.custom-file-label.form-control-file(for="input-up-img") Choose file
 					
-						table.list-group#selected-files				
+						table.list-group#selected-files
 
 					.tab-pane.fade#gallery-pane(role="tabpanel" aria-labelledby="gallery-tab")
 						table.list-group#gallery-files		
@@ -88,7 +88,10 @@ block content
 											span.onoffswitch2-switch
 									label.result-txt#lbl-res5 Quality Map
 
-						input.form-control-range(type="range")
+
+						.menu-eval#menu-slider				
+							input(type="range")
+							input(type="text" name="fname")
 
 
 	script(src="/javascripts/screen_pilot.js")

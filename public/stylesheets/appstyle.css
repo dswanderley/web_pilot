@@ -66,8 +66,8 @@
 }
 
 .res-field {
-    display: inline; 
-    visibility: hidden;
+    display: inherit;
+    /* visibility: hidden; */
 }
 
 .menu-eval {
