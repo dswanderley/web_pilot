@@ -196,7 +196,7 @@ function updateData() {
             console.log('JSON data updated!');
         }
         else {
-            console.log(error);
+            console.log(request_path + ' is offline.');
         }
     });
 }

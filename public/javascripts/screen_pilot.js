@@ -218,23 +218,21 @@ function handleFileSelect(e) {
         newImage.classList.add("upload-thumb");
         // Create list item
         var row = document.createElement("tr");
-        row.classList.add("list-group-item");
-        row.classList.add("list-group-item-light");
-        row.classList.add("list-group-item-upload");
+        row.classList.add("list-group-item", "list-group-item-light", "list-group-item-upload");
         // Append Image thumbnail
         var td1 = document.createElement("td");
         td1.appendChild(newImage);
         row.appendChild(td1);
         // Append image name
         var td2 = document.createElement("td");
-        td2.classList.add("upload-name");
+        td2.classList.add("fname-list");
         td2.appendChild(document.createTextNode(fname));
         row.appendChild(td2);
         // Append delete button
         var td3 = document.createElement("td");
         var btn = document.createElement("button");
         btn.innerHTML = "&#10006";
-        btn.classList.add("btn"); btn.classList.add("btn-danger"); btn.classList.add("btn-cancel-upload");
+        btn.classList.add("btn", "btn-danger", "btn-sm-list");
         td3.appendChild(btn);
         row.appendChild(td3);
         // Append Row to table
@@ -324,34 +322,47 @@ function setGallery() {
         thumb.classList.add("upload-thumb");
         // Create list item
         var row = document.createElement("tr");
-        row.classList.add("list-group-item");
-        row.classList.add("list-group-item-upload");
+        row.classList.add("list-group-item", "list-group-item-gallery");
         // Append Image thumbnail
         var td1 = document.createElement("td");
         td1.appendChild(thumb);
         row.appendChild(td1);
         // Append image name
         var td2 = document.createElement("td");
-        td2.classList.add("upload-name");
+        td2.classList.add("fname-list");
         td2.appendChild(document.createTextNode(fname));
         row.appendChild(td2);
         // Append delete button
         var td3 = document.createElement("td");
-        var btn = document.createElement("button");
-        btn.classList.add("btn-cancel-upload");
-        btn.classList.add("btn"); 
-        td3.appendChild(btn);
-        row.appendChild(td3);
-
+        // Fake button
+        var bt_div = document.createElement("div");
+        bt_div.classList.add("btn", "btn-sm-list");
+        // Create icon
+        var icon = document.createElement("i");
+        icon.classList.add();
+        // Define type of icon and row
         if (JSON.parse(f.processed)) {
+            // Row class
             row.classList.add("list-group-item-success");
-            btn.innerHTML = "&#128147";
+            // Button class
+            bt_div.classList.add("btn-success");
+            // Icon class
+            icon.classList.add("fas", "fa-tasks");
         }
         else { 
+            // Row class
             row.classList.add("list-group-item-light");
-            btn.innerHTML = "&#9760";
-            btn.classList.add("btn-danger"); 
+            // Button class
+            bt_div.classList.add("btn-warning");
+            // Icon classes
+            icon.classList.add("fas", "fa-spinner", "spin");
         }
+        // icon to button
+        bt_div.appendChild(icon);
+        // button to td
+        td3.appendChild(bt_div);
+        // td to row
+        row.appendChild(td3);
 
         // Append Row to table
         tbody.appendChild(row);

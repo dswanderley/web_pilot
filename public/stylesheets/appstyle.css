@@ -91,11 +91,14 @@
     border-top: 16px solid #417d44;
     width: 120px;
     height: 120px;
-    animation: spin 2s linear infinite;
     top: 40%;
     left: 42%;
     position: absolute;
     z-index: 1;
+}
+
+.spin {
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {

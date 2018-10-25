@@ -110,13 +110,24 @@ ul.nav.nav-tabs.row.justify-content-center {
     margin-right: 20px;
 }
 
-.upload-name {
-    width: 220px;
-}
 
-.btn-cancel-upload {
+/*
+ * Images Area
+ */
+
+.btn-sm-list {
     margin-left: 20px;
     padding: 0;
     height: 28px;
     width: 28px;
+}
+
+.fname-list {
+    width: 220px;
+}
+
+.list-group-item-gallery {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    cursor: pointer;
 }
