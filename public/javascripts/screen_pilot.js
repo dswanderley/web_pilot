@@ -25,10 +25,10 @@ var canvasScale = 1.0;
 function loadScreenDrApp() {
     /** @description Initialize componentes of the application
      */
-    setEvalBtn();
+    setAssessments();
     setScreenSize();
     addEvents();
-    loadUpGallery();
+    loadUpGallery();    
 }
 
 function setScreenSize() {
@@ -382,6 +382,8 @@ function changeImage(idx) {
     img_orig = currentSrc;
     // Update Gallery
     setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+    // Show Assessment
+    setAssessments();
 }
 
 /*
@@ -668,17 +670,75 @@ function redraw(reset) {
  * Set Results
  */
 
-function setEvalBtn() {
-    /** @description Enable or disable evaluation buttons according quality
-     */
-    if (hasQuality) {
-        $('#btn-dr').removeAttr("disabled").button('refresh');
-    }
-    else {
-        $('#btn-dr').attr("disabled", "disabled");
+function setAssessments() {
+
+    $("#menu-info").hide();
+    $("#menu-qual").hide();
+    $("#menu-dr").hide();
+
+    if (current_idx > -1 && galleryData.length > 0) {
+        // Get data
+        var data = galleryData[current_idx];
+        // Set Image Information
+        $("#td-fname").html(adjustNameLength(data.filename));
+        $("#menu-info").show();
+        // Verify if was processed
+        if (JSON.parse(data.processed)) {
+            // Check quality
+            if (data.quality) {
+
+                setQuality(data.quality);
+                $("#menu-qual").show();
+            }
+            // Check DR
+            if (data.dr) {
+
+                setDR(data.dr)
+                $("#menu-dr").show();
+            }            
+            
+        }
+
     }
 }
 
+function setQuality(qual) {
+    /** @description Set the quality fields according to the computed values.
+      * @param {obj} qual Quality object from data list
+     */
+
+    // Remove all light background
+    $("#btn-qual-good").removeClass("bg-light");
+    $("#btn-qual-part").removeClass("bg-light");
+    $("#btn-qual-bad").removeClass("bg-light");
+
+    if (qual.q_pre < 50) {
+        $("#btn-qual-bad").addClass("bg-light");
+    }
+    else if (qual.q_pre < 75) {
+        $("#btn-qual-part").addClass("bg-light");
+    }
+    else {
+        $("#btn-qual-good").addClass("bg-light");
+    }
+}
+
+function setDR(dr) {
+    /** @description Set the DR fields according to the computed values.
+      * @param {obj} dr DR object from data list
+     */
+
+    // Remove all light background
+    $("#btn-dr-false").removeClass("bg-light");
+    $("#btn-dr-true").removeClass("bg-light");
+    
+    if (dr.dr_pred < 50) {
+        $("#btn-dr-false").addClass("bg-light");
+    }
+    else {
+        $("#btn-dr-true").addClass("bg-light");
+    }
+}
 
 function toogleBtnClick(btn) {
     /** @description Set main image according button status
