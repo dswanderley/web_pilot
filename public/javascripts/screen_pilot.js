@@ -123,14 +123,10 @@ function loadUpGallery() {
                 if (data.images) {
                     // reset List of images in gallery
                     galleryData = data.images;
-                    // Image ID
-                    current_idx = 0;
-                    currentSrc = galleryURL + galleryData[current_idx].filename;
-                    img_orig = currentSrc;
                     // Update Gallery
                     setGallery()
-                    // Set full image 
-                    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+                    // Set Image
+                    changeImage(0);
                 }                
             }
         });
@@ -323,6 +319,8 @@ function setGallery() {
         // Create list item
         var row = document.createElement("tr");
         row.classList.add("list-group-item", "list-group-item-gallery");
+        //row.onclick = function () { changeImage(i); };
+        row.setAttribute("onclick", "changeImage(" + i + ")");
         // Append Image thumbnail
         var td1 = document.createElement("td");
         td1.appendChild(thumb);
@@ -373,6 +371,19 @@ function setGallery() {
 
 }
 
+function changeImage(idx) {
+    /** @description Change selected image. Set canvas and assessments
+     *  @param {int} idx Image id.
+     */
+
+    // Set idx
+    current_idx = idx;
+    // Set src
+    currentSrc = galleryURL + galleryData[current_idx].filename;
+    img_orig = currentSrc;
+    // Update Gallery
+    setMainImage(currentSrc, galleryData[current_idx].width, galleryData[current_idx].height);
+}
 
 /*
  * Canvas
