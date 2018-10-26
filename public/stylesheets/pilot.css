@@ -61,19 +61,28 @@
     cursor: default !important;
 }
 
-#res-field-map {
+.res-field {
     display: inline-flex;
+    margin-top: 5px;
 }
-#btn-toogle {
+
+.btn-toogle {
     margin: auto;
     display: inline-block;
 }
-#onoffswitch2-inner:after  {
+
+.onoffswitch2-inner:after  {
     padding-left: 0;
 }
-#lbl-res5 {
-    margin-bottom: 5px;
+.onoffswitch2-inner:after {
+    padding-left: 0;
 }
+
+.toogle-lbl {
+    padding: 7px 0 7px 5px;
+    min-width: 110px;
+}
+
 
 /*
  * Upload Area

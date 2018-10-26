@@ -25,7 +25,6 @@ var canvasScale = 1.0;
 function loadScreenDrApp() {
     /** @description Initialize componentes of the application
      */
-    $('#res-field-map').css('visibility', 'hidden');
     setEvalBtn();
     setScreenSize();
     addEvents();
@@ -669,14 +668,6 @@ function redraw(reset) {
  * Set Results
  */
 
-function resetimages() {
-    /** @description Reset image reference src
-     */
-    img_qual = "";
-    img_dr = "";
-    $('#res-field-map').css('visibility', 'hidden');
-}
-
 function setEvalBtn() {
     /** @description Enable or disable evaluation buttons according quality
      */
@@ -688,35 +679,35 @@ function setEvalBtn() {
     }
 }
 
-function resetLbl() {
-    /** @description Reset labels 
-     */
-    $('#lbl-res2').text('');
-    $('#lbl-res4').text('');
-    $('#res-field-qual').css('visibility', 'hidden');
-    $('#res-field-dr').css('visibility', 'hidden');
-    $('#res-field-map').css('visibility', 'hidden');
-    $('#lbl-res2').removeClass("btn-outline-danger");
-    $('#lbl-res2').removeClass("btn-outline-success");
-    $('#lbl-res4').removeClass("btn-outline-danger");
-    $('#lbl-res4').removeClass("btn-outline-success");
-}
 
-function toogleBtnClick() {
+function toogleBtnClick(btn) {
     /** @description Set main image according button status
      */
-    if ($('.onoffswitch2-checkbox').is(":checked")) {
 
-        if (img_dr === "") {
-            if (img_qual !== "") {
-                currentSrc = img_qual;
-                setMainImage();
-            }
-        }
-        else {
-            currentSrc = img_dr;
-            setMainImage();
-        }
+    if (btn.id.includes('dr')) {
+        // Get current button
+        var el = $('#onoffswitch-dr');
+        // Check the other button
+        $('#onoffswitch-qual').prop('checked', true);
+        // Alternative image
+        var img_alt = img_dr;
+    }
+    else if (btn.id.includes('qual')) {
+        // Get current button
+        var el = $('#onoffswitch-qual');
+        // Check the other button
+        $('#onoffswitch-dr').prop('checked', true);
+        // Alternative image
+        var img_alt = img_qual;
+    }
+    else {
+        return;
+    }
+
+    // Set image
+    if (el.is(":checked")) {
+        currentSrc = img_alt;
+        setMainImage();
     }
     else {
         currentSrc = img_orig;

@@ -83,6 +83,14 @@ block content
 						.btn.btn-outline-secondary.btn-qual Good
 						.btn.btn-outline-secondary.btn-qual Partial
 						.btn.btn-outline-secondary.btn-qual Low
+				
+					.res-field
+						.onoffswitch2.btn-toogle
+							input.onoffswitch2-checkbox#onoffswitch-qual(type="checkbox" onClick="toogleBtnClick(this);" name="onoffswitch" checked) 
+							label.onoffswitch2-label(for="onoffswitch-qual")
+								span.onoffswitch2-inner
+								span.onoffswitch2-switch
+						label.text-light.toogle-lbl Quality Map
 
 				.menu-eval#menu-dr
 					table.table.table-sm.table-dark.table-striped.table-assm 
@@ -94,39 +102,13 @@ block content
 						.btn.btn-outline-secondary.btn-dr Non-referable
 						.btn.btn-outline-secondary.btn-dr Referable
 
-				
-					//
-						.menu-eval#menu-qual
-							button.btn.btn-light#btn-qual(onClick="quality();") Quality
-			
-							.eval-container
-								.res-field#res-field-qual
-									label.result-txt#lbl-res1 Assessment: 
-									label.btn#lbl-res2(disabled)
-
-						.menu-eval#menu-dr
-							button.btn.btn-light#btn-dr(onClick="dr_detection();") Diabetic Retinopathy
-			
-							.eval-container
-								.res-field#res-field-dr
-									label.result-txt#lbl-res3 Assessment:
-									label.btn#lbl-res4(disabled)
-
-
-						.menu-eval#menu-toogle
-							.eval-container
-								.res-field#res-field-map
-									.onoffswitch2#btn-toogle
-										input.onoffswitch2-checkbox(type="checkbox" onClick="toogleBtnClick();" name="onoffswitch" id="myonoffswitch" checked) 
-										label.onoffswitch2-label(for="myonoffswitch")
-											span.onoffswitch2-inner#onoffswitch2-inner
-											span.onoffswitch2-switch
-									label.result-txt#lbl-res5 Quality Map
-
-
-						.menu-eval#menu-slider				
-							input(type="range")
-							input(type="text" name="fname")
+					.res-field
+						.onoffswitch2.btn-toogle
+							input.onoffswitch2-checkbox#onoffswitch-dr(type="checkbox" onClick="toogleBtnClick(this);" name="onoffswitch" checked) 
+							label.onoffswitch2-label(for="onoffswitch-dr")
+								span.onoffswitch2-inner
+								span.onoffswitch2-switch
+						label.text-light.toogle-lbl Detection Map
 
 
 	script(src="/javascripts/screen_pilot.js")
