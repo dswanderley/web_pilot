@@ -35,15 +35,30 @@
  * Results Area
 */
 
-#lbl-res2,
-#lbl-res4,
-#lbl-res5 {
-    cursor: default;
-    margin-left: 15px;
+.menu-eval {
+    padding: 0 5px 20px 5px;
 }
-#btn-qual,
-#btn-dr {
-    min-width: 174px;
+
+.breadcrumb-assm {
+    margin-bottom: 0;
+}
+
+.table-assm {
+    margin: 0;
+}
+
+.btn-grou-assm {
+    width: 100%;
+}
+
+.btn-qual {
+    min-width: 33.4%;
+    cursor: default !important;
+}
+
+.btn-dr {
+    min-width: 50%;
+    cursor: default !important;
 }
 
 #res-field-map {

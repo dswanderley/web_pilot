@@ -56,32 +56,6 @@
 
 
 /*
- * Results Area
-*/
-
-.eval-container {
-    width: auto;
-    text-align: center;
-    padding: 15px 0;
-}
-
-.res-field {
-    display: inline;
-    visibility: hidden;
-}
-
-.menu-eval {
-    padding: 20px 5px 10px 5px;
-    min-height: 140px;
-}
-
-.result-txt {
-    padding: 10px 0 5px 0;
-    color: whitesmoke;
-}
-
-
-/*
  *   Loader
  */
 
